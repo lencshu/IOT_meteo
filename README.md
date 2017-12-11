@@ -16,11 +16,14 @@ http://www.station-meteo-csm.nhvvs.fr
 
 
 
+#2.Nouvelle paramètrage
 
-# site parametre
-Domaine : station-meteo-csm.nhvvs.fr
-## Connexion
-### HTTP
+
+
+# Annexe
+## station-meteo-csm.nhvvs.fr
+### Connexion
+#### HTTP
 Connexion à votre panel de gestion :
 Lien : `https://pg-01.proxgroup.fr:8443`
 Identifiant  : `stationm`
@@ -29,12 +32,12 @@ Mot de passe : `******`
 !!! hint ""
 	/!\ Vos fichiers et dossiers sont à placer dans le dossier "httpdocs" que vous trouverez lors de votre connexion FTP au serveur. 
 
-### FTP
+#### FTP
 Hôte FTP : `ftp.pg-01.proxgroup.fr`
 Nom d'utilisateur : `stationm`
 Mot de passe : `******`
 
-## base de données
+### base de données
 Hôte: `sql-10.proxgroup.fr:3306`
 Nom de la base de données:`stationm_donnees`
 Nom de l'utilisateur:`stati_stationm`
