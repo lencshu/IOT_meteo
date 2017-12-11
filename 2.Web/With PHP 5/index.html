@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta name="description" content="meteo" /> 
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--initialisation de HTML-->
+        <meta http-equiv="refresh" content="40000" /> 
+        <!--rafraichir le page après 40 secondes-->
+
+        <title>Meteo</title>
+        <link rel="stylesheet" type="text/css" href="style.php" />
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+        <script type="text/javascript">
+        var cssEl = document.createElement('style');
+        document.documentElement.firstElementChild.appendChild(cssEl);
+        function setPxPerRem(){
+            var dpr = 1;
+            var pxPerRem = document.documentElement.clientWidth * dpr / 10;
+            cssEl.innerHTML = 'html{font-size:' + pxPerRem + 'px!important;}';
+        }
+        setPxPerRem(); 
+    </script> 
+    <!--définir la taille de mot-->
+<div style="text-align:center;background-color:#0000;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;"><a href="javascript:location.reload();">M&eacute;t&eacute;o</a></div>
+<br/>
+<!--afficher le titre sur le page-->
+<div style="text-align:center;background-color:#bfbfbf;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
+<iframe src="data_temps.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe>
+</div><!--afficher le temps d'enregistrement de la dernier donné sur le page-->
+<div style="text-align:center;background-color:#B0B0BF;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
+<iframe src="data_temperature.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe>
+</div><!--afficher la température d'enregistrement de la dernier donné sur le page-->
+<div style="text-align:center;background-color:#86E2D5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
+<iframe src="data_vitesse.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe>
+</div><!--afficher la vitesse du vent d'enregistrement de la dernier donné sur le page-->
+<div style="text-align:center;background-color:#C8F7C5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
+<iframe src="data_direction.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe>
+</div><!--afficher la direction du vent d'enregistrement de la dernier donné sur le page-->
+<br />
+      <div class="compass">
+      <div class="direction">
+      <p>Direction du Vent<span> </span></p>
+      </div>
+      <div class="arrow ne"></div>
+      </div><!--afficher la compass pour indiquer la direction du vent -->
+<div style="text-align:center;background-color:#0000;width:auto;height:7rem;overflow:hidden;margin:0 auto;">
+<a href="javascript:location.reload();"><img src="meteoimage/meteo.png" alt="Cam&eacute;ra" style="position:relative;top:1rem;" height="600rem" width="auto"></img></a>
+</div>
+<!-- afficher le dernier photo capturé par le caméra-->
+
+<br />
+        <script type="text/javascript">
+        $(document).ready(function() {
+            var optionsa = {
+                chart: {
+                    renderTo: 'grapha',
+                    type: 'spline',
+                    marginRight: 130,
+                    marginBottom: 25
+                },
+                title: {
+                    text: '',
+                    x: -20 
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+                    categories: [],
+              labels: {
+                step: 10
+               }
+                },
+                yAxis: {
+                    title: {
+                        text: 'm/s'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    formatter: function() {
+                            return '<b>'+this.x +'</b><br/>' + this.series.name +
+                            ': '+ this.y;
+                    }
+                },
+                legend: {
+            backgroundColor: '#FFFFFF',
+            layout: 'vertical',
+            floating: true,
+            align: 'right',
+            verticalAlign: 'top',
+            x: 0,
+            y: 3,
+            shadow: true
+                },
+                series: []
+            }
+            var optionsb = {
+                 chart: {
+                    renderTo: 'graphb',
+                    type: 'spline',
+                    marginRight: 200,
+                    marginBottom: 0
+                },
+                title: {
+                    text: '',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+                    categories: [],
+              labels: {
+                step: 10
+               }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Degré Celsius'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: '#223333'
+                    }]
+                },
+                tooltip: {
+                    formatter: function() {
+                            return '<b>'+this.x +'</b><br/>' + this.series.name +
+                            ': '+ this.y;
+                    }
+                },
+                legend: {
+            backgroundColor: '#FFFFFF',
+            layout: 'vertical',
+            floating: true,
+            align: 'right',
+            verticalAlign: 'top',
+            x: 0,
+            y: 3,
+            shadow: true
+                },
+                series: []
+            }
+            $.getJSON("data.php", function(json) {
+                optionsa.xAxis.categories = json[0]['data'];
+                optionsb.xAxis.categories = json[0]['data'];
+                optionsa.series[0] = json[1];
+                //options.series[1] = json[2];
+                optionsb.series[0] = json[3];
+                chart1 = new Highcharts.Chart(optionsa);
+                chart2 = new Highcharts.Chart(optionsb);
+            });
+
+            
+  });
+        </script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    </head>
+<div style="font-size: 0.5rem; text-align:center;background-color:#0000;width:auto;margin:0 auto;"> Vitesse du vent</div>
+<div id="grapha" style="min-width: 10.0rem; height: 6.0rem; margin: 0 auto"></div>
+<br />
+<div style="font-size: 0.5rem; text-align:center;background-color:#0000;width:auto;margin:0 auto;">Temp&eacute;rature</div>
+<div id="graphb" style="min-width: 10.0rem; height: 6.0rem; margin: 0 auto"></div>
+<!--afficher deux tableaux pour indiquer la variation de température et la vitesse du vent-->
+</html>

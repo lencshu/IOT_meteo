@@ -1,0 +1,26 @@
+
+
+.img { 
+    display: block; 
+    width: 33%; 
+    height: auto; 
+    margin: 0 auto; 
+}    
+
+# grapha
+{
+height:5.0rem;
+margin: auto;  
+position: relative;  
+top: 0; left: 0;
+
+}
+
+# graphb
+{
+height:5.0rem;
+margin: auto;  
+position: relative;  
+top: 0; left: 0;
+}
+

@@ -76,6 +76,7 @@ print lastChangeTime
 refTimeAfterAll = lastChangeTime
 ChangedTime=0
 pngChangedSigne=0
+htmlOriginalExiste = os.path.exists(parentDir+"\\"+ htmlName)
 # pngExiste=0
 
 def iniConfPng(t):
@@ -129,11 +130,11 @@ if pngChangedSigne==2:
 ## 网页重制并加入sidebar
 ##
 
-htmlExiste = os.path.exists(parentDir+"\\index.html")
+indexExiste = os.path.exists(parentDir+"\\index.html")
 htmlOriginalPath = parentDir + "\\" + htmlName
 indexPath = parentDir + "\\index.html"
 
-if htmlExiste:
+if indexExiste and htmlOriginalExiste:
 	os.remove(indexPath)
 #========change the html file name======
 html = open(htmlOriginalPath,"r+")
