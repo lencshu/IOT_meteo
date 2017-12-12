@@ -9,7 +9,7 @@ $req->execute();
 $row = $req->fetch();
 //enregistrer dans une variable row
 
-echo "<font size=\"10rem\" >&#9784 La température: </font>";
+echo "<font size=\"10rem\" >La température: </font>";
 echo "<font size=\"10rem\" >".$row['temperature']."</font>";
 echo "<font size=\"10rem\" >  &#8451</font>";
 //affricher la donné avec des paramétres de HTML

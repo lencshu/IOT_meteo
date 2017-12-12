@@ -554,7 +554,7 @@ $req->execute();
 $row = $req->fetch();
 
 //affricher la donné avec des paramétres de HTML afin d'être encadré dans <iframe>
-echo "<font size=\"10rem\" >&#8635 La direction du vent: </font>";
+echo "<font size=\"10rem\" >La direction du vent: </font>";
 echo "<font size=\"10rem\" >".$row['direction']."</font>";
 echo "<font size=\"10rem\" >  &#176</font>";
 
@@ -580,7 +580,7 @@ $req->execute();
 $row = $req->fetch();
 //enregistrer dans une variable row
 
-echo "<font size=\"10rem\" >&#9784 La température: </font>";
+echo "<font size=\"10rem\" >La température: </font>";
 echo "<font size=\"10rem\" >".$row['temperature']."</font>";
 echo "<font size=\"10rem\" >  &#8451</font>";
 //affricher la donné avec des paramétres de HTML
@@ -612,7 +612,7 @@ $hr = date("H:i",$dat);
 $jr = date("d/m/Y",$dat);
 
 //enregistrer dans une variable row
-echo "<font size=\"10rem\" >&#9775 Le temps </font>";
+echo "<font size=\"10rem\" >Le temps </font>";
 echo "<font size=\"10rem\" > à ".$hr." le ".$jr."</font>";
 //affricher la donné avec des paramétres de HTML
 
@@ -633,7 +633,7 @@ $req->execute();
 
 $row = $req->fetch();
 //enregistrer dans une variable row
-echo "<font size=\"8rem\" >&#10163 La vitesse du vent: </font>";
+echo "<font size=\"8rem\" >La vitesse du vent: </font>";
 //vitesse en m/s puis convertie
 echo "<font size=\"10rem\" >".number_format($row['vitesse'],1,","," ")." km/h ou </font>";
 echo "<font size=\"10rem\" >".number_format(($row['vitesse']*0.539957),1,","," ")." nds </font>";
@@ -937,19 +937,19 @@ if(isset($_SESSION['connect']) && $_SESSION['connect']=="oui")
         <br/>
         <!--afficher le temps-->
         <div style="text-align:center;background-color:#bfbfbf;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
-        <iframe src="data_temps.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe></div>
+        <iframe src="data_temps.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="1000rem" ></iframe></div>
 
         <!--afficher la température-->
         <div style="text-align:center;background-color:#B0B0BF;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
-        <iframe src="data_temperature.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe></div>
+        <iframe src="data_temperature.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="1000rem" ></iframe></div>
 
         <!--afficher la direction du vent-->
         <div style="text-align:center;background-color:#C8F7C5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
-        <iframe src="data_direction.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="800rem" ></iframe></div>
+        <iframe src="data_direction.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="1000rem" ></iframe></div>
 
         <!--afficher la vitesse du vent-->
         <div style="text-align:center;background-color:#86E2D5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;">
-        <iframe src="data_vitesse.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="1200rem" ></iframe></div>
+        <iframe src="data_vitesse.php" style="position:relative;top:0.3rem;font-weight:bold;" frameborder="no" height="100rem" width="1000rem" ></iframe></div>
         <br />
 
         <!--afficher la boussole pour indiquer la direction du vent-->
@@ -1005,6 +1005,7 @@ else //si l'on n'est pas connecte
 	<?php
 }
 ~~~
+
 ### 3.2.5 style.php
 
 !!! hint "CSS"

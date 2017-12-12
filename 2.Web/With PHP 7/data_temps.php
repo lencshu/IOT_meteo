@@ -19,7 +19,7 @@ $jr = date("d/m/Y",$dat);
 
 
 //enregistrer dans une variable row
-echo "<font size=\"10rem\" >&#9775 Le temps </font>";
+echo "<font size=\"10rem\" >Le temps </font>";
 echo "<font size=\"10rem\" > à ".$hr." le ".$jr."</font>";
 //affricher la donné avec des paramétres de HTML
 

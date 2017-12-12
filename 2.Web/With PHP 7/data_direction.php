@@ -8,7 +8,7 @@ $req->execute();
 
 $row = $req->fetch();
 
-echo "<font size=\"10rem\" >&#8635 La direction du vent: </font>";
+echo "<font size=\"10rem\" >La direction du vent: </font>";
 echo "<font size=\"10rem\" >".$row['direction']."</font>";
 echo "<font size=\"10rem\" >  &#176</font>";
 //affricher la donné avec des paramétres de HTML
