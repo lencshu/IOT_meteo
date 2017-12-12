@@ -11,7 +11,7 @@ Cycle d'ingénieur de l'UTBM
 `Filière Conception des Systèmes Mécatroniques`
 
 
-#1. Introduction
+# 1. Introduction
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_155318.png)</p>
 
 Nous réalisons dans le cadre de ce projet une station météo à base Arduino pour le club de voile du bassin de Champagney. Cette station météo doit mesurer différents paramètres au bord du lac et les rendre disponibles via internet aux membres du club, et ce afin que ces derniers puissent juger des conditions de navigations avant de se rendre sur place.
@@ -20,7 +20,7 @@ http://www.station-meteo-csm.nhvvs.fr
 - Connexion physique
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\p2.png)</p>
 
-#2.Arduino
+# 2.Arduino
 
 ~~~c
 //librairies nécessaires
@@ -330,17 +330,17 @@ void logC(String txt, int nb)
 ~~~
 
 
-#2.Web
+# 3.Web
 On suppose que l'espace de website est tout neuve. Rien n'est paramètré. Les étapes suivantes nous permettent pour les configurer pas à pas.
 
-## 2.1 les environments
+## 3.1 les environments
 Le Website est une page Web de sort `dynamique`, c'est à dire quand il y a des requêtes de navigateur, le web page consulte la base donné pour puis composer la vue de page web. s'il n'a pas de requête, il n'y a pas de page web. Cette notion est opposée à celle de `Page web statique` (html)
 
 Faut qu'il donc existe les environments nécessaires pour fonctionner la programme.
 
 Le système de website est basé sur PHP7.
 
-### 2.1.1 Base donnée
+### 3.1.1 Base donnée
 
 On prend MYSQL(Le système de Base donnée populaire) comme exemple
 système:`UBUNTU`(linux)
@@ -385,7 +385,7 @@ sudo /etc/init.d/mysql restart
 Les champs qu'il faut entrer pour ajouter une nouvelle base donnée.
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145604.png)</p>
 
-### 2.1.2 PHP 7
+### 3.1.2 PHP 7
 
 Installations toute simple
 
@@ -397,7 +397,7 @@ sudo apt-get install php7.0
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150654.png)</p>
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150714.png)</p>
 
-## 2.2 Composants principals de système WEB
+## 3.2 Composants principals de système WEB
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_154901.png)</p>
 
 Il y a 12 php programme. Parmi lesquel il y en a 8 qui réalise la fonction principale.
@@ -424,7 +424,9 @@ Une fois c'est fait, il y donc possible d'afficher des infos quand il y a des re
 	~~~
 
 
-### putdata.php
+### 3.2.1 putdata.php 
+`Enregistrer des infos`
+
 Essayer:
 [`http://station-meteo-csm.nhvvs.fr/putdata.php?ligne=170119045911,-12.89,0.00,270.00`](http://station-meteo-csm.nhvvs.fr/putdata.php?ligne=170119045911,-12.89,0.00,270.00)
 
@@ -528,7 +530,7 @@ $req->execute();
 ?>
 ~~~
 
-### l'affichage sous forme du texte
+### 3.2.2 l'affichage sous forme du texte
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_213727.png)</p>
 
 Trois `.php` sont créés pour réaliser cette fonction:
@@ -539,7 +541,7 @@ Trois `.php` sont créés pour réaliser cette fonction:
 
 Les `.php` sont insérées avec le Tag de HTML `<iframe>` et `</iframe>` dans `index.php` pour afficher les information sous forme du texte.
 
-#### data_direction.php
+#### 3.2.2.1 data_direction.php
 
 ~~~php
 <?php
@@ -565,7 +567,7 @@ $req->closeCursor();
 	les restes se font de même principe 
 
 
-#### data_temperature.php
+#### 3.2.2.2 data_temperature.php
 
 ~~~php
 
@@ -588,7 +590,7 @@ $req->closeCursor();
 
 ?>
 ~~~
-#### data_temps.php
+#### 3.2.2.3 data_temps.php
 
 ~~~php
 <?php
@@ -618,7 +620,7 @@ $req->closeCursor();
 ?>
 ~~~
 
-#### data_vitesse.php
+#### 3.2.2.4 data_vitesse.php
 
 ~~~php
 <?php
@@ -642,7 +644,7 @@ $req->closeCursor();
 ?>
 ~~~
 
-### data.php
+### 3.2.3 data.php
 
 Cette programme a but de réformer des datas sous la forme de JSON, afin de utiliser la module `highcharts.js` pour générer les graphes comme ci-après par exemple
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_214824.png)</p>
@@ -733,7 +735,7 @@ $req->closeCursor();
 ?>
 ~~~
 
-### index.php
+### 3.2.4 index.php
 
 ~~~php
 <?php
@@ -1003,7 +1005,7 @@ else //si l'on n'est pas connecte
 	<?php
 }
 ~~~
-### style.php
+### 3.2.5 style.php
 
 !!! hint "CSS"
 	Les feuilles de style en cascade, généralement appelées CSS de l'anglais Cascading Style Sheets, forment un langage informatique qui décrit la présentation des documents HTML et XML. Les standards définissant CSS sont publiés par le World Wide Web Consortium (W3C).
@@ -1132,7 +1134,7 @@ top: 0; left: 0;
 }
 ~~~
 
-## 2.3 Les fonctions supplémentaires
+## 3.3 Les fonctions supplémentaires
 Sortir toutes les informations
 
 ~~~php
