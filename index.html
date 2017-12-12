@@ -1314,9 +1314,28 @@ For Level Colors
       </a>
      </li>
      <li>
-      <a href="#nouvelle-parametrage">
-       Nouvelle paramètrage
+      <a href="#2arduino">
+       2.Arduino
       </a>
+     </li>
+     <li>
+      <a href="#2web">
+       2.Web
+      </a>
+      <ul>
+       <li>
+        <a href="#21-les-environments">
+         2.1 les environments
+        </a>
+        <ul>
+         <li>
+          <a href="#211-php-7">
+           2.1.1 PHP 7
+          </a>
+         </li>
+        </ul>
+       </li>
+      </ul>
      </li>
      <li>
       <a href="#annexe">
@@ -1394,13 +1413,343 @@ For Level Colors
      http://www.station-meteo-csm.nhvvs.fr
     </a>
    </p>
-   <h1 id="nouvelle-parametrage">
-    <a aria-hidden="true" class="headeranchor-link" href="#nouvelle-parametrage" name="user-content-nouvelle-parametrage">
+   <h1 id="2arduino">
+    <a aria-hidden="true" class="headeranchor-link" href="#2arduino" name="user-content-2arduino">
      <span class="headeranchor">
      </span>
     </a>
-    Nouvelle paramètrage
+    2.Arduino
    </h1>
+   <div class="codehilite">
+    <pre><span class="c1">//librairies nécessaires</span>
+<span class="cp">#include &lt;Process.h&gt;</span>
+
+<span class="c1">//librairies pour le développement</span>
+<span class="cp">#include &lt;Console.h&gt;</span>
+
+<span class="c1">//définition de define (paramétrage des entrés/sorties)</span>
+<span class="cp">#define DO_BUZ 7 </span><span class="c1">//pour implantation d'un buzzer (dev)</span>
+<span class="cp">#define DI_ANEMOMETRE_INT 2</span>
+<span class="cp">#define AI_GIROUETTE 0</span>
+<span class="cp">#define AI_TEMPERATURE 1</span>
+<span class="cp">#define DUREE_LECTURE_CAPTEUR 30</span>
+
+<span class="cp">#define HEURE_DEBUT 8</span>
+<span class="cp">#define HEURE_FIN 20</span>
+
+<span class="c1">//variables générales</span>
+<span class="kt">int</span> <span class="n">direction_analog_in</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">786</span><span class="p">,</span><span class="mi">405</span><span class="p">,</span><span class="mi">460</span><span class="p">,</span><span class="mi">84</span><span class="p">,</span><span class="mi">92</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">184</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">286</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">630</span><span class="p">,</span><span class="mi">599</span><span class="p">,</span><span class="mi">945</span><span class="p">,</span><span class="mi">827</span><span class="p">,</span><span class="mi">978</span><span class="p">,</span><span class="mi">702</span><span class="p">};</span>
+<span class="kt">char</span> <span class="n">path_photo_dragino</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"/mnt/sda1/meteo.png"</span><span class="p">;</span> <span class="c1">//photo_meteo_2</span>
+<span class="kt">char</span> <span class="n">path_login_photo_web</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"ftp://stationm:utbmcsm2015@station-meteo-csm.nhvvs.fr/httpdocs/"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">path_donnes_web_csv2</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"http://station-meteo-csm.nhvvs.fr/putdata.php"</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//contient annee-mois-jour-heure-minute-seconde</span>
+<span class="k">volatile</span> <span class="kt">int</span> <span class="n">compteur_vent</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="c1">//contient température, vitesse du vent et direction</span>
+<span class="kt">int</span> <span class="n">numero_boucle</span><span class="p">;</span> <span class="c1">//numero d'iteration de la boucle principale</span>
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">tempo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">derniere_mesure</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">//déclarations fonctions</span>
+<span class="kt">void</span> <span class="nf">prendrePhoto</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">envoiPhoto</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">envoiCSV</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">majTime</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">incrementationCompteurVent</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">lectureCapteurs</span><span class="p">(</span><span class="kt">int</span> <span class="n">duree</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">trouverDirectionProche</span><span class="p">(</span><span class="kt">int</span> <span class="n">analogiqueGirouette</span><span class="p">);</span>
+<span class="n">String</span> <span class="nf">ecrireNombre</span><span class="p">(</span><span class="kt">int</span> <span class="n">in</span><span class="p">);</span>
+<span class="n">String</span> <span class="nf">ecrireTimeComplet</span><span class="p">();</span>
+<span class="n">String</span> <span class="nf">ecrireTimeDonneesCSV</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">logC</span><span class="p">(</span><span class="n">String</span> <span class="n">txt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nb</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cycleMesure</span><span class="p">();</span>
+
+
+<span class="c1">// SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP</span>
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Bridge</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="c1">//while(!Console);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Fin Bridge et Console setup"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Debut setup"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">numero_boucle</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">tempo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">//pinModes</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">DI_ANEMOMETRE_INT</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
+  <span class="n">attachInterrupt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">incrementationCompteurVent</span><span class="p">,</span> <span class="n">FALLING</span><span class="p">);</span>
+
+  <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Fin du setup"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP</span>
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Loop Debut numero"</span><span class="p">,</span><span class="n">numero_boucle</span><span class="p">);</span>
+  <span class="n">majTime</span><span class="p">();</span> <span class="c1">//mise à jour de l heure et la date.</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">constrain</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">HEURE_DEBUT</span><span class="p">,</span><span class="n">HEURE_FIN</span><span class="p">)</span> <span class="o">==</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="c1">//si l'on est dans la période d'activation</span>
+  <span class="p">{</span>
+    <span class="n">logC</span><span class="p">(</span><span class="s">"Prise de mesures"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">cycleMesure</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">HEURE_DEBUT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">//à moins d une heure </span>
+  <span class="p">{</span>
+    <span class="c1">//on attend un nombre de minutes jusqu'à l'heure pile</span>
+    <span class="n">tempo</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="p">(</span><span class="mi">60</span><span class="o">-</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">tempo</span> <span class="o">=</span> <span class="n">tempo</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Pause partielle :"</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="c1">//on attend une heure</span>
+    <span class="n">tempo</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60000</span><span class="p">;</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Pause heure :"</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Loop Fin"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">cycleMesure</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">lectureCapteurs</span><span class="p">(</span><span class="n">DUREE_LECTURE_CAPTEUR</span><span class="p">);</span>
+  <span class="n">envoiCSV</span><span class="p">();</span>
+  <span class="n">prendrePhoto</span><span class="p">();</span>
+  <span class="n">envoiPhoto</span><span class="p">();</span>
+
+  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">ecrireTimeDonneesCSV</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="c1">//fonctions dragino</span>
+<span class="kt">void</span> <span class="nf">prendrePhoto</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"prendrePhoto Process Debut"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">photo</span><span class="p">;</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"fswebcam"</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_photo_dragino</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">"-S 20"</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">"-r 1280x720"</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">photo</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"prendrePhoto Process Fin"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">envoiPhoto</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"envoiPhoto Process Debut"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">envoi</span><span class="p">;</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"curl"</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">"-T"</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_photo_dragino</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_login_photo_web</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">envoi</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">envoi</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"envoiPhoto Process Fin"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">envoiCSV</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"envoiLiDonneesCSV Process Debut"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">envoi</span><span class="p">;</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"curl"</span><span class="p">);</span>
+  <span class="n">String</span> <span class="n">adresse</span> <span class="o">=</span> <span class="n">path_donnes_web_csv2</span><span class="p">;</span>
+  <span class="n">adresse</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">adresse</span> <span class="o">+</span> <span class="s">"?ligne="</span><span class="p">);</span>
+  <span class="c1">//Console.println(adresse);</span>
+  <span class="n">adresse</span> <span class="o">+=</span> <span class="n">ecrireTimeDonneesCSV</span><span class="p">();</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">adresse</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">adresse</span><span class="p">);</span>
+  <span class="n">adresse</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"envoiLiDonneesCSV Process Fin"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">majTime</span><span class="p">()</span> <span class="c1">//mise à jours des infos contenues dans </span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"majTime Process Debut"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">pTime</span><span class="p">;</span>
+  <span class="n">pTime</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"date"</span><span class="p">);</span>
+  <span class="n">pTime</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">"+%T-%D"</span><span class="p">);</span>
+  <span class="n">pTime</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="k">while</span><span class="p">(</span><span class="n">pTime</span><span class="p">.</span><span class="n">available</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">String</span> <span class="n">getText</span> <span class="o">=</span> <span class="n">pTime</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//heure</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//minute</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//seconde</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">11</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//mois</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//jour</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//annee</span>
+  <span class="p">}</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"majTime Process Fin"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//fonctions capteurs</span>
+<span class="kt">void</span> <span class="nf">incrementationCompteurVent</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">compteur_vent</span> <span class="o">=</span> <span class="n">compteur_vent</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">lectureCapteurs</span><span class="p">(</span><span class="kt">int</span> <span class="n">duree</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"lectureCapteurs Debut"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Nombre de lecture des capteurs"</span><span class="p">,</span><span class="n">duree</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">boucles</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">debut_mesure_vent</span><span class="p">;</span>
+  <span class="kt">long</span> <span class="n">somme_temperature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">somme_girouette</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">//début de la duree de prise de mesures</span>
+  <span class="n">debut_mesure_vent</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
+  <span class="n">compteur_vent</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">boucles</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">boucles</span><span class="o">&lt;</span><span class="n">duree</span><span class="p">;</span><span class="n">boucles</span><span class="o">++</span><span class="p">)</span> <span class="c1">//si on a encore le temps de prende une mesure</span>
+  <span class="p">{</span>
+    <span class="n">logC</span><span class="p">(</span><span class="s">"Prise de mesure numero"</span><span class="p">,</span><span class="n">boucles</span><span class="p">);</span>
+    <span class="c1">//on prend la valeur de température</span>
+    <span class="kt">int</span> <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">lecture</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">AI_TEMPERATURE</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">moy_temp</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="o">/</span><span class="n">boucles</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">boucles</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="n">moy_temp</span><span class="o">=</span><span class="n">derniere_mesure</span><span class="p">;}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">lecture</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">moy_temp</span><span class="o">+</span><span class="mi">10</span><span class="p">))</span>
+    <span class="p">{</span>
+      <span class="n">logC</span><span class="p">(</span><span class="s">"Sur-mesure"</span><span class="p">,(</span><span class="n">lecture</span> <span class="o">-</span> <span class="n">moy_temp</span><span class="p">));</span>
+      <span class="n">lecture</span> <span class="o">=</span> <span class="n">moy_temp</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">lecture</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">moy_temp</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>
+    <span class="p">{</span>
+      <span class="n">logC</span><span class="p">(</span><span class="s">"Sous-mesure"</span><span class="p">,(</span><span class="n">lecture</span> <span class="o">-</span> <span class="n">moy_temp</span><span class="p">));</span>
+      <span class="n">lecture</span> <span class="o">=</span> <span class="n">moy_temp</span><span class="o">-</span><span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">logC</span><span class="p">(</span><span class="s">"Capteur : lecture ai_temperature"</span><span class="p">,</span><span class="n">lecture</span><span class="p">);</span>
+    <span class="c1">//logC("Capteur : calcul ai_temperature", (lecture*(5000/1024.0)));</span>
+    <span class="n">somme_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span> <span class="o">+</span> <span class="n">lecture</span><span class="p">;</span>
+    <span class="c1">//on prend la valeur de girouette</span>
+    <span class="n">lecture</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">AI_GIROUETTE</span><span class="p">);</span>
+    <span class="n">logC</span><span class="p">(</span><span class="s">"Capteur : lecture ai_girouette"</span><span class="p">,</span><span class="n">lecture</span><span class="p">);</span>
+    <span class="n">somme_girouette</span> <span class="o">=</span> <span class="n">somme_girouette</span> <span class="o">+</span> <span class="n">lecture</span><span class="p">;</span>
+
+    <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">950</span><span class="p">);</span> <span class="c1">//atente de moins d une seconde pour ne pas prendre trop de mesures</span>
+  <span class="p">}</span>
+  <span class="c1">//fin de la duree de prise de mesures</span>
+  <span class="c1">//vitesse du vent</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">debut_mesure_vent</span><span class="p">);</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">compteur_vent</span> <span class="o">*</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">/</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Vent, nombre de tics"</span><span class="p">,</span> <span class="n">compteur_vent</span><span class="p">);</span>
+  <span class="kt">long</span> <span class="n">difference</span> <span class="o">=</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">debut_mesure_vent</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Vent, duree en ms (approx)"</span><span class="p">,</span> <span class="n">difference</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Vent, vitesse en km/h"</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="c1">//température</span>
+  <span class="n">somme_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span> <span class="o">/</span> <span class="n">duree</span><span class="p">;</span>
+  <span class="n">derniere_mesure</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">temp_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="o">*</span><span class="p">(</span><span class="mi">5000</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">);</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">temp_temperature</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Temperature lue (moyenne)"</span><span class="p">,</span><span class="n">somme_temperature</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Temperature (etalonnee)"</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="c1">//direction</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">trouverDirectionProche</span><span class="p">(</span><span class="n">somme_girouette</span> <span class="o">/</span> <span class="n">duree</span><span class="p">)</span><span class="o">*</span><span class="mf">22.5</span><span class="p">;</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">"Direction (degres)"</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+
+  <span class="n">logC</span><span class="p">(</span><span class="s">"lectureCapteurs Fin"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">trouverDirectionProche</span><span class="p">(</span><span class="kt">int</span> <span class="n">analogiqueGirouette</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="n">rtr</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">difference_min</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">p</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">;</span><span class="n">p</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//on compare la valeur lue avec celle du tableau et si est est plus petite que</span>
+    <span class="c1">//celle enregistrée alors c est la nouvelle direction</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">abs</span><span class="p">(</span><span class="n">analogiqueGirouette</span> <span class="o">-</span> <span class="n">direction_analog_in</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">&lt;</span><span class="n">difference_min</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">difference_min</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">analogiqueGirouette</span> <span class="o">-</span> <span class="n">direction_analog_in</span><span class="p">[</span><span class="n">p</span><span class="p">]);</span>
+      <span class="n">rtr</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//fonction annexes</span>
+<span class="n">String</span> <span class="nf">ecrireNombre</span><span class="p">(</span><span class="kt">int</span> <span class="n">in</span><span class="p">)</span> <span class="c1">//écrit un nombre de deux chiffres ou plus</span>
+<span class="p">{</span>
+  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">rtr</span> <span class="o">=</span> <span class="s">"0"</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="n">in</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="nf">ecrireTimeComplet</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="n">ecrireNombre</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="nf">ecrireTimeDonneesCSV</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="n">ecrireTimeComplet</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="s">","</span><span class="o">+</span><span class="n">donnees</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">//rtr = rtr + ";";</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">logC</span><span class="p">(</span><span class="n">String</span> <span class="n">txt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nb</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" &gt;=&gt; "</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">txt</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" :: "</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">nb</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+   </div>
+   <h1 id="2web">
+    <a aria-hidden="true" class="headeranchor-link" href="#2web" name="user-content-2web">
+     <span class="headeranchor">
+     </span>
+    </a>
+    2.Web
+   </h1>
+   <p>
+    On suppose que l’espace de website est tout neuve. Rien n’est paramètré. Les étapes suivantes nous permettent pour les configurer pas à pas.
+   </p>
+   <h2 id="21-les-environments">
+    <a aria-hidden="true" class="headeranchor-link" href="#21-les-environments" name="user-content-21-les-environments">
+     <span class="headeranchor">
+     </span>
+    </a>
+    2.1 les environments
+   </h2>
+   <h3 id="211-php-7">
+    <a aria-hidden="true" class="headeranchor-link" href="#211-php-7" name="user-content-211-php-7">
+     <span class="headeranchor">
+     </span>
+    </a>
+    2.1.1 PHP 7
+   </h3>
    <h1 id="annexe">
     <a aria-hidden="true" class="headeranchor-link" href="#annexe" name="user-content-annexe">
      <span class="headeranchor">
@@ -1442,10 +1791,7 @@ For Level Colors
      stationm
     </code>
     <br/>
-    Mot de passe :
-    <code>
-     ******
-    </code>
+    Mot de passe : X*X*X*X*X*X
    </p>
    <div class="admonition hint">
     <p>
@@ -1470,10 +1816,7 @@ For Level Colors
      stationm
     </code>
     <br/>
-    Mot de passe :
-    <code>
-     ******
-    </code>
+    Mot de passe : X*X*X*X*X*X
    </p>
    <h3 id="base-de-donnees">
     <a aria-hidden="true" class="headeranchor-link" href="#base-de-donnees" name="user-content-base-de-donnees">
@@ -1498,11 +1841,7 @@ For Level Colors
      stati_stationm
     </code>
     <br/>
-    Mot de passe
-    <strong>
-     *
-    </strong>
-    *
+    Mot de passe X*X*X*X*X*X
    </p>
   </article>
  </body>
