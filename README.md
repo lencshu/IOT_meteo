@@ -1,6 +1,8 @@
 [TOC]
 
 # Station Météo
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\p1.png)</p>
+
 Projet TX de l'année 2016 en automne
 Cycle d'ingénieur de l'UTBM 
 
@@ -10,10 +12,13 @@ Cycle d'ingénieur de l'UTBM
 
 
 #1. Introduction
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_155318.png)</p>
 
 Nous réalisons dans le cadre de ce projet une station météo à base Arduino pour le club de voile du bassin de Champagney. Cette station météo doit mesurer différents paramètres au bord du lac et les rendre disponibles via internet aux membres du club, et ce afin que ces derniers puissent juger des conditions de navigations avant de se rendre sur place.
 http://www.station-meteo-csm.nhvvs.fr
 
+- Connexion physique
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\p2.png)</p>
 
 #2.Arduino
 
@@ -393,6 +398,8 @@ Sur hébergeur `nhvvs.fr`, Il faut aussi utiliser le panel de gestion
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150714.png)</p>
 
 ## 2.2 Composants principals de système WEB
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_154901.png)</p>
+
 Il y a 12 php programme. Parmi lesquel il y en a 9 qui réalise la fonction principale.
 Après la réception des infos envoyée de l'Arduino. `putdata.php` nous aide pour enregistrer des info dans la base donnée.
 Une fois c'est fait, il y donc possible d'afficher des infos quand il y a des requêtes de navigateur. la mise-en-page web se fait par :
