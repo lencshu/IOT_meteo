@@ -541,7 +541,7 @@ Trois `.php` sont créés pour réaliser cette fonction:
 
 Les `.php` sont insérées avec le Tag de HTML `<iframe>` et `</iframe>` dans `index.php` pour afficher les information sous forme du texte.
 
-#### 3.2.2.1 data_direction.php
+#### data_direction.php
 
 ~~~php
 <?php
@@ -567,7 +567,7 @@ $req->closeCursor();
 	les restes se font de même principe 
 
 
-#### 3.2.2.2 data_temperature.php
+#### data_temperature.php
 
 ~~~php
 
@@ -590,7 +590,7 @@ $req->closeCursor();
 
 ?>
 ~~~
-#### 3.2.2.3 data_temps.php
+#### data_temps.php
 
 ~~~php
 <?php
@@ -620,7 +620,7 @@ $req->closeCursor();
 ?>
 ~~~
 
-#### 3.2.2.4 data_vitesse.php
+#### data_vitesse.php
 
 ~~~php
 <?php
