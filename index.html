@@ -1528,7 +1528,7 @@ For Level Colors
 <span class="c1">//variables générales</span>
 <span class="kt">int</span> <span class="n">direction_analog_in</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">786</span><span class="p">,</span><span class="mi">405</span><span class="p">,</span><span class="mi">460</span><span class="p">,</span><span class="mi">84</span><span class="p">,</span><span class="mi">92</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">184</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">286</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">630</span><span class="p">,</span><span class="mi">599</span><span class="p">,</span><span class="mi">945</span><span class="p">,</span><span class="mi">827</span><span class="p">,</span><span class="mi">978</span><span class="p">,</span><span class="mi">702</span><span class="p">};</span>
 <span class="kt">char</span> <span class="n">path_photo_dragino</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"/mnt/sda1/meteo.png"</span><span class="p">;</span> <span class="c1">//photo_meteo_2</span>
-<span class="kt">char</span> <span class="n">path_login_photo_web</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"ftp://stationm:utbmcsm2015@station-meteo-csm.nhvvs.fr/httpdocs/"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">path_login_photo_web</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"ftp://stationm:X*X*X*X*X*X@station-meteo-csm.nhvvs.fr/httpdocs/"</span><span class="p">;</span>
 <span class="kt">char</span> <span class="n">path_donnes_web_csv2</span><span class="p">[]</span> <span class="o">=</span> <span class="s">"http://station-meteo-csm.nhvvs.fr/putdata.php"</span><span class="p">;</span>
 <span class="kt">int</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//contient annee-mois-jour-heure-minute-seconde</span>
 <span class="k">volatile</span> <span class="kt">int</span> <span class="n">compteur_vent</span><span class="p">;</span>
@@ -2024,7 +2024,7 @@ flush privileges<span class="p">;</span>
      de
      <br/>
      <div class="codehilite">
-      <pre><span class="x">$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');  //connecter Mysql via php</span>
+      <pre><span class="x">$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'X*X*X*X*X*X');  //connecter Mysql via php</span>
 </pre>
      </div>
      <br/>
@@ -2172,7 +2172,7 @@ flush privileges<span class="p">;</span>
    </p>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 
 <span class="nv">$morceaux</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ligne'</span><span class="p">]);</span> 
 <span class="c1">//récupérer le chiffre entré dans un tableau selon le symble &lt;&lt;,&gt;&gt;</span>
@@ -2276,7 +2276,7 @@ flush privileges<span class="p">;</span>
    </h4>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 
 <span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
 
@@ -2308,7 +2308,7 @@ flush privileges<span class="p">;</span>
    </h4>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 <span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT temperature FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
 
 <span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
@@ -2336,7 +2336,7 @@ flush privileges<span class="p">;</span>
    </h4>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 
 <span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT created_at FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
 
@@ -2371,7 +2371,7 @@ flush privileges<span class="p">;</span>
    </h4>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 
 <span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT vitesse FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
 
@@ -2422,7 +2422,7 @@ flush privileges<span class="p">;</span>
    </div>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 
 
 <span class="nv">$sql</span> <span class="o">=</span><span class="s2">"SELECT id FROM mesures ORDER BY `id` DESC LIMIT 1;"</span><span class="p">;</span>
@@ -2806,7 +2806,7 @@ flush privileges<span class="p">;</span>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
 <span class="nb">header</span><span class="p">(</span><span class="s2">"Content-type: text/css; charset: UTF-8"</span><span class="p">);</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>  <span class="c1">//connecter Mysql via php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>  <span class="c1">//connecter Mysql via php</span>
 
 <span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
 <span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
@@ -2936,7 +2936,7 @@ flush privileges<span class="p">;</span>
    </p>
    <div class="codehilite">
     <pre><span class="cp">&lt;?php</span>
-<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'X*X*X*X*X*X'</span><span class="p">);</span>
 
 <span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">"SELECT * FROM `mesures` ORDER BY `created_at` ASC"</span><span class="p">);</span>
 <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>

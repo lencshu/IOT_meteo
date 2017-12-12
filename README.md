@@ -42,7 +42,7 @@ http://www.station-meteo-csm.nhvvs.fr
 //variables générales
 int direction_analog_in[] = {786,405,460,84,92,65,184,127,286,243,630,599,945,827,978,702};
 char path_photo_dragino[] = "/mnt/sda1/meteo.png"; //photo_meteo_2
-char path_login_photo_web[] = "ftp://stationm:utbmcsm2015@station-meteo-csm.nhvvs.fr/httpdocs/";
+char path_login_photo_web[] = "ftp://stationm:%mdp% utbmcsm2015 %/mdp%@station-meteo-csm.nhvvs.fr/httpdocs/";
 char path_donnes_web_csv2[] = "http://station-meteo-csm.nhvvs.fr/putdata.php";
 int date_heure[6]; //contient annee-mois-jour-heure-minute-seconde
 volatile int compteur_vent;
@@ -416,7 +416,7 @@ Une fois c'est fait, il y donc possible d'afficher des infos quand il y a des re
 
 	de 
 	~~~php
-	$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');  //connecter Mysql via php
+	$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');  //connecter Mysql via php
 	~~~
 	à
 	~~~php
@@ -493,7 +493,7 @@ la programme ensemble:
 
 ~~~php
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 
 $morceaux = explode(",", $_GET['ligne']); 
 //récupérer le chiffre entré dans un tableau selon le symble <<,>>
@@ -545,7 +545,7 @@ Les `.php` sont insérées avec le Tag de HTML `<iframe>` et `</iframe>` dans `i
 
 ~~~php
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 
 $sql = "SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1";
 
@@ -572,7 +572,7 @@ $req->closeCursor();
 ~~~php
 
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 $sql = "SELECT temperature FROM `mesures` ORDER BY `created_at` DESC LIMIT 1";
 
 $req = $bdd->prepare($sql);
@@ -594,7 +594,7 @@ $req->closeCursor();
 
 ~~~php
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 
 $sql = "SELECT created_at FROM `mesures` ORDER BY `created_at` DESC LIMIT 1";
 
@@ -624,7 +624,7 @@ $req->closeCursor();
 
 ~~~php
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 
 $sql = "SELECT vitesse FROM `mesures` ORDER BY `created_at` DESC LIMIT 1";
 
@@ -656,7 +656,7 @@ Cette programme a but de réformer des datas sous la forme de JSON, afin de util
 
 ~~~php
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 
 
 $sql ="SELECT id FROM mesures ORDER BY `id` DESC LIMIT 1;";
@@ -1017,7 +1017,7 @@ Généralement, la description de la présentation HTML est mise sous la forme `
 
 <?php
 header("Content-type: text/css; charset: UTF-8");
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');  //connecter Mysql via php
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');  //connecter Mysql via php
 
 $sql = "SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1";
 $req = $bdd->prepare($sql);
@@ -1140,7 +1140,7 @@ Sortir toutes les informations
 
 ~~~php
 <?php
-$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');
+$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', '%mdp% utbmcsm2015 %/mdp%');
 
 $req = $bdd->prepare("SELECT * FROM `mesures` ORDER BY `created_at` ASC");
 $req->execute();
