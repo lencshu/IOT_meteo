@@ -405,6 +405,19 @@ Une fois c'est fait, il y donc possible d'afficher des infos quand il y a des re
 `index.php`
 `style.php`
 
+!!! hint "Si la Base Donnée est changé..."
+	Si la Base Donnée est changé, il est obligatoire de modifier la ligne comme ci-après de tous les `.php`
+
+	de 
+	~~~php
+	$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');  //connecter Mysql via php
+	~~~
+	à
+	~~~php
+	$bdd = new PDO('mysql:nouveau_nom_hôte;dbname=nouveau_nom_BD;charset=utf8', 'nom_ADM', 'mot_de_passe');
+	~~~
+
+
 ###
 
 # Annexe
