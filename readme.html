@@ -1293,7 +1293,15 @@ MathJax.Hub.Config({
 </ul>
 </li>
 <li><a href="#22-composants-principals-de-systeme-web">2.2 Composants principals de système WEB</a><ul>
-<li><a href="#_1"></a></li>
+<li><a href="#putdataphp">putdata.php</a></li>
+<li><a href="#data_directionphp">data_direction.php</a></li>
+<li><a href="#data_temperaturephp">data_temperature.php</a></li>
+<li><a href="#data_tempsphp">data_temps.php</a></li>
+<li><a href="#data_vitessephp">data_vitesse.php</a></li>
+<li><a href="#imagephp">image.php</a></li>
+<li><a href="#dataphp">data.php</a></li>
+<li><a href="#indexphp">index.php</a></li>
+<li><a href="#stylephp">style.php</a></li>
 </ul>
 </li>
 </ul>
@@ -1692,7 +1700,27 @@ Une fois c&rsquo;est fait, il y donc possible d&rsquo;afficher des infos quand i
 <code>data.php</code>:JSON<br />
 <code>index.php</code><br />
 <code>style.php</code></p>
-<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Si la Base Donnée est changé&hellip;</p>
+<p>Si la Base Donnée est changé, il est obligatoire de modifier la ligne comme ci-après de tous les <code>.php</code></p>
+<p>de <br />
+<div class="codehilite"><pre><span class="x">$bdd = new PDO(&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;, &#39;stati_stationm&#39;, &#39;utbmcsm2015&#39;);  //connecter Mysql via php</span>
+</pre></div>
+<br />
+à<br />
+<div class="codehilite"><pre><span class="x">$bdd = new PDO(&#39;mysql:nouveau_nom_hôte;dbname=nouveau_nom_BD;charset=utf8&#39;, &#39;nom_ADM&#39;, &#39;mot_de_passe&#39;);</span>
+</pre></div>
+</p>
+</div>
+<h3 id="putdataphp"><a name="user-content-putdataphp" href="#putdataphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>putdata.php</h3>
+<h3 id="data_directionphp"><a name="user-content-data_directionphp" href="#data_directionphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_direction.php</h3>
+<h3 id="data_temperaturephp"><a name="user-content-data_temperaturephp" href="#data_temperaturephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_temperature.php</h3>
+<h3 id="data_tempsphp"><a name="user-content-data_tempsphp" href="#data_tempsphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_temps.php</h3>
+<h3 id="data_vitessephp"><a name="user-content-data_vitessephp" href="#data_vitessephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_vitesse.php</h3>
+<h3 id="imagephp"><a name="user-content-imagephp" href="#imagephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>image.php</h3>
+<h3 id="dataphp"><a name="user-content-dataphp" href="#dataphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data.php</h3>
+<h3 id="indexphp"><a name="user-content-indexphp" href="#indexphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>index.php</h3>
+<h3 id="stylephp"><a name="user-content-stylephp" href="#stylephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>style.php</h3>
 <h1 id="annexe"><a name="user-content-annexe" href="#annexe" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annexe</h1>
 <h2 id="station-meteo-csmnhvvsfr"><a name="user-content-station-meteo-csmnhvvsfr" href="#station-meteo-csmnhvvsfr" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>station-meteo-csm.nhvvs.fr</h2>
 <h3 id="connexion"><a name="user-content-connexion" href="#connexion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Connexion</h3>

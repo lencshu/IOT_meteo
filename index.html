@@ -1346,7 +1346,48 @@ For Level Colors
         </a>
         <ul>
          <li>
-          <a href="#_1">
+          <a href="#putdataphp">
+           putdata.php
+          </a>
+         </li>
+         <li>
+          <a href="#data_directionphp">
+           data_direction.php
+          </a>
+         </li>
+         <li>
+          <a href="#data_temperaturephp">
+           data_temperature.php
+          </a>
+         </li>
+         <li>
+          <a href="#data_tempsphp">
+           data_temps.php
+          </a>
+         </li>
+         <li>
+          <a href="#data_vitessephp">
+           data_vitesse.php
+          </a>
+         </li>
+         <li>
+          <a href="#imagephp">
+           image.php
+          </a>
+         </li>
+         <li>
+          <a href="#dataphp">
+           data.php
+          </a>
+         </li>
+         <li>
+          <a href="#indexphp">
+           index.php
+          </a>
+         </li>
+         <li>
+          <a href="#stylephp">
+           style.php
           </a>
          </li>
         </ul>
@@ -1938,11 +1979,94 @@ flush privileges<span class="p">;</span>
      style.php
     </code>
    </p>
-   <h3 id="_1">
-    <a aria-hidden="true" class="headeranchor-link" href="#_1" name="user-content-_1">
+   <div class="admonition hint">
+    <p class="admonition-title">
+     Si la Base Donnée est changé…
+    </p>
+    <p>
+     Si la Base Donnée est changé, il est obligatoire de modifier la ligne comme ci-après de tous les
+     <code>
+      .php
+     </code>
+    </p>
+    <p>
+     de
+     <br/>
+     <div class="codehilite">
+      <pre><span class="x">$bdd = new PDO('mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8', 'stati_stationm', 'utbmcsm2015');  //connecter Mysql via php</span>
+</pre>
+     </div>
+     <br/>
+     à
+     <br/>
+     <div class="codehilite">
+      <pre><span class="x">$bdd = new PDO('mysql:nouveau_nom_hôte;dbname=nouveau_nom_BD;charset=utf8', 'nom_ADM', 'mot_de_passe');</span>
+</pre>
+     </div>
+    </p>
+   </div>
+   <h3 id="putdataphp">
+    <a aria-hidden="true" class="headeranchor-link" href="#putdataphp" name="user-content-putdataphp">
      <span class="headeranchor">
      </span>
     </a>
+    putdata.php
+   </h3>
+   <h3 id="data_directionphp">
+    <a aria-hidden="true" class="headeranchor-link" href="#data_directionphp" name="user-content-data_directionphp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    data_direction.php
+   </h3>
+   <h3 id="data_temperaturephp">
+    <a aria-hidden="true" class="headeranchor-link" href="#data_temperaturephp" name="user-content-data_temperaturephp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    data_temperature.php
+   </h3>
+   <h3 id="data_tempsphp">
+    <a aria-hidden="true" class="headeranchor-link" href="#data_tempsphp" name="user-content-data_tempsphp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    data_temps.php
+   </h3>
+   <h3 id="data_vitessephp">
+    <a aria-hidden="true" class="headeranchor-link" href="#data_vitessephp" name="user-content-data_vitessephp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    data_vitesse.php
+   </h3>
+   <h3 id="imagephp">
+    <a aria-hidden="true" class="headeranchor-link" href="#imagephp" name="user-content-imagephp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    image.php
+   </h3>
+   <h3 id="dataphp">
+    <a aria-hidden="true" class="headeranchor-link" href="#dataphp" name="user-content-dataphp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    data.php
+   </h3>
+   <h3 id="indexphp">
+    <a aria-hidden="true" class="headeranchor-link" href="#indexphp" name="user-content-indexphp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    index.php
+   </h3>
+   <h3 id="stylephp">
+    <a aria-hidden="true" class="headeranchor-link" href="#stylephp" name="user-content-stylephp">
+     <span class="headeranchor">
+     </span>
+    </a>
+    style.php
    </h3>
    <h1 id="annexe">
     <a aria-hidden="true" class="headeranchor-link" href="#annexe" name="user-content-annexe">
