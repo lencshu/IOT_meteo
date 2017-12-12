@@ -1082,6 +1082,10 @@ top: 0; left: 0;
 /*la forme d'affichage le compass pour la représentation de la direction du vent*/
 ~~~
 
+## 2.3 Les fonctions supplémentaires
+
+### 2.3.1 Mot de passe
+### 2.3.2 Sortir toutes les informations
 
 # Annexe
 ## station-meteo-csm.nhvvs.fr
