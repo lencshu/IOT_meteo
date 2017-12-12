@@ -1281,437 +1281,281 @@ MathJax.Hub.Config({
   onReady(function(){convertUML('uml-sequence-diagram', Diagram, {theme: 'simple'});});
 })(window, document)
 </script>
-<title>readme</title></head><body><div class="to"></div><article class="markdown-body"><div class="toc">
-<ul>
-<li><a href="#station-meteo">Station Météo</a></li>
-<li><a href="#1-introduction">1. Introduction</a></li>
-<li><a href="#2arduino">2.Arduino</a></li>
-<li><a href="#2web">2.Web</a><ul>
-<li><a href="#21-les-environments">2.1 les environments</a><ul>
-<li><a href="#211-base-donnee">2.1.1 Base donnée</a></li>
-<li><a href="#212-php-7">2.1.2 PHP 7</a></li>
-</ul>
-</li>
-<li><a href="#22-composants-principals-de-systeme-web">2.2 Composants principals de système WEB</a><ul>
-<li><a href="#_1"></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#annexe">Annexe</a><ul>
-<li><a href="#station-meteo-csmnhvvsfr">station-meteo-csm.nhvvs.fr</a><ul>
-<li><a href="#connexion">Connexion</a><ul>
-<li><a href="#gmail">Gmail</a></li>
-<li><a href="#http">HTTP</a></li>
-<li><a href="#ftp">FTP</a></li>
-</ul>
-</li>
-<li><a href="#base-de-donnees">base de données</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-<h1 id="station-meteo"><a name="user-content-station-meteo" href="#station-meteo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Station Météo</h1>
-<p>Projet TX de l&rsquo;année 2016 en automne<br />
-Cycle d&rsquo;ingénieur de l&rsquo;UTBM </p>
-<p><code>Département Génie Mécanique et Conception</code></p>
-<p><code>Filière Conception des Systèmes Mécatroniques</code></p>
-<h1 id="1-introduction"><a name="user-content-1-introduction" href="#1-introduction" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>1. Introduction</h1>
-<p>Nous réalisons dans le cadre de ce projet une station météo à base Arduino pour le club de voile du bassin de Champagney. Cette station météo doit mesurer différents paramètres au bord du lac et les rendre disponibles via internet aux membres du club, et ce afin que ces derniers puissent juger des conditions de navigations avant de se rendre sur place.<br />
-<a href="http://www.station-meteo-csm.nhvvs.fr">http://www.station-meteo-csm.nhvvs.fr</a></p>
-<h1 id="2arduino"><a name="user-content-2arduino" href="#2arduino" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.Arduino</h1>
-<div class="codehilite"><pre><span class="c1">//librairies nécessaires</span>
-<span class="cp">#include &lt;Process.h&gt;</span>
+<title>tw51_2016_station_meteo</title></head><body><div class="to"></div><article class="markdown-body"><p>//librairies nécessaires</p>
+<h1 id="include"><a name="user-content-include" href="#include" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>include <Process.h></h1>
+<p>//librairies pour le développement</p>
+<h1 id="include_1"><a name="user-content-include_1" href="#include_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>include <Console.h></h1>
+<p>//définition de define (paramétrage des entrés/sorties)</p>
+<h1 id="define-do_buz-7-pour-implantation-dun-buzzer-dev"><a name="user-content-define-do_buz-7-pour-implantation-dun-buzzer-dev" href="#define-do_buz-7-pour-implantation-dun-buzzer-dev" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define DO_BUZ 7 //pour implantation d&rsquo;un buzzer (dev)</h1>
+<h1 id="define-di_anemometre_int-2"><a name="user-content-define-di_anemometre_int-2" href="#define-di_anemometre_int-2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define DI_ANEMOMETRE_INT 2</h1>
+<h1 id="define-ai_girouette-0"><a name="user-content-define-ai_girouette-0" href="#define-ai_girouette-0" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define AI_GIROUETTE 0</h1>
+<h1 id="define-ai_temperature-1"><a name="user-content-define-ai_temperature-1" href="#define-ai_temperature-1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define AI_TEMPERATURE 1</h1>
+<h1 id="define-duree_lecture_capteur-30"><a name="user-content-define-duree_lecture_capteur-30" href="#define-duree_lecture_capteur-30" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define DUREE_LECTURE_CAPTEUR 30</h1>
+<h1 id="define-heure_debut-8"><a name="user-content-define-heure_debut-8" href="#define-heure_debut-8" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define HEURE_DEBUT 8</h1>
+<h1 id="define-heure_fin-20"><a name="user-content-define-heure_fin-20" href="#define-heure_fin-20" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>define HEURE_FIN 20</h1>
+<p>//variables générales<br />
+int direction_analog_in[] = {786,405,460,84,92,65,184,127,286,243,630,599,945,827,978,702};<br />
+char path_photo_dragino[] = &ldquo;/mnt/sda1/meteo.png&rdquo;; //photo_meteo_2<br />
+char path_login_photo_web[] = &ldquo;ftp://stationm:utbmcsm2015@station-meteo-csm.nhvvs.fr/httpdocs/&rdquo;;<br />
+char path_donnes_web_csv2[] = &ldquo;<a href="http://station-meteo-csm.nhvvs.fr/putdata.php">http://station-meteo-csm.nhvvs.fr/putdata.php</a>&rdquo;;<br />
+int date_heure[6]; //contient annee-mois-jour-heure-minute-seconde<br />
+volatile int compteur_vent;<br />
+float donnees[3]; //contient température, vitesse du vent et direction<br />
+int numero_boucle; //numero d&rsquo;iteration de la boucle principale<br />
+unsigned long tempo = 0;<br />
+int derniere_mesure = 0;</p>
+<p>//déclarations fonctions<br />
+void prendrePhoto();<br />
+void envoiPhoto();<br />
+void envoiCSV();<br />
+void majTime();<br />
+void incrementationCompteurVent();<br />
+void lectureCapteurs(int duree);<br />
+int trouverDirectionProche(int analogiqueGirouette);<br />
+String ecrireNombre(int in);<br />
+String ecrireTimeComplet();<br />
+String ecrireTimeDonneesCSV();<br />
+void logC(String txt, int nb);<br />
+void cycleMesure();</p>
+<p>// SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP<br />
+void setup()<br />
+{<br />
+  Bridge.begin();<br />
+  Console.begin();<br />
+  //while(!Console);<br />
+  logC(&ldquo;Fin Bridge et Console setup&rdquo;, 0);</p>
+<p>logC(&ldquo;Debut setup&rdquo;, 0);<br />
+  numero_boucle = 0;<br />
+  tempo = 0;</p>
+<p>//pinModes<br />
+  pinMode(DO_BUZ, OUTPUT);<br />
+  pinMode(DI_ANEMOMETRE_INT, INPUT_PULLUP);<br />
+  attachInterrupt(0,incrementationCompteurVent, FALLING);</p>
+<p>tone(DO_BUZ,500,500);<br />
+  logC(&ldquo;Fin du setup&rdquo;, 0);<br />
+}</p>
+<p>// LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP<br />
+void loop()<br />
+{<br />
+  logC(&ldquo;Loop Debut numero&rdquo;,numero_boucle);<br />
+  majTime(); //mise à jour de l&rsquo;heure et la date.</p>
+<p>if(constrain(date_heure[3],HEURE_DEBUT,HEURE_FIN) == date_heure[3])<br />
+  //si l&rsquo;on est dans la période d&rsquo;activation<br />
+  {<br />
+    logC(&ldquo;Prise de mesures&rdquo;, 0);<br />
+    cycleMesure();<br />
+  }<br />
+  else if(date_heure[3] == HEURE_DEBUT-1) //à moins d&rsquo;une heure <br />
+  {<br />
+    //on attend un nombre de minutes jusqu&rsquo;à l&rsquo;heure pile<br />
+    tempo = 60<em>(60-date_heure[4]+1);<br />
+    tempo = tempo * 1000;<br />
+    Console.print(&ldquo;Pause partielle :&rdquo;);<br />
+    Console.println(tempo);<br />
+    delay(tempo);<br />
+  }<br />
+  else<br />
+  {<br />
+    //on attend une heure<br />
+    tempo = 60</em>60000;<br />
+    Console.print(&ldquo;Pause heure :&rdquo;);<br />
+    delay(tempo);<br />
+  }<br />
+  tone(DO_BUZ,1000,50);<br />
+  logC(&ldquo;Loop Fin&rdquo;,0);<br />
+}</p>
+<p>void cycleMesure()<br />
+{<br />
+  lectureCapteurs(DUREE_LECTURE_CAPTEUR);<br />
+  envoiCSV();<br />
+  prendrePhoto();<br />
+  envoiPhoto();</p>
+<p>Console.println(ecrireTimeDonneesCSV());<br />
+}</p>
+<p>//fonctions dragino<br />
+void prendrePhoto()<br />
+{<br />
+  logC(&ldquo;prendrePhoto Process Debut&rdquo;,0);<br />
+  Process photo;<br />
+  photo.begin(&ldquo;fswebcam&rdquo;);<br />
+  photo.addParameter(path_photo_dragino);<br />
+  photo.addParameter(&ldquo;-S 20&rdquo;);<br />
+  photo.addParameter(&ldquo;-r 1280x720&rdquo;);<br />
+  photo.run();<br />
+  while (photo.available()&gt;0) {<br />
+    char c = photo.read();<br />
+    Console.print(c);<br />
+  }<br />
+  logC(&ldquo;prendrePhoto Process Fin&rdquo;,0);<br />
+}</p>
+<p>void envoiPhoto()<br />
+{<br />
+  logC(&ldquo;envoiPhoto Process Debut&rdquo;,0);<br />
+  Process envoi;<br />
+  envoi.begin(&ldquo;curl&rdquo;);<br />
+  envoi.addParameter(&ldquo;-T&rdquo;);<br />
+  envoi.addParameter(path_photo_dragino);<br />
+  envoi.addParameter(path_login_photo_web);<br />
+  envoi.run();<br />
+  while (envoi.available()&gt;0) {<br />
+    char c = envoi.read();<br />
+    Console.print(c);<br />
+  }<br />
+  logC(&ldquo;envoiPhoto Process Fin&rdquo;,0);<br />
+}</p>
+<p>void envoiCSV()<br />
+{<br />
+  logC(&ldquo;envoiLiDonneesCSV Process Debut&rdquo;,0);<br />
+  Process envoi;<br />
+  envoi.begin(&ldquo;curl&rdquo;);<br />
+  String adresse = path_donnes_web_csv2;<br />
+  adresse = String(adresse + &ldquo;?ligne=&rdquo;);<br />
+  //Console.println(adresse);<br />
+  adresse += ecrireTimeDonneesCSV();<br />
+  Console.println(adresse);<br />
+  envoi.addParameter(adresse);<br />
+  adresse = &ldquo;&rdquo;;<br />
+  envoi.run();<br />
+  logC(&ldquo;envoiLiDonneesCSV Process Fin&rdquo;,0);<br />
+}</p>
+<p>void majTime() //mise à jours des infos contenues dans <br />
+{<br />
+  logC(&ldquo;majTime Process Debut&rdquo;,0);<br />
+  Process pTime;<br />
+  pTime.begin(&ldquo;date&rdquo;);<br />
+  pTime.addParameter(&ldquo;+%T-%D&rdquo;);<br />
+  pTime.run();<br />
+  while(pTime.available() &gt; 0)<br />
+  {<br />
+    String getText = pTime.readString();<br />
+    date_heure[3] = getText.substring(0,2).toInt(); //heure<br />
+    date_heure[4] = getText.substring(3,5).toInt(); //minute<br />
+    date_heure[5] = getText.substring(6,8).toInt(); //seconde<br />
+    date_heure[1] = getText.substring(9,11).toInt(); //mois<br />
+    date_heure[2] = getText.substring(12,14).toInt(); //jour<br />
+    date_heure[0] = getText.substring(15,17).toInt(); //annee<br />
+  }<br />
+  logC(&ldquo;majTime Process Fin&rdquo;,0);<br />
+}</p>
+<p>//fonctions capteurs<br />
+void incrementationCompteurVent()<br />
+{<br />
+  compteur_vent = compteur_vent +1;<br />
+}</p>
+<p>void lectureCapteurs(int duree)<br />
+{<br />
+  logC(&ldquo;lectureCapteurs Debut&rdquo;,0);<br />
+  logC(&ldquo;Nombre de lecture des capteurs&rdquo;,duree);<br />
+  int boucles =0;<br />
+  unsigned long debut_mesure_vent;<br />
+  long somme_temperature = 0, somme_girouette = 0;</p>
+<p>//début de la duree de prise de mesures<br />
+  debut_mesure_vent = millis();<br />
+  compteur_vent = 0;<br />
+  for(boucles=0;boucles<duree;boucles++) //si on a encore le temps de prende une mesure
+  {
+    logC("Prise de mesure numero",boucles);
+    //on prend la valeur de température
+    int lecture = 0;
+    lecture = analogRead(AI_TEMPERATURE);
+    int moy_temp = somme_temperature/boucles;
+    if(boucles==0) {moy_temp=derniere_mesure;}
+    if(lecture > (moy_temp+10))<br />
+    {<br />
+      logC(&ldquo;Sur-mesure&rdquo;,(lecture - moy_temp));<br />
+      lecture = moy_temp+10;<br />
+    }<br />
+    else if(lecture &lt; (moy_temp-10))<br />
+    {<br />
+      logC(&ldquo;Sous-mesure&rdquo;,(lecture - moy_temp));<br />
+      lecture = moy_temp-10;<br />
+    }</p>
+<div class="codehilite"><pre>logC(&quot;Capteur : lecture ai_temperature&quot;,lecture);
+//logC(&quot;Capteur : calcul ai_temperature&quot;, (lecture*(5000/1024.0)));
+somme_temperature = somme_temperature + lecture;
+//on prend la valeur de girouette
+lecture = analogRead(AI_GIROUETTE);
+logC(&quot;Capteur : lecture ai_girouette&quot;,lecture);
+somme_girouette = somme_girouette + lecture;
 
-<span class="c1">//librairies pour le développement</span>
-<span class="cp">#include &lt;Console.h&gt;</span>
-
-<span class="c1">//définition de define (paramétrage des entrés/sorties)</span>
-<span class="cp">#define DO_BUZ 7 </span><span class="c1">//pour implantation d&#39;un buzzer (dev)</span>
-<span class="cp">#define DI_ANEMOMETRE_INT 2</span>
-<span class="cp">#define AI_GIROUETTE 0</span>
-<span class="cp">#define AI_TEMPERATURE 1</span>
-<span class="cp">#define DUREE_LECTURE_CAPTEUR 30</span>
-
-<span class="cp">#define HEURE_DEBUT 8</span>
-<span class="cp">#define HEURE_FIN 20</span>
-
-<span class="c1">//variables générales</span>
-<span class="kt">int</span> <span class="n">direction_analog_in</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">786</span><span class="p">,</span><span class="mi">405</span><span class="p">,</span><span class="mi">460</span><span class="p">,</span><span class="mi">84</span><span class="p">,</span><span class="mi">92</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">184</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">286</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">630</span><span class="p">,</span><span class="mi">599</span><span class="p">,</span><span class="mi">945</span><span class="p">,</span><span class="mi">827</span><span class="p">,</span><span class="mi">978</span><span class="p">,</span><span class="mi">702</span><span class="p">};</span>
-<span class="kt">char</span> <span class="n">path_photo_dragino</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;/mnt/sda1/meteo.png&quot;</span><span class="p">;</span> <span class="c1">//photo_meteo_2</span>
-<span class="kt">char</span> <span class="n">path_login_photo_web</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;ftp://stationm:utbmcsm2015@station-meteo-csm.nhvvs.fr/httpdocs/&quot;</span><span class="p">;</span>
-<span class="kt">char</span> <span class="n">path_donnes_web_csv2</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;http://station-meteo-csm.nhvvs.fr/putdata.php&quot;</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//contient annee-mois-jour-heure-minute-seconde</span>
-<span class="k">volatile</span> <span class="kt">int</span> <span class="n">compteur_vent</span><span class="p">;</span>
-<span class="kt">float</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="c1">//contient température, vitesse du vent et direction</span>
-<span class="kt">int</span> <span class="n">numero_boucle</span><span class="p">;</span> <span class="c1">//numero d&#39;iteration de la boucle principale</span>
-<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">tempo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kt">int</span> <span class="n">derniere_mesure</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="c1">//déclarations fonctions</span>
-<span class="kt">void</span> <span class="nf">prendrePhoto</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">envoiPhoto</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">envoiCSV</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">majTime</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">incrementationCompteurVent</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">lectureCapteurs</span><span class="p">(</span><span class="kt">int</span> <span class="n">duree</span><span class="p">);</span>
-<span class="kt">int</span> <span class="nf">trouverDirectionProche</span><span class="p">(</span><span class="kt">int</span> <span class="n">analogiqueGirouette</span><span class="p">);</span>
-<span class="n">String</span> <span class="nf">ecrireNombre</span><span class="p">(</span><span class="kt">int</span> <span class="n">in</span><span class="p">);</span>
-<span class="n">String</span> <span class="nf">ecrireTimeComplet</span><span class="p">();</span>
-<span class="n">String</span> <span class="nf">ecrireTimeDonneesCSV</span><span class="p">();</span>
-<span class="kt">void</span> <span class="nf">logC</span><span class="p">(</span><span class="n">String</span> <span class="n">txt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nb</span><span class="p">);</span>
-<span class="kt">void</span> <span class="nf">cycleMesure</span><span class="p">();</span>
-
-
-<span class="c1">// SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP</span>
-<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">Bridge</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-  <span class="c1">//while(!Console);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Fin Bridge et Console setup&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Debut setup&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="n">numero_boucle</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="n">tempo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-  <span class="c1">//pinModes</span>
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
-  <span class="n">pinMode</span><span class="p">(</span><span class="n">DI_ANEMOMETRE_INT</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
-  <span class="n">attachInterrupt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">incrementationCompteurVent</span><span class="p">,</span> <span class="n">FALLING</span><span class="p">);</span>
-
-  <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">500</span><span class="p">);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Fin du setup&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP</span>
-<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Loop Debut numero&quot;</span><span class="p">,</span><span class="n">numero_boucle</span><span class="p">);</span>
-  <span class="n">majTime</span><span class="p">();</span> <span class="c1">//mise à jour de l heure et la date.</span>
-
-  <span class="k">if</span><span class="p">(</span><span class="n">constrain</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">HEURE_DEBUT</span><span class="p">,</span><span class="n">HEURE_FIN</span><span class="p">)</span> <span class="o">==</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="c1">//si l&#39;on est dans la période d&#39;activation</span>
-  <span class="p">{</span>
-    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Prise de mesures&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="n">cycleMesure</span><span class="p">();</span>
-  <span class="p">}</span>
-  <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">HEURE_DEBUT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">//à moins d une heure </span>
-  <span class="p">{</span>
-    <span class="c1">//on attend un nombre de minutes jusqu&#39;à l&#39;heure pile</span>
-    <span class="n">tempo</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="p">(</span><span class="mi">60</span><span class="o">-</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-    <span class="n">tempo</span> <span class="o">=</span> <span class="n">tempo</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Pause partielle :&quot;</span><span class="p">);</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
-    <span class="n">delay</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="k">else</span>
-  <span class="p">{</span>
-    <span class="c1">//on attend une heure</span>
-    <span class="n">tempo</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60000</span><span class="p">;</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Pause heure :&quot;</span><span class="p">);</span>
-    <span class="n">delay</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Loop Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">cycleMesure</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">lectureCapteurs</span><span class="p">(</span><span class="n">DUREE_LECTURE_CAPTEUR</span><span class="p">);</span>
-  <span class="n">envoiCSV</span><span class="p">();</span>
-  <span class="n">prendrePhoto</span><span class="p">();</span>
-  <span class="n">envoiPhoto</span><span class="p">();</span>
-
-  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">ecrireTimeDonneesCSV</span><span class="p">());</span>
-<span class="p">}</span>
-
-<span class="c1">//fonctions dragino</span>
-<span class="kt">void</span> <span class="nf">prendrePhoto</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;prendrePhoto Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">Process</span> <span class="n">photo</span><span class="p">;</span>
-  <span class="n">photo</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;fswebcam&quot;</span><span class="p">);</span>
-  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_photo_dragino</span><span class="p">);</span>
-  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;-S 20&quot;</span><span class="p">);</span>
-  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;-r 1280x720&quot;</span><span class="p">);</span>
-  <span class="n">photo</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">photo</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;prendrePhoto Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">envoiPhoto</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiPhoto Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">Process</span> <span class="n">envoi</span><span class="p">;</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;curl&quot;</span><span class="p">);</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;-T&quot;</span><span class="p">);</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_photo_dragino</span><span class="p">);</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_login_photo_web</span><span class="p">);</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
-  <span class="k">while</span> <span class="p">(</span><span class="n">envoi</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">envoi</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
-    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiPhoto Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-
-<span class="kt">void</span> <span class="nf">envoiCSV</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiLiDonneesCSV Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">Process</span> <span class="n">envoi</span><span class="p">;</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;curl&quot;</span><span class="p">);</span>
-  <span class="n">String</span> <span class="n">adresse</span> <span class="o">=</span> <span class="n">path_donnes_web_csv2</span><span class="p">;</span>
-  <span class="n">adresse</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">adresse</span> <span class="o">+</span> <span class="s">&quot;?ligne=&quot;</span><span class="p">);</span>
-  <span class="c1">//Console.println(adresse);</span>
-  <span class="n">adresse</span> <span class="o">+=</span> <span class="n">ecrireTimeDonneesCSV</span><span class="p">();</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">adresse</span><span class="p">);</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">adresse</span><span class="p">);</span>
-  <span class="n">adresse</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
-  <span class="n">envoi</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiLiDonneesCSV Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">majTime</span><span class="p">()</span> <span class="c1">//mise à jours des infos contenues dans </span>
-<span class="p">{</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;majTime Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">Process</span> <span class="n">pTime</span><span class="p">;</span>
-  <span class="n">pTime</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">);</span>
-  <span class="n">pTime</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;+%T-%D&quot;</span><span class="p">);</span>
-  <span class="n">pTime</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
-  <span class="k">while</span><span class="p">(</span><span class="n">pTime</span><span class="p">.</span><span class="n">available</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="n">String</span> <span class="n">getText</span> <span class="o">=</span> <span class="n">pTime</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span>
-    <span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//heure</span>
-    <span class="n">date_heure</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//minute</span>
-    <span class="n">date_heure</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//seconde</span>
-    <span class="n">date_heure</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">11</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//mois</span>
-    <span class="n">date_heure</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//jour</span>
-    <span class="n">date_heure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//annee</span>
-  <span class="p">}</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;majTime Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">//fonctions capteurs</span>
-<span class="kt">void</span> <span class="nf">incrementationCompteurVent</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">compteur_vent</span> <span class="o">=</span> <span class="n">compteur_vent</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">lectureCapteurs</span><span class="p">(</span><span class="kt">int</span> <span class="n">duree</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;lectureCapteurs Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Nombre de lecture des capteurs&quot;</span><span class="p">,</span><span class="n">duree</span><span class="p">);</span>
-  <span class="kt">int</span> <span class="n">boucles</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">debut_mesure_vent</span><span class="p">;</span>
-  <span class="kt">long</span> <span class="n">somme_temperature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">somme_girouette</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-  <span class="c1">//début de la duree de prise de mesures</span>
-  <span class="n">debut_mesure_vent</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
-  <span class="n">compteur_vent</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">boucles</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">boucles</span><span class="o">&lt;</span><span class="n">duree</span><span class="p">;</span><span class="n">boucles</span><span class="o">++</span><span class="p">)</span> <span class="c1">//si on a encore le temps de prende une mesure</span>
-  <span class="p">{</span>
-    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Prise de mesure numero&quot;</span><span class="p">,</span><span class="n">boucles</span><span class="p">);</span>
-    <span class="c1">//on prend la valeur de température</span>
-    <span class="kt">int</span> <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">lecture</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">AI_TEMPERATURE</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">moy_temp</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="o">/</span><span class="n">boucles</span><span class="p">;</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">boucles</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="n">moy_temp</span><span class="o">=</span><span class="n">derniere_mesure</span><span class="p">;}</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">lecture</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">moy_temp</span><span class="o">+</span><span class="mi">10</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Sur-mesure&quot;</span><span class="p">,(</span><span class="n">lecture</span> <span class="o">-</span> <span class="n">moy_temp</span><span class="p">));</span>
-      <span class="n">lecture</span> <span class="o">=</span> <span class="n">moy_temp</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">lecture</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">moy_temp</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>
-    <span class="p">{</span>
-      <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Sous-mesure&quot;</span><span class="p">,(</span><span class="n">lecture</span> <span class="o">-</span> <span class="n">moy_temp</span><span class="p">));</span>
-      <span class="n">lecture</span> <span class="o">=</span> <span class="n">moy_temp</span><span class="o">-</span><span class="mi">10</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Capteur : lecture ai_temperature&quot;</span><span class="p">,</span><span class="n">lecture</span><span class="p">);</span>
-    <span class="c1">//logC(&quot;Capteur : calcul ai_temperature&quot;, (lecture*(5000/1024.0)));</span>
-    <span class="n">somme_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span> <span class="o">+</span> <span class="n">lecture</span><span class="p">;</span>
-    <span class="c1">//on prend la valeur de girouette</span>
-    <span class="n">lecture</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">AI_GIROUETTE</span><span class="p">);</span>
-    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Capteur : lecture ai_girouette&quot;</span><span class="p">,</span><span class="n">lecture</span><span class="p">);</span>
-    <span class="n">somme_girouette</span> <span class="o">=</span> <span class="n">somme_girouette</span> <span class="o">+</span> <span class="n">lecture</span><span class="p">;</span>
-
-    <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
-    <span class="n">delay</span><span class="p">(</span><span class="mi">950</span><span class="p">);</span> <span class="c1">//atente de moins d une seconde pour ne pas prendre trop de mesures</span>
-  <span class="p">}</span>
-  <span class="c1">//fin de la duree de prise de mesures</span>
-  <span class="c1">//vitesse du vent</span>
-  <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">debut_mesure_vent</span><span class="p">);</span>
-  <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">compteur_vent</span> <span class="o">*</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">/</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Vent, nombre de tics&quot;</span><span class="p">,</span> <span class="n">compteur_vent</span><span class="p">);</span>
-  <span class="kt">long</span> <span class="n">difference</span> <span class="o">=</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">debut_mesure_vent</span><span class="p">);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Vent, duree en ms (approx)&quot;</span><span class="p">,</span> <span class="n">difference</span><span class="p">);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Vent, vitesse en km/h&quot;</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-  <span class="c1">//température</span>
-  <span class="n">somme_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span> <span class="o">/</span> <span class="n">duree</span><span class="p">;</span>
-  <span class="n">derniere_mesure</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="p">;</span>
-  <span class="kt">double</span> <span class="n">temp_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="o">*</span><span class="p">(</span><span class="mi">5000</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">);</span>
-  <span class="n">donnees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">temp_temperature</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Temperature lue (moyenne)&quot;</span><span class="p">,</span><span class="n">somme_temperature</span><span class="p">);</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Temperature (etalonnee)&quot;</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-  <span class="c1">//direction</span>
-  <span class="n">donnees</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">trouverDirectionProche</span><span class="p">(</span><span class="n">somme_girouette</span> <span class="o">/</span> <span class="n">duree</span><span class="p">)</span><span class="o">*</span><span class="mf">22.5</span><span class="p">;</span>
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Direction (degres)&quot;</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
-
-  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;lectureCapteurs Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">trouverDirectionProche</span><span class="p">(</span><span class="kt">int</span> <span class="n">analogiqueGirouette</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="n">rtr</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">difference_min</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">p</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">;</span><span class="n">p</span><span class="o">++</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="c1">//on compare la valeur lue avec celle du tableau et si est est plus petite que</span>
-    <span class="c1">//celle enregistrée alors c est la nouvelle direction</span>
-    <span class="k">if</span><span class="p">(</span> <span class="n">abs</span><span class="p">(</span><span class="n">analogiqueGirouette</span> <span class="o">-</span> <span class="n">direction_analog_in</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">&lt;</span><span class="n">difference_min</span><span class="p">)</span>
-    <span class="p">{</span>
-      <span class="n">difference_min</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">analogiqueGirouette</span> <span class="o">-</span> <span class="n">direction_analog_in</span><span class="p">[</span><span class="n">p</span><span class="p">]);</span>
-      <span class="n">rtr</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">//fonction annexes</span>
-<span class="n">String</span> <span class="nf">ecrireNombre</span><span class="p">(</span><span class="kt">int</span> <span class="n">in</span><span class="p">)</span> <span class="c1">//écrit un nombre de deux chiffres ou plus</span>
-<span class="p">{</span>
-  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
-  <span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="n">rtr</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="n">in</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">String</span> <span class="nf">ecrireTimeComplet</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="n">ecrireNombre</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="n">String</span> <span class="nf">ecrireTimeDonneesCSV</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="n">ecrireTimeComplet</span><span class="p">();</span>
-  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="s">&quot;,&quot;</span><span class="o">+</span><span class="n">donnees</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-  <span class="p">}</span>
-  <span class="c1">//rtr = rtr + &quot;;&quot;;</span>
-  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">logC</span><span class="p">(</span><span class="n">String</span> <span class="n">txt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nb</span><span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">);</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; &gt;=&gt; &quot;</span><span class="p">);</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">txt</span><span class="p">);</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; :: &quot;</span><span class="p">);</span>
-  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">nb</span><span class="p">);</span>
-<span class="p">}</span>
+tone(DO_BUZ,500,5);
+delay(950); //atente de moins d&#39;une seconde pour ne pas prendre trop de mesures
 </pre></div>
 
 
-<h1 id="2web"><a name="user-content-2web" href="#2web" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.Web</h1>
-<p>On suppose que l&rsquo;espace de website est tout neuve. Rien n&rsquo;est paramètré. Les étapes suivantes nous permettent pour les configurer pas à pas.</p>
-<h2 id="21-les-environments"><a name="user-content-21-les-environments" href="#21-les-environments" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.1 les environments</h2>
-<p>Le Website est une page Web de sort <code>dynamique</code>, c&rsquo;est à dire quand il y a des requêtes de navigateur, le web page consulte la base donné pour puis composer la vue de page web. s&rsquo;il n&rsquo;a pas de requête, il n&rsquo;y a pas de page web. Cette notion est opposée à celle de <code>Page web statique</code> (html)</p>
-<p>Faut qu&rsquo;il donc existe les environments nécessaires pour fonctionner la programme.</p>
-<p>Le système de website est basé sur PHP7.</p>
-<h3 id="211-base-donnee"><a name="user-content-211-base-donnee" href="#211-base-donnee" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.1.1 Base donnée</h3>
-<p>On prend MYSQL(Le système de Base donnée populaire) comme exemple<br />
-système:<code>UBUNTU</code>(linux)</p>
-<ul>
-<li>Installations</li>
-</ul>
-<p><div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span>  <span class="n">mysql</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">5.6</span>
-<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">10.0</span>
-<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span>
-</pre></div>
-<br />
-il faut entrer le mot de passe pendant l&rsquo;installations</p>
-<ul>
-<li>connexion de MYSQL</li>
-</ul>
-<p><div class="codehilite"><pre>mysql -u root -p
-</pre></div>
-<br />
--u : user<br />
--p : mot de passe<br />
--h : hôte</p>
-<p><div class="codehilite"><pre>CREATE DATABASE stationm_donnees character <span class="nb">set </span>utf8<span class="p">;</span>
-CREATE USER <span class="s1">&#39;stati_stationm&#39;</span>@<span class="s1">&#39;localhost&#39;</span> IDENTIFIED BY <span class="s1">&#39;YOUR_SECURE_PASSWORD_HERE&#39;</span><span class="p">;</span>
-GRANT ALL ON emoncms.* TO <span class="s1">&#39;stati_stationm&#39;</span>@<span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
-flush privileges<span class="p">;</span>
-</pre></div>
-<br />
-Redémarrer MYSQL</p>
-<div class="codehilite"><pre>sudo /etc/init.d/mysql restart
-/etc/init.d/mysql status
-</pre></div>
-
-
-<p>Dans notre cas, la base donnée doit être paramètrée sur  panel de gestion<br />
-<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145410.png" /></p><br />
-Les champs qu&rsquo;il faut entrer pour ajouter une nouvelle base donnée.<br />
-<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145604.png" /></p></p>
-<h3 id="212-php-7"><a name="user-content-212-php-7" href="#212-php-7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.1.2 PHP 7</h3>
-<p>Installations toute simple</p>
-<div class="codehilite"><pre>sudo apt-get install php7.0 
-</pre></div>
-
-
-<p>Sur hébergeur <code>nhvvs.fr</code>, Il faut aussi utiliser le panel de gestion<br />
-<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150654.png" /></p><br />
-<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150714.png" /></p></p>
-<h2 id="22-composants-principals-de-systeme-web"><a name="user-content-22-composants-principals-de-systeme-web" href="#22-composants-principals-de-systeme-web" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.2 Composants principals de système WEB</h2>
-<p>Il y a 12 php programme. Parmi lesquel il y en a 9 qui réalise la fonction principale.<br />
-Après la réception des infos envoyée de l&rsquo;Arduino. <code>putdata.php</code> nous aide pour enregistrer des info dans la base donnée.<br />
-Une fois c&rsquo;est fait, il y donc possible d&rsquo;afficher des infos quand il y a des requêtes de navigateur. la mise-en-page web se fait par :<br />
-<code>data_direction.php</code><br />
-<code>data_temperature.php</code><br />
-<code>data_temps.php</code><br />
-<code>data_vitesse.php</code><br />
-<code>image.php</code><br />
-<code>data.php</code>:JSON<br />
-<code>index.php</code><br />
-<code>style.php</code></p>
-<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a></h3>
-<h1 id="annexe"><a name="user-content-annexe" href="#annexe" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annexe</h1>
-<h2 id="station-meteo-csmnhvvsfr"><a name="user-content-station-meteo-csmnhvvsfr" href="#station-meteo-csmnhvvsfr" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>station-meteo-csm.nhvvs.fr</h2>
-<h3 id="connexion"><a name="user-content-connexion" href="#connexion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Connexion</h3>
-<h4 id="gmail"><a name="user-content-gmail" href="#gmail" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Gmail</h4>
-<p><a href="mailto:stationmeteo.csm@gmail.com">stationmeteo.csm@gmail.com</a></p>
-<h4 id="http"><a name="user-content-http" href="#http" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>HTTP</h4>
-<p>Connexion à votre panel de gestion :<br />
-Lien : <code>https://pg-01.proxgroup.fr:8443</code><br />
-Identifiant  : <code>stationm</code><br />
-Mot de passe : %mdp% utbmcsm2015 %/mdp%</p>
-<div class="admonition hint">
-<p>/!\ Vos fichiers et dossiers sont à placer dans le dossier &ldquo;httpdocs&rdquo; que vous trouverez lors de votre connexion FTP au serveur. </p>
-</div>
-<h4 id="ftp"><a name="user-content-ftp" href="#ftp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>FTP</h4>
-<p>Hôte FTP : <code>ftp.pg-01.proxgroup.fr</code><br />
-Nom d&rsquo;utilisateur : <code>stationm</code><br />
-Mot de passe : %mdp% utbmcsm2015 %/mdp%</p>
-<h3 id="base-de-donnees"><a name="user-content-base-de-donnees" href="#base-de-donnees" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>base de données</h3>
-<p>Hôte: <code>sql-10.proxgroup.fr:3306</code><br />
-Nom de la base de données:<code>stationm_donnees</code><br />
-Nom de l&rsquo;utilisateur:<code>stati_stationm</code><br />
-Mot de passe %mdp% utbmcsm2015 %/mdp%</p></article></body></html>
+<p>}<br />
+  //fin de la duree de prise de mesures<br />
+  //vitesse du vent<br />
+  donnees[1] = (millis() - debut_mesure_vent);<br />
+  donnees[1] = (compteur_vent * 2.4 * 1000) / donnees[1];<br />
+  logC(&ldquo;Vent, nombre de tics&rdquo;, compteur_vent);<br />
+  long difference = (millis() - debut_mesure_vent);<br />
+  logC(&ldquo;Vent, duree en ms (approx)&rdquo;, difference);<br />
+  logC(&ldquo;Vent, vitesse en km/h&rdquo;, donnees[1]);<br />
+  //température<br />
+  somme_temperature = somme_temperature / duree;<br />
+  derniere_mesure = somme_temperature;<br />
+  double temp_temperature = somme_temperature<em>(5000/1024.0);<br />
+  donnees[0] = ( temp_temperature - 500)/10.0;<br />
+  logC(&ldquo;Temperature lue (moyenne)&rdquo;,somme_temperature);<br />
+  logC(&ldquo;Temperature (etalonnee)&rdquo;, donnees[0]);<br />
+  //direction<br />
+  donnees[2] = trouverDirectionProche(somme_girouette / duree)</em>22.5;<br />
+  logC(&ldquo;Direction (degres)&rdquo;, donnees[2]);</p>
+<p>logC(&ldquo;lectureCapteurs Fin&rdquo;,0);<br />
+}</p>
+<p>int trouverDirectionProche(int analogiqueGirouette)<br />
+{<br />
+  int p, rtr=-1, difference_min = 1024;<br />
+  for(p=0;p&lt;16;p++)<br />
+  {<br />
+    //on compare la valeur lue avec celle du tableau et si est est plus petite que<br />
+    //celle enregistrée alors c&rsquo;est la nouvelle direction<br />
+    if( abs(analogiqueGirouette - direction_analog_in[p])&lt;difference_min)<br />
+    {<br />
+      difference_min = abs(analogiqueGirouette - direction_analog_in[p]);<br />
+      rtr = p;<br />
+    }<br />
+  }<br />
+  return rtr;<br />
+}</p>
+<p>//fonction annexes<br />
+String ecrireNombre(int in) //écrit un nombre de deux chiffres ou plus<br />
+{<br />
+  String rtr = &ldquo;&rdquo;;<br />
+  if(in&lt;10)<br />
+  {<br />
+    rtr = &ldquo;0&rdquo;;<br />
+  }<br />
+  rtr = rtr+in;<br />
+  return rtr;<br />
+}</p>
+<p>String ecrireTimeComplet()<br />
+{<br />
+  String rtr = &ldquo;&rdquo;;<br />
+  int i;<br />
+  for(i=0;i&lt;6;i++)<br />
+  {<br />
+    rtr = rtr+ecrireNombre(date_heure[i]);<br />
+  }<br />
+  return rtr;<br />
+}</p>
+<p>String ecrireTimeDonneesCSV()<br />
+{<br />
+  String rtr = ecrireTimeComplet();<br />
+  int i;<br />
+  for(i=0;i&lt;3;i++)<br />
+  {<br />
+    rtr = rtr+&rdquo;,&rdquo;+donnees[i];<br />
+  }<br />
+  //rtr = rtr + &ldquo;;&rdquo;;<br />
+  return rtr;<br />
+}</p>
+<p>void logC(String txt, int nb)<br />
+{<br />
+  Console.print(millis()/1000.0);<br />
+  Console.print(&rdquo; &gt;=&gt; &ldquo;);<br />
+  Console.print(txt);<br />
+  Console.print(&rdquo; :: &ldquo;);<br />
+  Console.println(nb);<br />
+}</p></article></body></html>

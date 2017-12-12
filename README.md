@@ -329,12 +329,92 @@ void logC(String txt, int nb)
 On suppose que l'espace de website est tout neuve. Rien n'est paramètré. Les étapes suivantes nous permettent pour les configurer pas à pas.
 
 ## 2.1 les environments
-### 2.1.1 PHP 7
+Le Website est une page Web de sort `dynamique`, c'est à dire quand il y a des requêtes de navigateur, le web page consulte la base donné pour puis composer la vue de page web. s'il n'a pas de requête, il n'y a pas de page web. Cette notion est opposée à celle de `Page web statique` (html)
 
+Faut qu'il donc existe les environments nécessaires pour fonctionner la programme.
+
+Le système de website est basé sur PHP7.
+
+### 2.1.1 Base donnée
+
+On prend MYSQL(Le système de Base donnée populaire) comme exemple
+système:`UBUNTU`(linux)
+
+- Installations
+
+~~~python
+sudo apt-get install  mysql-client-core-5.6
+sudo apt-get install mariadb-client-core-10.0
+sudo apt-get install mysql-server
+~~~
+il faut entrer le mot de passe pendant l'installations
+
+- connexion de MYSQL
+
+~~~shell
+mysql -u root -p
+~~~
+-u : user
+-p : mot de passe
+-h : hôte
+
+
+~~~shell
+CREATE DATABASE stationm_donnees character set utf8;
+CREATE USER 'stati_stationm'@'localhost' IDENTIFIED BY 'YOUR_SECURE_PASSWORD_HERE';
+GRANT ALL ON emoncms.* TO 'stati_stationm'@'localhost';
+flush privileges;
+
+~~~
+Redémarrer MYSQL
+
+~~~sh
+
+sudo /etc/init.d/mysql restart
+/etc/init.d/mysql status
+~~~
+
+
+Dans notre cas, la base donnée doit être paramètrée sur  panel de gestion
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145410.png)</p>
+Les champs qu'il faut entrer pour ajouter une nouvelle base donnée.
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145604.png)</p>
+
+### 2.1.2 PHP 7
+
+Installations toute simple
+
+~~~sh
+sudo apt-get install php7.0 
+~~~
+
+Sur hébergeur `nhvvs.fr`, Il faut aussi utiliser le panel de gestion
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150654.png)</p>
+<p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150714.png)</p>
+
+## 2.2 Composants principals de système WEB
+Il y a 12 php programme. Parmi lesquel il y en a 9 qui réalise la fonction principale.
+Après la réception des infos envoyée de l'Arduino. `putdata.php` nous aide pour enregistrer des info dans la base donnée.
+Une fois c'est fait, il y donc possible d'afficher des infos quand il y a des requêtes de navigateur. la mise-en-page web se fait par :
+`data_direction.php`
+`data_temperature.php`
+`data_temps.php`
+`data_vitesse.php`
+`image.php`
+`data.php`:JSON
+`index.php`
+`style.php`
+
+###
 
 # Annexe
 ## station-meteo-csm.nhvvs.fr
 ### Connexion
+
+####Gmail
+stationmeteo.csm@gmail.com
+
+
 #### HTTP
 Connexion à votre panel de gestion :
 Lien : `https://pg-01.proxgroup.fr:8443`

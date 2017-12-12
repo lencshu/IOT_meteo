@@ -1329,8 +1329,24 @@ For Level Colors
         </a>
         <ul>
          <li>
-          <a href="#211-php-7">
-           2.1.1 PHP 7
+          <a href="#211-base-donnee">
+           2.1.1 Base donnée
+          </a>
+         </li>
+         <li>
+          <a href="#212-php-7">
+           2.1.2 PHP 7
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li>
+        <a href="#22-composants-principals-de-systeme-web">
+         2.2 Composants principals de système WEB
+        </a>
+        <ul>
+         <li>
+          <a href="#_1">
           </a>
          </li>
         </ul>
@@ -1352,6 +1368,11 @@ For Level Colors
            Connexion
           </a>
           <ul>
+           <li>
+            <a href="#gmail">
+             Gmail
+            </a>
+           </li>
            <li>
             <a href="#http">
              HTTP
@@ -1743,12 +1764,185 @@ For Level Colors
     </a>
     2.1 les environments
    </h2>
-   <h3 id="211-php-7">
-    <a aria-hidden="true" class="headeranchor-link" href="#211-php-7" name="user-content-211-php-7">
+   <p>
+    Le Website est une page Web de sort
+    <code>
+     dynamique
+    </code>
+    , c’est à dire quand il y a des requêtes de navigateur, le web page consulte la base donné pour puis composer la vue de page web. s’il n’a pas de requête, il n’y a pas de page web. Cette notion est opposée à celle de
+    <code>
+     Page web statique
+    </code>
+    (html)
+   </p>
+   <p>
+    Faut qu’il donc existe les environments nécessaires pour fonctionner la programme.
+   </p>
+   <p>
+    Le système de website est basé sur PHP7.
+   </p>
+   <h3 id="211-base-donnee">
+    <a aria-hidden="true" class="headeranchor-link" href="#211-base-donnee" name="user-content-211-base-donnee">
      <span class="headeranchor">
      </span>
     </a>
-    2.1.1 PHP 7
+    2.1.1 Base donnée
+   </h3>
+   <p>
+    On prend MYSQL(Le système de Base donnée populaire) comme exemple
+    <br/>
+    système:
+    <code>
+     UBUNTU
+    </code>
+    (linux)
+   </p>
+   <ul>
+    <li>
+     Installations
+    </li>
+   </ul>
+   <p>
+    <div class="codehilite">
+     <pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span>  <span class="n">mysql</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">5.6</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">10.0</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span>
+</pre>
+    </div>
+    <br/>
+    il faut entrer le mot de passe pendant l’installations
+   </p>
+   <ul>
+    <li>
+     connexion de MYSQL
+    </li>
+   </ul>
+   <p>
+    <div class="codehilite">
+     <pre>mysql -u root -p
+</pre>
+    </div>
+    <br/>
+    -u : user
+    <br/>
+    -p : mot de passe
+    <br/>
+    -h : hôte
+   </p>
+   <p>
+    <div class="codehilite">
+     <pre>CREATE DATABASE stationm_donnees character <span class="nb">set </span>utf8<span class="p">;</span>
+CREATE USER <span class="s1">'stati_stationm'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'YOUR_SECURE_PASSWORD_HERE'</span><span class="p">;</span>
+GRANT ALL ON emoncms.* TO <span class="s1">'stati_stationm'</span>@<span class="s1">'localhost'</span><span class="p">;</span>
+flush privileges<span class="p">;</span>
+</pre>
+    </div>
+    <br/>
+    Redémarrer MYSQL
+   </p>
+   <div class="codehilite">
+    <pre>sudo /etc/init.d/mysql restart
+/etc/init.d/mysql status
+</pre>
+   </div>
+   <p>
+    Dans notre cas, la base donnée doit être paramètrée sur  panel de gestion
+    <br/>
+    <p align="center">
+     <img class="lazyload" alt="" data-src="MultiMedia\cap_20171212_145410.png"/>
+    </p>
+    <br/>
+    Les champs qu’il faut entrer pour ajouter une nouvelle base donnée.
+    <br/>
+    <p align="center">
+     <img class="lazyload" alt="" data-src="MultiMedia\cap_20171212_145604.png"/>
+    </p>
+   </p>
+   <h3 id="212-php-7">
+    <a aria-hidden="true" class="headeranchor-link" href="#212-php-7" name="user-content-212-php-7">
+     <span class="headeranchor">
+     </span>
+    </a>
+    2.1.2 PHP 7
+   </h3>
+   <p>
+    Installations toute simple
+   </p>
+   <div class="codehilite">
+    <pre>sudo apt-get install php7.0 
+</pre>
+   </div>
+   <p>
+    Sur hébergeur
+    <code>
+     nhvvs.fr
+    </code>
+    , Il faut aussi utiliser le panel de gestion
+    <br/>
+    <p align="center">
+     <img class="lazyload" alt="" data-src="MultiMedia\cap_20171212_150654.png"/>
+    </p>
+    <br/>
+    <p align="center">
+     <img class="lazyload" alt="" data-src="MultiMedia\cap_20171212_150714.png"/>
+    </p>
+   </p>
+   <h2 id="22-composants-principals-de-systeme-web">
+    <a aria-hidden="true" class="headeranchor-link" href="#22-composants-principals-de-systeme-web" name="user-content-22-composants-principals-de-systeme-web">
+     <span class="headeranchor">
+     </span>
+    </a>
+    2.2 Composants principals de système WEB
+   </h2>
+   <p>
+    Il y a 12 php programme. Parmi lesquel il y en a 9 qui réalise la fonction principale.
+    <br/>
+    Après la réception des infos envoyée de l’Arduino.
+    <code>
+     putdata.php
+    </code>
+    nous aide pour enregistrer des info dans la base donnée.
+    <br/>
+    Une fois c’est fait, il y donc possible d’afficher des infos quand il y a des requêtes de navigateur. la mise-en-page web se fait par :
+    <br/>
+    <code>
+     data_direction.php
+    </code>
+    <br/>
+    <code>
+     data_temperature.php
+    </code>
+    <br/>
+    <code>
+     data_temps.php
+    </code>
+    <br/>
+    <code>
+     data_vitesse.php
+    </code>
+    <br/>
+    <code>
+     image.php
+    </code>
+    <br/>
+    <code>
+     data.php
+    </code>
+    :JSON
+    <br/>
+    <code>
+     index.php
+    </code>
+    <br/>
+    <code>
+     style.php
+    </code>
+   </p>
+   <h3 id="_1">
+    <a aria-hidden="true" class="headeranchor-link" href="#_1" name="user-content-_1">
+     <span class="headeranchor">
+     </span>
+    </a>
    </h3>
    <h1 id="annexe">
     <a aria-hidden="true" class="headeranchor-link" href="#annexe" name="user-content-annexe">
@@ -1771,6 +1965,18 @@ For Level Colors
     </a>
     Connexion
    </h3>
+   <h4 id="gmail">
+    <a aria-hidden="true" class="headeranchor-link" href="#gmail" name="user-content-gmail">
+     <span class="headeranchor">
+     </span>
+    </a>
+    Gmail
+   </h4>
+   <p>
+    <a href="mailto:stationmeteo.csm@gmail.com">
+     stationmeteo.csm@gmail.com
+    </a>
+   </p>
    <h4 id="http">
     <a aria-hidden="true" class="headeranchor-link" href="#http" name="user-content-http">
      <span class="headeranchor">

@@ -68,7 +68,8 @@ void loop()
   logC("Loop Debut numero",numero_boucle);
   majTime(); //mise à jour de l'heure et la date.
 
-  if(constrain(date_heure[3],HEURE_DEBUT,HEURE_FIN) == date_heure[3])//si l'on est dans la période d'activation
+  if(constrain(date_heure[3],HEURE_DEBUT,HEURE_FIN) == date_heure[3])
+  //si l'on est dans la période d'activation
   {
     logC("Prise de mesures", 0);
     cycleMesure();
