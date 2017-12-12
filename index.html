@@ -1969,7 +1969,7 @@ flush privileges<span class="p">;</span>
     <code>
      data.php
     </code>
-    :JSON
+    : JSON
     <br/>
     <code>
      index.php
@@ -1984,7 +1984,7 @@ flush privileges<span class="p">;</span>
      Si la Base Donnée est changé…
     </p>
     <p>
-     Si la Base Donnée est changé, il est obligatoire de modifier la ligne comme ci-après de tous les
+     Si la Base Donnée est changé, il est obligatoire de modifier la ligne comme ci-après dans tous les
      <code>
       .php
      </code>
@@ -2012,6 +2012,43 @@ flush privileges<span class="p">;</span>
     </a>
     putdata.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+
+<span class="nv">$morceaux</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">","</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'ligne'</span><span class="p">]);</span> <span class="c1">//récupérer le chiffre entré dans un tableau selon le semble &lt;&lt;,&gt;&gt;</span>
+<span class="nv">$time</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> 
+<span class="c1">//mettre le premier morceau, le temps dans la variable time</span>
+<span class="nv">$tem</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> 
+<span class="c1">//mettre le deuxième morceau, le temps dans la variable tem</span>
+<span class="nv">$vit</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>  
+<span class="c1">//mettre le troisième morceau, le temps dans la variable vit</span>
+<span class="nv">$dire</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>  
+<span class="c1">//mettre le quarantième morceau, le temps dans la variable dire</span>
+<span class="nv">$annee</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 0 à 1 de la variable time dans une autre variable annee</span>
+<span class="nv">$mois</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 2 à 3 de la variable time dans une autre variable mois</span>
+<span class="nv">$jour</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 4 à 5 de la variable time dans une autre variable jour</span>
+<span class="nv">$heure</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 6 à 7 de la variable time dans une autre variable heure</span>
+<span class="nv">$minute</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 8 à 9 de la variable time dans une autre variable minute</span>
+<span class="nv">$seconde</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 10 à 11 de la variable time dans une autre variable seconde</span>
+<span class="nv">$timec</span><span class="o">=</span><span class="s1">'20'</span><span class="o">.</span><span class="nv">$annee</span><span class="o">.</span><span class="s1">'-'</span><span class="o">.</span><span class="nv">$mois</span><span class="o">.</span><span class="s1">'-'</span><span class="o">.</span><span class="nv">$jour</span><span class="o">.</span><span class="s1">' '</span><span class="o">.</span><span class="nv">$heure</span><span class="o">.</span><span class="s1">':'</span><span class="o">.</span><span class="nv">$minute</span><span class="o">.</span><span class="s1">':'</span><span class="o">.</span><span class="nv">$seconde</span><span class="p">;</span>
+<span class="c1">//réformer l'affichage du temps</span>
+<span class="k">echo</span> <span class="nv">$timec</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span> <span class="c1">//afficher le temps</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s1">'INSERT INTO `mesures`(`id`, `vitesse`, `direction`, `temperature`, `created_at`, `updated_at`) VALUES (NULL, '</span><span class="o">.</span><span class="nv">$vit</span><span class="o">.</span><span class="s1">','</span><span class="o">.</span><span class="nv">$dire</span><span class="o">.</span><span class="s1">','</span><span class="o">.</span><span class="nv">$tem</span><span class="o">.</span><span class="s1">',\''</span><span class="o">.</span><span class="nv">$timec</span><span class="o">.</span><span class="s1">'\',NOW() )'</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$sql</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span> <span class="c1">//enregistrer dans la base de donné</span>
+
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre>
+   </div>
    <h3 id="data_directionphp">
     <a aria-hidden="true" class="headeranchor-link" href="#data_directionphp" name="user-content-data_directionphp">
      <span class="headeranchor">
@@ -2019,6 +2056,26 @@ flush privileges<span class="p">;</span>
     </a>
     data_direction.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;&amp;#8635 La direction du vent: &lt;/font&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;"</span><span class="o">.</span><span class="nv">$row</span><span class="p">[</span><span class="s1">'direction'</span><span class="p">]</span><span class="o">.</span><span class="s2">"&lt;/font&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;  &amp;#176&lt;/font&gt;"</span><span class="p">;</span>
+<span class="c1">//affricher la donné avec des paramétres de HTML</span>
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre>
+   </div>
    <h3 id="data_temperaturephp">
     <a aria-hidden="true" class="headeranchor-link" href="#data_temperaturephp" name="user-content-data_temperaturephp">
      <span class="headeranchor">
@@ -2026,6 +2083,29 @@ flush privileges<span class="p">;</span>
     </a>
     data_temperature.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT temperature FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="c1">//enregistrer dans une variable row</span>
+
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;&amp;#9784 La température: &lt;/font&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;"</span><span class="o">.</span><span class="nv">$row</span><span class="p">[</span><span class="s1">'temperature'</span><span class="p">]</span><span class="o">.</span><span class="s2">"&lt;/font&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;  &amp;#8451&lt;/font&gt;"</span><span class="p">;</span>
+<span class="c1">//affricher la donné avec des paramétres de HTML</span>
+
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre>
+   </div>
    <h3 id="data_tempsphp">
     <a aria-hidden="true" class="headeranchor-link" href="#data_tempsphp" name="user-content-data_tempsphp">
      <span class="headeranchor">
@@ -2033,6 +2113,36 @@ flush privileges<span class="p">;</span>
     </a>
     data_temps.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT created_at FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+
+<span class="c1">//traitement de la date</span>
+<span class="nv">$tim</span> <span class="o">=</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">'created_at'</span><span class="p">];</span>
+<span class="c1">//echo substr($tim, 11,2).'*'.substr($tim, 14,2).'*'.substr($tim, 17,2).'*'.substr($tim,5,2).'*'.substr($tim, 8,2).'*'.substr($tim, 0,4);</span>
+<span class="nv">$dat</span> <span class="o">=</span> <span class="nb">mktime</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span>
+
+<span class="nv">$hr</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s2">"H:i"</span><span class="p">,</span><span class="nv">$dat</span><span class="p">);</span>
+<span class="nv">$jr</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s2">"d/m/Y"</span><span class="p">,</span><span class="nv">$dat</span><span class="p">);</span>
+
+
+
+<span class="c1">//enregistrer dans une variable row</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;&amp;#9775 Le temps &lt;/font&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt; à "</span><span class="o">.</span><span class="nv">$hr</span><span class="o">.</span><span class="s2">" le "</span><span class="o">.</span><span class="nv">$jr</span><span class="o">.</span><span class="s2">"&lt;/font&gt;"</span><span class="p">;</span>
+<span class="c1">//affricher la donné avec des paramétres de HTML</span>
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre>
+   </div>
    <h3 id="data_vitessephp">
     <a aria-hidden="true" class="headeranchor-link" href="#data_vitessephp" name="user-content-data_vitessephp">
      <span class="headeranchor">
@@ -2040,6 +2150,28 @@ flush privileges<span class="p">;</span>
     </a>
     data_vitesse.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT vitesse FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="c1">//enregistrer dans une variable row</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">8rem</span><span class="se">\"</span><span class="s2"> &gt;&amp;#10163 La vitesse du vent: &lt;/font&gt;"</span><span class="p">;</span>
+<span class="c1">//vitesse en m/s puis convertie</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;"</span><span class="o">.</span><span class="nb">number_format</span><span class="p">(</span><span class="nv">$row</span><span class="p">[</span><span class="s1">'vitesse'</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="s2">","</span><span class="p">,</span><span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="s2">" km/h ou &lt;/font&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"&lt;font size=</span><span class="se">\"</span><span class="s2">10rem</span><span class="se">\"</span><span class="s2"> &gt;"</span><span class="o">.</span><span class="nb">number_format</span><span class="p">((</span><span class="nv">$row</span><span class="p">[</span><span class="s1">'vitesse'</span><span class="p">]</span><span class="o">*</span><span class="mf">0.539957</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="s2">","</span><span class="p">,</span><span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="s2">" nds &lt;/font&gt;"</span><span class="p">;</span>
+
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre>
+   </div>
    <h3 id="imagephp">
     <a aria-hidden="true" class="headeranchor-link" href="#imagephp" name="user-content-imagephp">
      <span class="headeranchor">
@@ -2047,6 +2179,62 @@ flush privileges<span class="p">;</span>
     </a>
     image.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+
+<span class="nv">$boucle</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="nv">$ledernier</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="nv">$boucle</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="s2">"meteoimage/m"</span><span class="o">.</span><span class="nv">$ledernier</span><span class="o">.</span><span class="s2">".png"</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="nv">$ledernier</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$ledernier</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">elseif</span> <span class="p">(</span><span class="nv">$ledernier</span><span class="o">==</span><span class="mi">10</span><span class="p">)</span> 
+    <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="s2">"meteoimage/meteo.png"</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+                <span class="nb">unlink</span><span class="p">(</span><span class="s2">"meteoimage/m"</span><span class="o">.</span><span class="nv">$i</span><span class="o">.</span><span class="s2">".png"</span><span class="p">);</span>
+                <span class="p">}</span>   
+                <span class="nv">$ledernier</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+                <span class="nb">unlink</span><span class="p">(</span><span class="s2">"meteoimage/m"</span><span class="o">.</span><span class="nv">$i</span><span class="o">.</span><span class="s2">".png"</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="nv">$boucle</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>  
+            <span class="p">}</span>
+
+
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="nv">$boucle</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+
+<span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="s2">"meteoimage/meteo.png"</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="nv">$file_name_old</span><span class="o">=</span><span class="s2">"meteoimage/meteo.png"</span><span class="p">;</span>
+        <span class="nv">$file_name_new</span><span class="o">=</span><span class="s2">"meteoimage/m"</span><span class="o">.</span><span class="nv">$ledernier</span><span class="o">.</span><span class="s2">".png"</span><span class="p">;</span>
+        <span class="nb">rename</span><span class="p">(</span><span class="nv">$file_name_old</span><span class="p">,</span><span class="nv">$file_name_new</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="nv">$ledernier</span><span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="nv">$r</span><span class="o">=</span><span class="s1">'meteoimage/m'</span><span class="o">.</span><span class="nv">$ledernier</span><span class="o">.</span><span class="s1">'.png'</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">"</span><span class="si">$r</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s1">'&lt;img src="'</span><span class="o">.</span><span class="nv">$r</span><span class="o">.</span><span class="s1">'" /&gt;'</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre>
+   </div>
    <h3 id="dataphp">
     <a aria-hidden="true" class="headeranchor-link" href="#dataphp" name="user-content-dataphp">
      <span class="headeranchor">
@@ -2054,6 +2242,87 @@ flush privileges<span class="p">;</span>
     </a>
     data.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<span class="err">$</span><span class="n">bdd</span> <span class="o">=</span> <span class="n">new</span> <span class="n">PDO</span><span class="p">(</span><span class="s">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s">'stati_stationm'</span><span class="p">,</span> <span class="s">'utbmcsm2015'</span><span class="p">);</span>
+
+
+<span class="err">$</span><span class="n">sql</span> <span class="o">=</span><span class="s">"SELECT id FROM mesures ORDER BY `id` DESC LIMIT 1;"</span><span class="p">;</span>
+<span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">sql</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">req</span> <span class="o">=</span> <span class="err">$</span><span class="n">bdd</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="err">$</span><span class="n">sql</span><span class="p">);</span>
+<span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">();</span>
+<span class="o">//</span><span class="n">sélectionner</span> <span class="n">la</span> <span class="n">dernière</span> <span class="n">ligne</span> <span class="n">dans</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">donné</span> <span class="n">meteo</span>
+<span class="err">$</span><span class="n">n</span><span class="o">=</span> <span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">fetch</span><span class="p">();</span>
+<span class="o">//</span><span class="n">enregistrer</span> <span class="n">dans</span> <span class="n">une</span> <span class="n">variable</span> <span class="n">n</span>
+<span class="err">$</span><span class="n">c</span><span class="o">=</span><span class="err">$</span><span class="n">n</span><span class="p">[</span><span class="s">'id'</span><span class="p">];</span>
+<span class="err">$</span><span class="n">a</span><span class="o">=</span><span class="err">$</span><span class="n">c</span><span class="o">-</span><span class="mi">152</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="err">$</span><span class="n">a</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="err">$</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="err">$</span><span class="n">b</span><span class="o">=</span><span class="err">$</span><span class="n">c</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span>
+
+<span class="err">$</span><span class="n">sql</span> <span class="o">=</span> <span class="s">"SELECT created_at FROM mesures ORDER BY `created_at` ASC LIMIT  {$a}, {$b}"</span><span class="p">;</span>
+<span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">sql</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">req</span> <span class="o">=</span> <span class="err">$</span><span class="n">bdd</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="err">$</span><span class="n">sql</span><span class="p">);</span>
+<span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">();</span>
+<span class="o">//</span><span class="n">sélectionner</span> <span class="n">la</span> <span class="n">dernière</span> <span class="n">chiffre</span> <span class="n">du</span> <span class="n">temps</span> <span class="n">dans</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">donné</span> <span class="n">meteo</span>
+<span class="err">$</span><span class="n">rows</span> <span class="o">=</span> <span class="n">array</span><span class="p">();</span>
+<span class="err">$</span><span class="n">rows</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'Created_at'</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="err">$</span><span class="n">r</span> <span class="o">=</span> <span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="err">$</span><span class="n">rows</span><span class="p">[</span><span class="s">'data'</span><span class="p">][]</span> <span class="o">=</span> <span class="err">$</span><span class="n">r</span><span class="p">[</span><span class="s">'created_at'</span><span class="p">];</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">r</span><span class="p">[</span><span class="s">'created_at'</span><span class="p">]</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">//</span><span class="n">réformer</span> <span class="n">dans</span> <span class="n">un</span> <span class="n">groupe</span> <span class="n">de</span> <span class="n">donné</span>
+<span class="err">$</span><span class="n">sql</span> <span class="o">=</span> <span class="s">"SELECT vitesse FROM mesures ORDER BY `created_at` ASC LIMIT  {$a}, {$b}"</span><span class="p">;</span>
+<span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">sql</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">req</span> <span class="o">=</span> <span class="err">$</span><span class="n">bdd</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="err">$</span><span class="n">sql</span><span class="p">);</span>
+<span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">();</span>
+<span class="o">//</span><span class="n">sélectionner</span> <span class="n">la</span> <span class="n">dernière</span> <span class="n">chiffre</span> <span class="n">de</span> <span class="n">la</span> <span class="n">vitesse</span> <span class="n">dans</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">donné</span> <span class="n">meteo</span>
+<span class="err">$</span><span class="n">rows1</span> <span class="o">=</span> <span class="n">array</span><span class="p">();</span>
+<span class="err">$</span><span class="n">rows1</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'Vitesse (km/h)'</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="err">$</span><span class="n">rr</span> <span class="o">=</span> <span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="err">$</span><span class="n">rows1</span><span class="p">[</span><span class="s">'data'</span><span class="p">][]</span> <span class="o">=</span> <span class="err">$</span><span class="n">rr</span><span class="p">[</span><span class="s">'vitesse'</span><span class="p">];</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">rr</span><span class="p">[</span><span class="s">'vitesse'</span><span class="p">]</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="err">$</span><span class="n">sql</span> <span class="o">=</span> <span class="s">"SELECT direction FROM mesures ORDER BY `created_at` ASC LIMIT  {$a}, {$b}"</span><span class="p">;</span>
+<span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">sql</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">req</span> <span class="o">=</span> <span class="err">$</span><span class="n">bdd</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="err">$</span><span class="n">sql</span><span class="p">);</span>
+<span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">();</span>
+<span class="o">//</span><span class="n">sélectionner</span> <span class="n">la</span> <span class="n">dernière</span> <span class="n">chiffre</span> <span class="n">de</span> <span class="n">la</span> <span class="n">direction</span> <span class="n">dans</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">donné</span> <span class="n">meteo</span>
+<span class="err">$</span><span class="n">rows2</span> <span class="o">=</span> <span class="n">array</span><span class="p">();</span>
+<span class="err">$</span><span class="n">rows2</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'Direction (Degree)'</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="err">$</span><span class="n">rrr</span> <span class="o">=</span> <span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="err">$</span><span class="n">rows2</span><span class="p">[</span><span class="s">'data'</span><span class="p">][]</span> <span class="o">=</span> <span class="err">$</span><span class="n">rrr</span><span class="p">[</span><span class="s">'direction'</span><span class="p">];</span>
+<span class="p">}</span>     
+<span class="o">//</span><span class="n">réformer</span> <span class="n">dans</span> <span class="n">un</span> <span class="n">groupe</span> <span class="n">de</span> <span class="n">donné</span>
+<span class="err">$</span><span class="n">sql</span> <span class="o">=</span> <span class="s">"SELECT temperature FROM mesures ORDER BY `created_at` ASC LIMIT  {$a}, {$b}"</span><span class="p">;</span>
+<span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">sql</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">req</span> <span class="o">=</span> <span class="err">$</span><span class="n">bdd</span><span class="o">-&gt;</span><span class="n">prepare</span><span class="p">(</span><span class="err">$</span><span class="n">sql</span><span class="p">);</span>
+<span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">execute</span><span class="p">();</span>
+<span class="err">$</span><span class="n">rows3</span> <span class="o">=</span> <span class="n">array</span><span class="p">();</span>
+<span class="err">$</span><span class="n">rows3</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'Temperature (Celsius degree)'</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="err">$</span><span class="n">rrrr</span> <span class="o">=</span> <span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="err">$</span><span class="n">rows3</span><span class="p">[</span><span class="s">'data'</span><span class="p">][]</span> <span class="o">=</span> <span class="err">$</span><span class="n">rrrr</span><span class="p">[</span><span class="s">'temperature'</span><span class="p">];</span>
+<span class="p">}</span>
+
+
+    <span class="err">$</span><span class="n">result</span> <span class="o">=</span> <span class="n">array</span><span class="p">();</span>
+    <span class="o">//</span><span class="n">réformer</span> <span class="n">dans</span> <span class="n">un</span> <span class="n">groupe</span> <span class="n">de</span> <span class="n">donné</span>
+<span class="n">array_push</span><span class="p">(</span><span class="err">$</span><span class="n">result</span><span class="p">,</span><span class="err">$</span><span class="n">rows</span><span class="p">);</span>
+<span class="n">array_push</span><span class="p">(</span><span class="err">$</span><span class="n">result</span><span class="p">,</span><span class="err">$</span><span class="n">rows1</span><span class="p">);</span>
+<span class="n">array_push</span><span class="p">(</span><span class="err">$</span><span class="n">result</span><span class="p">,</span><span class="err">$</span><span class="n">rows2</span><span class="p">);</span>
+<span class="n">array_push</span><span class="p">(</span><span class="err">$</span><span class="n">result</span><span class="p">,</span><span class="err">$</span><span class="n">rows3</span><span class="p">);</span>
+<span class="o">//</span><span class="n">réformer</span> <span class="n">tous</span> <span class="n">ensemble</span> <span class="n">dans</span> <span class="n">un</span> <span class="n">tableau</span>
+<span class="n">echo</span> <span class="n">json_encode</span><span class="p">(</span><span class="err">$</span><span class="n">result</span><span class="p">,</span><span class="n">JSON_NUMERIC_CHECK</span><span class="p">);</span>
+<span class="o">//</span><span class="n">réformer</span> <span class="n">le</span> <span class="n">tableau</span> <span class="n">sous</span> <span class="n">la</span> <span class="n">forme</span> <span class="n">de</span> <span class="n">Json</span>
+
+<span class="err">$</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">closeCursor</span><span class="p">();</span>
+
+<span class="err">?</span><span class="o">&gt;</span>
+</pre>
+   </div>
    <h3 id="indexphp">
     <a aria-hidden="true" class="headeranchor-link" href="#indexphp" name="user-content-indexphp">
      <span class="headeranchor">
@@ -2061,6 +2330,264 @@ flush privileges<span class="p">;</span>
     </a>
     index.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<span class="n">session_start</span><span class="p">();</span>
+
+<span class="o">//</span><span class="n">on</span> <span class="n">r</span><span class="err">??</span><span class="n">cup</span><span class="err">??</span><span class="n">re</span> <span class="n">les</span> <span class="n">deux</span> <span class="n">mdp</span>
+<span class="err">$</span><span class="n">monfichier</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">'amt.psw'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">);</span>
+<span class="err">$</span><span class="n">amt</span> <span class="o">=</span> <span class="n">fgets</span><span class="p">(</span><span class="err">$</span><span class="n">monfichier</span><span class="p">);</span>
+<span class="n">fclose</span><span class="p">(</span><span class="err">$</span><span class="n">monfichier</span><span class="p">);</span>
+<span class="err">$</span><span class="n">monfichier</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="s">'inv.psw'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">);</span>
+<span class="err">$</span><span class="n">inv</span> <span class="o">=</span> <span class="n">fgets</span><span class="p">(</span><span class="err">$</span><span class="n">monfichier</span><span class="p">);</span>
+<span class="n">fclose</span><span class="p">(</span><span class="err">$</span><span class="n">monfichier</span><span class="p">);</span>
+
+<span class="err">$</span><span class="n">amt_m</span> <span class="o">=</span> <span class="n">explode</span><span class="p">(</span><span class="s">"."</span><span class="p">,</span><span class="err">$</span><span class="n">amt</span><span class="p">);</span>
+<span class="err">$</span><span class="n">amt</span> <span class="o">=</span> <span class="err">$</span><span class="n">amt_m</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="err">$</span><span class="n">inv_m</span> <span class="o">=</span> <span class="n">explode</span><span class="p">(</span><span class="s">"."</span><span class="p">,</span><span class="err">$</span><span class="n">inv</span><span class="p">);</span>
+<span class="err">$</span><span class="n">inv</span> <span class="o">=</span> <span class="err">$</span><span class="n">inv_m</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">isset</span><span class="p">(</span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">]))</span>
+<span class="p">{</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">]</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">amt</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="err">$</span><span class="n">inv</span><span class="o">.</span><span class="s">'&lt;br/&gt;'</span><span class="p">;</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="n">strncmp</span><span class="p">(</span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">],</span><span class="err">$</span><span class="n">amt</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+    <span class="o">//</span><span class="n">echo</span> <span class="n">strncmp</span><span class="p">(</span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">],</span><span class="err">$</span><span class="n">inv</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+
+    <span class="o">//</span><span class="n">on</span> <span class="n">traite</span> <span class="n">le</span> <span class="n">POST</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">],</span><span class="err">$</span><span class="n">amt</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'connect'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"oui"</span><span class="p">;</span>
+        <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'admin'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"oui"</span><span class="p">;</span>
+        <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="n">amt</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="err">$</span><span class="n">_POST</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">],</span><span class="err">$</span><span class="n">inv</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'connect'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"oui"</span><span class="p">;</span>
+        <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'admin'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"non"</span><span class="p">;</span>
+        <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="n">inv</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">strncmp</span><span class="p">(</span><span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">],</span><span class="err">$</span><span class="n">amt</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">strncmp</span><span class="p">(</span><span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'mdp'</span><span class="p">],</span><span class="err">$</span><span class="n">inv</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">//</span><span class="n">si</span> <span class="n">le</span> <span class="n">mot</span> <span class="n">de</span> <span class="n">passe</span> <span class="n">enregistr</span><span class="err">??</span> <span class="n">ne</span> <span class="n">correspond</span> <span class="err">??</span> <span class="n">aucun</span> <span class="n">des</span> <span class="n">deux</span> <span class="n">enregistr</span><span class="err">??</span><span class="n">s</span>
+    <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'connect'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"non"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">isset</span><span class="p">(</span><span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'connect'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'connect'</span><span class="p">]</span><span class="o">==</span><span class="s">"oui"</span><span class="p">)</span>
+   <span class="p">{</span>
+<span class="err">?</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="err">!</span><span class="n">DOCTYPE</span> <span class="n">HTML</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+         <span class="o">&lt;</span><span class="n">meta</span> <span class="n">http</span><span class="o">-</span><span class="n">equiv</span><span class="o">=</span><span class="s">"refresh"</span> <span class="n">content</span><span class="o">=</span><span class="s">"100"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">meta</span> <span class="n">http</span><span class="o">-</span><span class="n">equiv</span><span class="o">=</span><span class="s">"Content-Type"</span> <span class="n">content</span><span class="o">=</span><span class="s">"text/html; charset=GB2312"</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">meta</span> <span class="n">name</span><span class="o">=</span><span class="s">"description"</span> <span class="n">content</span><span class="o">=</span><span class="s">"meteo"</span> <span class="o">/&gt;</span> 
+        <span class="o">&lt;</span><span class="n">meta</span> <span class="n">http</span><span class="o">-</span><span class="n">equiv</span><span class="o">=</span><span class="s">"Content-Type"</span> <span class="n">content</span><span class="o">=</span><span class="s">"text/html; charset=GB2312"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">initialisation</span> <span class="n">de</span> <span class="n">HTML</span><span class="o">--&gt;</span>
+
+        <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="n">Meteo</span><span class="o">&lt;/</span><span class="n">title</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="nb">type</span><span class="o">=</span><span class="s">"text/css"</span> <span class="n">href</span><span class="o">=</span><span class="s">"style.php"</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s">'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">script</span> <span class="nb">type</span><span class="o">=</span><span class="s">"text/javascript"</span> <span class="n">src</span><span class="o">=</span><span class="s">"http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+
+        <span class="o">&lt;</span><span class="n">script</span> <span class="nb">type</span><span class="o">=</span><span class="s">"text/javascript"</span><span class="o">&gt;</span>
+        <span class="n">var</span> <span class="n">cssEl</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">createElement</span><span class="p">(</span><span class="s">'style'</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">documentElement</span><span class="o">.</span><span class="n">firstElementChild</span><span class="o">.</span><span class="n">appendChild</span><span class="p">(</span><span class="n">cssEl</span><span class="p">);</span>
+        <span class="n">function</span> <span class="n">setPxPerRem</span><span class="p">(){</span>
+            <span class="n">var</span> <span class="n">dpr</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="n">var</span> <span class="n">pxPerRem</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">documentElement</span><span class="o">.</span><span class="n">clientWidth</span> <span class="o">*</span> <span class="n">dpr</span> <span class="o">/</span> <span class="mi">10</span><span class="p">;</span>
+            <span class="n">cssEl</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="s">'html{font-size:'</span> <span class="o">+</span> <span class="n">pxPerRem</span> <span class="o">+</span> <span class="s">'px!important;}'</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">setPxPerRem</span><span class="p">();</span> 
+    <span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span> 
+    <span class="o">&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">définir</span> <span class="n">la</span> <span class="n">taille</span> <span class="n">de</span> <span class="n">mot</span><span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"text-align:center;background-color:#0000;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;"</span><span class="o">&gt;</span><span class="n">M</span><span class="o">&amp;</span><span class="n">eacute</span><span class="p">;</span><span class="n">t</span><span class="o">&amp;</span><span class="n">eacute</span><span class="p">;</span><span class="n">o</span><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">le</span> <span class="n">titre</span> <span class="n">sur</span> <span class="n">le</span> <span class="n">page</span><span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"text-align:center;background-color:#bfbfbf;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">iframe</span> <span class="n">src</span><span class="o">=</span><span class="s">"data_temps.php"</span> <span class="n">style</span><span class="o">=</span><span class="s">"position:relative;top:0.3rem;font-weight:bold;"</span> <span class="n">frameborder</span><span class="o">=</span><span class="s">"no"</span> <span class="n">height</span><span class="o">=</span><span class="s">"100rem"</span> <span class="n">width</span><span class="o">=</span><span class="s">"800rem"</span> <span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">le</span> <span class="n">temps</span> <span class="n">d</span><span class="s">'enregistrement de la dernier donné sur le page--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"text-align:center;background-color:#B0B0BF;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">iframe</span> <span class="n">src</span><span class="o">=</span><span class="s">"data_temperature.php"</span> <span class="n">style</span><span class="o">=</span><span class="s">"position:relative;top:0.3rem;font-weight:bold;"</span> <span class="n">frameborder</span><span class="o">=</span><span class="s">"no"</span> <span class="n">height</span><span class="o">=</span><span class="s">"100rem"</span> <span class="n">width</span><span class="o">=</span><span class="s">"800rem"</span> <span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">la</span> <span class="n">température</span> <span class="n">d</span><span class="s">'enregistrement de la dernier donné sur le page--&gt;</span>
+
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"text-align:center;background-color:#C8F7C5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">iframe</span> <span class="n">src</span><span class="o">=</span><span class="s">"data_direction.php"</span> <span class="n">style</span><span class="o">=</span><span class="s">"position:relative;top:0.3rem;font-weight:bold;"</span> <span class="n">frameborder</span><span class="o">=</span><span class="s">"no"</span> <span class="n">height</span><span class="o">=</span><span class="s">"100rem"</span> <span class="n">width</span><span class="o">=</span><span class="s">"800rem"</span> <span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">la</span> <span class="n">direction</span> <span class="n">du</span> <span class="n">vent</span> <span class="n">d</span><span class="s">'enregistrement de la dernier donné sur le page--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"text-align:center;background-color:#86E2D5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">iframe</span> <span class="n">src</span><span class="o">=</span><span class="s">"data_vitesse.php"</span> <span class="n">style</span><span class="o">=</span><span class="s">"position:relative;top:0.3rem;font-weight:bold;"</span> <span class="n">frameborder</span><span class="o">=</span><span class="s">"no"</span> <span class="n">height</span><span class="o">=</span><span class="s">"100rem"</span> <span class="n">width</span><span class="o">=</span><span class="s">"900rem"</span> <span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">la</span> <span class="n">vitesse</span> <span class="n">du</span> <span class="n">vent</span> <span class="n">d</span><span class="s">'enregistrement de la dernier donné sur le page--&gt;</span>
+<span class="o">&lt;</span><span class="n">br</span> <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">"compass"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">"direction"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Direction</span> <span class="n">du</span> <span class="n">Vent</span><span class="o">&lt;</span><span class="n">span</span><span class="o">&gt;</span> <span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+      <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s">"arrow ne"</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">la</span> <span class="n">compass</span> <span class="n">pour</span> <span class="n">indiquer</span> <span class="n">la</span> <span class="n">direction</span> <span class="n">du</span> <span class="n">vent</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"text-align:center;background-color:#0000;width:auto;height:7rem;overflow:hidden;margin:0 auto;"</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">"javascript:location.reload();"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">img</span> <span class="n">src</span><span class="o">=</span><span class="s">"meteo.png"</span> <span class="n">alt</span><span class="o">=</span><span class="s">"Cam&amp;eacute;ra"</span> <span class="n">style</span><span class="o">=</span><span class="s">"position:relative;top:1rem;"</span> <span class="n">height</span><span class="o">=</span><span class="s">"600rem"</span> <span class="n">width</span><span class="o">=</span><span class="s">"auto"</span><span class="o">&gt;&lt;/</span><span class="n">img</span><span class="o">&gt;&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="err">!</span><span class="o">--</span> <span class="n">afficher</span> <span class="n">le</span> <span class="n">dernier</span> <span class="n">photo</span> <span class="n">capturé</span> <span class="n">par</span> <span class="n">le</span> <span class="n">caméra</span><span class="o">--&gt;</span>
+
+<span class="o">&lt;</span><span class="n">br</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="n">script</span> <span class="nb">type</span><span class="o">=</span><span class="s">"text/javascript"</span><span class="o">&gt;</span>
+        <span class="err">$</span><span class="p">(</span><span class="n">document</span><span class="p">)</span><span class="o">.</span><span class="n">ready</span><span class="p">(</span><span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">var</span> <span class="n">optionsa</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">chart</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">renderTo</span><span class="p">:</span> <span class="s">'grapha'</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="p">:</span> <span class="s">'spline'</span><span class="p">,</span>
+                    <span class="n">marginRight</span><span class="p">:</span> <span class="mi">130</span><span class="p">,</span>
+                    <span class="n">marginBottom</span><span class="p">:</span> <span class="mi">25</span>
+                <span class="p">},</span>
+                <span class="n">title</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">text</span><span class="p">:</span> <span class="s">''</span><span class="p">,</span>
+                    <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span> 
+                <span class="p">},</span>
+                <span class="n">subtitle</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">text</span><span class="p">:</span> <span class="s">''</span><span class="p">,</span>
+                    <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
+                <span class="p">},</span>
+                <span class="n">xAxis</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">categories</span><span class="p">:</span> <span class="p">[],</span>
+              <span class="n">labels</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">step</span><span class="p">:</span> <span class="mi">10</span>
+               <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="n">yAxis</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">title</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="n">text</span><span class="p">:</span> <span class="s">'km/h'</span>
+                    <span class="p">},</span>
+                    <span class="n">plotLines</span><span class="p">:</span> <span class="p">[{</span>
+                        <span class="n">value</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="n">width</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="n">color</span><span class="p">:</span> <span class="s">'#808080'</span>
+                    <span class="p">}]</span>
+                <span class="p">},</span>
+                <span class="n">tooltip</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">formatter</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+                            <span class="k">return</span> <span class="s">'&lt;b&gt;'</span><span class="o">+</span><span class="n">this</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span><span class="s">'&lt;/b&gt;&lt;br/&gt;'</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span>
+                            <span class="s">': '</span><span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="n">legend</span><span class="p">:</span> <span class="p">{</span>
+            <span class="n">backgroundColor</span><span class="p">:</span> <span class="s">'#FFFFFF'</span><span class="p">,</span>
+            <span class="n">layout</span><span class="p">:</span> <span class="s">'vertical'</span><span class="p">,</span>
+            <span class="n">floating</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+            <span class="n">align</span><span class="p">:</span> <span class="s">'right'</span><span class="p">,</span>
+            <span class="n">verticalAlign</span><span class="p">:</span> <span class="s">'top'</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">y</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="n">shadow</span><span class="p">:</span> <span class="n">true</span>
+                <span class="p">},</span>
+                <span class="n">series</span><span class="p">:</span> <span class="p">[]</span>
+            <span class="p">}</span>
+            <span class="n">var</span> <span class="n">optionsb</span> <span class="o">=</span> <span class="p">{</span>
+                 <span class="n">chart</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">renderTo</span><span class="p">:</span> <span class="s">'graphb'</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="p">:</span> <span class="s">'spline'</span><span class="p">,</span>
+                    <span class="n">marginRight</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+                    <span class="n">marginBottom</span><span class="p">:</span> <span class="mi">0</span>
+                <span class="p">},</span>
+                <span class="n">title</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">text</span><span class="p">:</span> <span class="s">''</span><span class="p">,</span>
+                    <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span> <span class="o">//</span><span class="n">center</span>
+                <span class="p">},</span>
+                <span class="n">subtitle</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">text</span><span class="p">:</span> <span class="s">''</span><span class="p">,</span>
+                    <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span>
+                <span class="p">},</span>
+                <span class="n">xAxis</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">categories</span><span class="p">:</span> <span class="p">[],</span>
+              <span class="n">labels</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">step</span><span class="p">:</span> <span class="mi">10</span>
+               <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="n">yAxis</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">title</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="n">text</span><span class="p">:</span> <span class="s">'Degr? Celsius'</span>
+                    <span class="p">},</span>
+                    <span class="n">plotLines</span><span class="p">:</span> <span class="p">[{</span>
+                        <span class="n">value</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                        <span class="n">width</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                        <span class="n">color</span><span class="p">:</span> <span class="s">'#223333'</span>
+                    <span class="p">}]</span>
+                <span class="p">},</span>
+                <span class="n">tooltip</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="n">formatter</span><span class="p">:</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+                            <span class="k">return</span> <span class="s">'&lt;b&gt;'</span><span class="o">+</span><span class="n">this</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span><span class="s">'&lt;/b&gt;&lt;br/&gt;'</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span>
+                            <span class="s">': '</span><span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">y</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="n">legend</span><span class="p">:</span> <span class="p">{</span>
+            <span class="n">backgroundColor</span><span class="p">:</span> <span class="s">'#FFFFFF'</span><span class="p">,</span>
+            <span class="n">layout</span><span class="p">:</span> <span class="s">'vertical'</span><span class="p">,</span>
+            <span class="n">floating</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+            <span class="n">align</span><span class="p">:</span> <span class="s">'right'</span><span class="p">,</span>
+            <span class="n">verticalAlign</span><span class="p">:</span> <span class="s">'top'</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">y</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="n">shadow</span><span class="p">:</span> <span class="n">true</span>
+                <span class="p">},</span>
+                <span class="n">series</span><span class="p">:</span> <span class="p">[]</span>
+            <span class="p">}</span>
+            <span class="err">$</span><span class="o">.</span><span class="n">getJSON</span><span class="p">(</span><span class="s">"data.php"</span><span class="p">,</span> <span class="n">function</span><span class="p">(</span><span class="n">json</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">optionsa</span><span class="o">.</span><span class="n">xAxis</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'data'</span><span class="p">];</span>
+                <span class="n">optionsb</span><span class="o">.</span><span class="n">xAxis</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'data'</span><span class="p">];</span>
+                <span class="n">optionsa</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+                <span class="o">//</span><span class="n">options</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+                <span class="n">optionsb</span><span class="o">.</span><span class="n">series</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+                <span class="n">chart1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Highcharts</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">optionsa</span><span class="p">);</span>
+                <span class="n">chart2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Highcharts</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">optionsb</span><span class="p">);</span>
+            <span class="p">});</span>
+
+
+  <span class="p">});</span>
+        <span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s">"http://code.highcharts.com/highcharts.js"</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s">"http://code.highcharts.com/modules/exporting.js"</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"font-size: 0.5rem; text-align:center;background-color:#0000;width:auto;margin:0 auto;"</span><span class="o">&gt;</span> <span class="n">Vitesse</span> <span class="n">du</span> <span class="n">vent</span><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s">"grapha"</span> <span class="n">style</span><span class="o">=</span><span class="s">"min-width: 10.0rem; height: 6.0rem; margin: 0 auto"</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">br</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s">"font-size: 0.5rem; text-align:center;background-color:#0000;width:auto;margin:0 auto;"</span><span class="o">&gt;</span><span class="n">Temp</span><span class="o">&amp;</span><span class="n">eacute</span><span class="p">;</span><span class="n">rature</span><span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s">"graphb"</span> <span class="n">style</span><span class="o">=</span><span class="s">"min-width: 10.0rem; height: 6.0rem; margin: 0 auto"</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">afficher</span> <span class="n">deux</span> <span class="n">tableaux</span> <span class="n">pour</span> <span class="n">indiquer</span> <span class="n">la</span> <span class="n">variation</span> <span class="n">de</span> <span class="n">température</span> <span class="n">et</span> <span class="n">la</span> <span class="n">vitesse</span> <span class="n">du</span> <span class="n">vent</span><span class="o">--&gt;</span>
+<span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span> <span class="n">style</span><span class="o">=</span><span class="s">"font-size: 0.2rem"</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">"./deconnection.php"</span> <span class="n">target</span><span class="o">=</span><span class="s">"_blank"</span><span class="o">&gt;</span><span class="n">Sortie</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+    <span class="k">if</span><span class="p">(</span><span class="err">$</span><span class="n">_SESSION</span><span class="p">[</span><span class="s">'admin'</span><span class="p">]</span><span class="o">==</span><span class="s">"oui"</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="err">?</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">p</span> <span class="n">style</span><span class="o">=</span><span class="s">"font-size: 0.2rem"</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s">"./modifier_mdp.php"</span> <span class="n">target</span><span class="o">=</span><span class="s">"_blank"</span><span class="o">&gt;</span><span class="n">Modifier</span> <span class="n">les</span> <span class="n">mots</span> <span class="n">de</span> <span class="n">passe</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+    <span class="p">}</span>
+    <span class="err">?</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="o">//</span><span class="n">si</span> <span class="n">l</span><span class="s">'on n'</span><span class="n">est</span> <span class="n">pas</span> <span class="n">connect</span><span class="err">??</span> 
+<span class="p">{</span>
+    <span class="err">?</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="n">Station</span> <span class="n">meteo</span> <span class="n">autonome</span><span class="o">&lt;/</span><span class="n">title</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">Bonjour</span><span class="p">,</span> <span class="n">connectez</span><span class="o">-</span><span class="n">vous</span> <span class="n">en</span> <span class="n">entrant</span> <span class="n">le</span> <span class="n">mot</span> <span class="n">de</span> <span class="n">passe</span> <span class="n">requis</span> <span class="err">!</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">form</span> <span class="n">action</span><span class="o">=</span><span class="s">""</span> <span class="n">method</span><span class="o">=</span><span class="s">"post"</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s">"password"</span> <span class="n">name</span><span class="o">=</span><span class="s">"mdp"</span> <span class="n">size</span><span class="o">=</span><span class="s">"50"</span> <span class="n">autofocus</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="n">value</span><span class="o">=</span><span class="s">"Entrer"</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<span class="p">}</span>
+</pre>
+   </div>
    <h3 id="stylephp">
     <a aria-hidden="true" class="headeranchor-link" href="#stylephp" name="user-content-stylephp">
      <span class="headeranchor">
@@ -2068,6 +2595,125 @@ flush privileges<span class="p">;</span>
     </a>
     style.php
    </h3>
+   <div class="codehilite">
+    <pre><span class="cp">&lt;?php</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">"Content-type: text/css; charset: UTF-8"</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">'mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8'</span><span class="p">,</span> <span class="s1">'stati_stationm'</span><span class="p">,</span> <span class="s1">'utbmcsm2015'</span><span class="p">);</span>  <span class="c1">//connecter Mysql via php</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">"SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1"</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="c1">//sélectionner la dernière chiffre de la direction dans la base de donné meteo</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">.img { </span>
+<span class="x">    display: block; </span>
+<span class="x">    width: 33%; </span>
+<span class="x">    height: auto; </span>
+<span class="x">    margin: 0 auto; </span>
+<span class="x">}    </span>
+<span class="x">/*la forme d'affichage l'image*/</span>
+<span class="x"># grapha</span>
+<span class="x">{</span>
+<span class="x">height:5.0rem;</span>
+<span class="x">margin: auto;  </span>
+<span class="x">position: relative;  </span>
+<span class="x">top: 0; left: 0;</span>
+<span class="x">}</span>
+<span class="x">/*la forme d'affichage le graphe 1*/</span>
+<span class="x"># graphb</span>
+<span class="x">{</span>
+<span class="x">height:5.0rem;</span>
+<span class="x">margin: auto;  </span>
+<span class="x">position: relative;  </span>
+<span class="x">top: 0; left: 0;</span>
+<span class="x">}</span>
+<span class="x">/*la forme d'affichage le graphe 2*/</span>
+<span class="x">@import url(http://fonts.googleapis.com/css?family=Dosis:200,400,500,600);</span>
+<span class="x">.compass {</span>
+<span class="x">  display: block;</span>
+<span class="x">  width: 5rem;</span>
+<span class="x">  height: 5rem;</span>
+<span class="x">  border-radius: 100%;</span>
+<span class="x">  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.85);</span>
+<span class="x">  position: relative;</span>
+<span class="x">  font-family: 'Dosis';</span>
+<span class="x">  color: #555;</span>
+<span class="x">  text-shadow: 1px 1px 1px white;</span>
+<span class="x">}</span>
+
+<span class="x">.compass:before {</span>
+<span class="x">  font-weight: bold;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  text-align: center;</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  content: "N";</span>
+<span class="x">  font-size: 0.5rem;</span>
+<span class="x">  top: 0.05rem;</span>
+<span class="x">}</span>
+<span class="x">.compass .direction {</span>
+<span class="x">  height: 100%;</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  display: block;</span>
+<span class="x">  background: #f2f6f5;</span>
+<span class="x">  background: -moz-linear-gradient(top, #f2f6f5 0%, #cbd5d6 100%);</span>
+<span class="x">  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f6f5), color-stop(100%, #cbd5d6));</span>
+<span class="x">  background: -webkit-linear-gradient(top, #f2f6f5 0%, #cbd5d6 100%);</span>
+<span class="x">  background: -o-linear-gradient(top, #f2f6f5 0%, #cbd5d6 100%);</span>
+<span class="x">  border-radius: 100%;</span>
+<span class="x">}</span>
+<span class="x">.compass .direction p {</span>
+<span class="x">  text-align: center;</span>
+<span class="x">  margin: 0;</span>
+<span class="x">  padding: 0;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  top: 50%;</span>
+<span class="x">  left: 0;</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  height: 100%;</span>
+<span class="x">  line-height: 80px;</span>
+<span class="x">  display: block;</span>
+<span class="x">  margin-top: -45px;</span>
+<span class="x">  font-size: 0.6rem;</span>
+<span class="x">  font-weight: bold;</span>
+<span class="x">}</span>
+<span class="x">.compass .direction p span {</span>
+<span class="x">  display: block;</span>
+<span class="x">  line-height: normal;</span>
+<span class="x">  margin-top: -24px;</span>
+<span class="x">  font-size: 0.4rem;</span>
+<span class="x">  text-transform: uppercase;</span>
+<span class="x">  font-weight: normal;</span>
+<span class="x">}</span>
+<span class="x">.compass .arrow {</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  height: 100%;</span>
+<span class="x">  display: block;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  top: 0;</span>
+<span class="x">}</span>
+<span class="x">.compass .arrow:after {</span>
+<span class="x">  content: "";</span>
+<span class="x">  width: 0;</span>
+<span class="x">  height: 0;</span>
+<span class="x">  border-left: 5px solid transparent;</span>
+<span class="x">  border-right: 5px solid transparent;</span>
+<span class="x">  border-bottom: 1.5rem solid red;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  top: -6px;</span>
+<span class="x">  left: 50%;</span>
+<span class="x">  margin-left: -5px;</span>
+<span class="x">  z-index: 99;</span>
+<span class="x">}</span>
+<span class="x">.compass .arrow.ne {</span>
+<span class="x">  transform: rotate(</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">'direction'</span><span class="p">];</span><span class="cp">?&gt;</span><span class="x">deg);</span>
+<span class="x">}</span>
+<span class="x">/*la forme d'affichage le compass pour la représentation de la direction du vent*/</span>
+</pre>
+   </div>
    <h1 id="annexe">
     <a aria-hidden="true" class="headeranchor-link" href="#annexe" name="user-content-annexe">
      <span class="headeranchor">

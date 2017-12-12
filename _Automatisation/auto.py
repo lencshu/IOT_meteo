@@ -91,7 +91,7 @@ for file in os.listdir(mediaFolder):
 	if file.endswith(".png"):
 		pngPath = os.path.join(mediaFolder, file)
 		fileTime=os.path.getmtime(pngPath)
-		print fileTime,lastChangeTime,refTimeAfterAll #Debug
+		# print fileTime,lastChangeTime,refTimeAfterAll #Debug
 		if (lastChangeTime+0.01 < fileTime) and (lastChangeTime != 0) :
 			# print fileTime,lastChangeTime,refTimeAfterAll #Debug
 			pngtoModify = os.path.abspath(pngPath)
