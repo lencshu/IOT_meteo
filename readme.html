@@ -1,0 +1,2507 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style> /*左边目录框的样式*/
+.tod {
+    height: 100%; /*目录框的高度*/
+    float:left;/*目录框的位置*/
+    overflow-y:scroll;/*目录框添加滚动条*/
+    padding-right: 10px;
+    position: fixed;/*目录框相对浏览器进行定位*/
+    width:36%;/*目录框的宽度*/
+    font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  text-decoration: none;
+    }
+A { text-decoration: none} 
+A:hover { text-decoration:underline;} 
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  margin: 16px auto;
+  max-width: 980px;
+  outline: 1300px solid #fff;
+
+}
+
+.progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #F8F8F8;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 24px;
+  float: left;
+  border-right: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #34c2e3;
+  box-shadow: inset 0 1px 0px rgba(255, 255, 255, .5);
+}
+
+For Level Colors
+
+.progress-100plus .progress-bar {
+  background-color: #1ee038;
+}
+
+.progress-80plus .progress-bar {
+  background-color: #86e01e;
+}
+
+.progress-60plus .progress-bar {
+  background-color: #f2d31b;
+}
+
+.progress-40plus .progress-bar {
+  background-color: #f2b01e;
+}
+
+.progress-20plus .progress-bar {
+  background-color: #f27011;
+}
+
+.progress-0plus .progress-bar {
+  background-color: #f63a0f;
+}
+
+.candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAzUABAAAAAAFNgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABbAAAABwAAAAcZMzaOEdERUYAAAGIAAAAHQAAACAAOQAET1MvMgAAAagAAAA+AAAAYHqhde9jbWFwAAAB6AAAAFIAAAFa4azkLWN2dCAAAAI8AAAAKAAAACgFgwioZnBnbQAAAmQAAAGxAAACZVO0L6dnYXNwAAAEGAAAAAgAAAAIAAAAEGdseWYAAAQgAAAFDgAACMz7eroHaGVhZAAACTAAAAAwAAAANgWEOEloaGVhAAAJYAAAAB0AAAAkDGEGa2htdHgAAAmAAAAAEwAAADBEgAAQbG9jYQAACZQAAAAaAAAAGgsICJBtYXhwAAAJsAAAACAAAAAgASgBD25hbWUAAAnQAAACZwAABOD4no+3cG9zdAAADDgAAABsAAAAmF+yXM9wcmVwAAAMpAAAAC4AAAAusPIrFAAAAAEAAAAAyYlvMQAAAADLVHQgAAAAAM/u9uZ4nGNgZGBg4ANiCQYQYGJgBEJuIGYB8xgABMMAPgAAAHicY2Bm42OcwMDKwMLSw2LMwMDQBqGZihmiwHycoKCyqJjB4YPDh4NsDP+BfNb3DIuAFCOSEgUGRgAKDgt4AAB4nGNgYGBmgGAZBkYGEAgB8hjBfBYGCyDNxcDBwMTA9MHhQ9SHrA8H//9nYACyQyFs/sP86/kX8HtB9UIBIxsDXICRCUgwMaACRoZhDwA3fxKSAAAAAAHyAHABJQB/AIEAdAFGAOsBIwC/ALgAxACGAGYAugBNACcA/wCIeJxdUbtOW0EQ3Q0PA4HE2CA52hSzmZDGe6EFCcTVjWJkO4XlCGk3cpGLcQEfQIFEDdqvGaChpEibBiEXSHxCPiESM2uIojQ7O7NzzpkzS8qRqnfpa89T5ySQwt0GzTb9Tki1swD3pOvrjYy0gwdabGb0ynX7/gsGm9GUO2oA5T1vKQ8ZTTuBWrSn/tH8Cob7/B/zOxi0NNP01DoJ6SEE5ptxS4PvGc26yw/6gtXhYjAwpJim4i4/plL+tzTnasuwtZHRvIMzEfnJNEBTa20Emv7UIdXzcRRLkMumsTaYmLL+JBPBhcl0VVO1zPjawV2ys+hggyrNgQfYw1Z5DB4ODyYU0rckyiwNEfZiq8QIEZMcCjnl3Mn+pED5SBLGvElKO+OGtQbGkdfAoDZPs/88m01tbx3C+FkcwXe/GUs6+MiG2hgRYjtiKYAJREJGVfmGGs+9LAbkUvvPQJSA5fGPf50ItO7YRDyXtXUOMVYIen7b3PLLirtWuc6LQndvqmqo0inN+17OvscDnh4Lw0FjwZvP+/5Kgfo8LK40aA4EQ3o3ev+iteqIq7wXPrIn07+xWgAAAAABAAH//wAPeJyFlctvG1UUh+/12DPN1B7P3JnYjj2Ox4/MuDHxJH5N3UdaEUQLqBIkfQQioJWQ6AMEQkIqsPGCPwA1otuWSmTBhjtps2ADWbJg3EpIXbGouqSbCraJw7kzNo2dRN1cnXN1ZvT7zuuiMEI7ncizyA0URofRBJpCdbQuIFShYY+GZRrxMDVtih5TwQPHtXDFFSIKoWIbuREBjLH27Ny4MsbVx+uOJThavebgVrNRLAiYx06rXsvhxLgWx9xpfHdrs/ekc2Pl2cpPCVEITQpwbj8VQhfXSq2m+Wxqaq2D73Kne5e3NjHqQNj3CRYlJlgUl/jRNP+2Gs2pNYRQiOnmUaQDqm30KqKiTTWPWjboxnTWpvgxjXo0KrtZXAHt7hwIz0YVcj88JnKlJKi3NPAwLyDwZudSmJSMMJFDYaOkaol6XtESx3Gt1VTytdZJ3DCLeaVhVnCBH1fycHTxFXwPX+l2e3d6H/TufGGmMTLTnbSJUdo00zuBswMO/nl3YLeL/wnu9/limCuD3vC54h5NBVz6Li414AI8Vx3iiosKcQXUbrvhFFiYb++HN4DaF4XzFW0fIN4XDWJ3a3XQoq9V8WiyRmdsatV9xUcHims1JloH0YUa090G3Tro3mC6c01f+YwCPquINr1PTaCP6rVTOOmf0GE2dBc7zWIhji3/5MchSuBHgDbU99RMWt3YUNMZMJmx92YP6NsHx/5/M1yvInpnkIOM3Z8fA3JQ2lW1RFC1KaBPDFXNAHYYvGy73aYZZZ3HifbeuiVZCpwA3oQBs0wGPYJbJfg60xrKEbKiNtTe1adwrpBRwlAuQ3q3VRaX0QmQ9a49BTSCuF1MLfQ6+tinOubRBZuWPNoMevGMT+V41KitO1is3D/tpMcq1JHZqDHGs8DoYGDkxJgKjHROeTCmhZvzPm9pod+ltKm4PN7Dyvvldlpsg8D+4AUJZ3F/JBstZz7cbFRxsaAGV6yX/dkcycWf8eS3QlQea+YLjdm3yrOnrhFpUyKVvFE4lpv4bO3Svx/6F/4xmiDu/RT5iI++lko18mY1oX+5UGKR6kmVjM/Zb76yfHtxy+h/SyQ0lLdpdKy/lWB6szatetQJ8nZ80A2Qt6ift6gJeavU3BO4gtxs/KCtNPVibCtYCWY3SIlSBPKXZALXiIR9oZeJ1AuMyxLpHIy/yO7vSiSE+kZvk0ihJ30HgHfzZtEMmvV58x6dtqns0XTAW7Vdm4HJ04OCp/crOO7rd9SGxQAE/mVA9xRN+kVSMRFF6S9JFGUtthkjBA5tFCWc2l4V43Ex9GmUP3SI37Jjmir9KqlaDJ4S4JB3vuM/jzyH1+8MuoZ+QGzfnvPoJb96cZlWjMcKLfgDwB7E634JTY+asjsPzS5CiVnEWY+KsrsIN5rn3mAPjqmQBxGjcGKB9f9ZxY3mYC2L85CJ2FXIxKKyHk+dg0FHbuEc7D5NzWUX32WxFcWNGRAbvwSx0RmIXVDuYySafluQBmzA/ssqJAMLnli+WIC90Gw4lm85wcp0qjArEDPJJV/sSx4P9ungTpgMw5gVC1XO4uULq0s3v1rqLi0vX/z65vlH50f8T/RHmSPTk5xxWBWOluMT6WiOy+tdvWxlV/XQb3o3c6Ssr+r6I708GsX9/nzp1tKFh0s3v7m4vAy/Hnb/KMOvc1wump6Il48K6mGDy02X9Yd65pa+nQIjk76lWxCkG8NBCP0HQS9IpAAAeJxjYGRgYGBhcCrq214Qz2/zlUGenQEEzr/77oug/zewFbB+AHI5GJhAogBwKQ0qeJxjYGRgYH3/P46BgZ0BBNgKGBgZUAEPAE/7At0AAAB4nGNngAB2IGYjhBsYBAAIYADVAAAAAAAAAAAAAFwAyAEeAaACCgKmAx4DggRmAAAAAQAAAAwAagAEAAAAAAACAAEAAgAWAAABAAChAAAAAHiclZI7bxQxFIWPd/JkUYQChEhIyAVKgdBMskm1QkKrRETpQiLRUczueB/K7HhlOxttg8LvoKPgP9DxFxANDR0tHRWi4NjrPIBEgh1p/dm+vufcawNYFWsQmP6e4jSyQB2fI9cwj++RE9wTjyPP4LYoI89iWbyLPIe6+Bh5Hs9rryMv4GbtW+RF3EhuRa7jbrIbeQkPkjdUETOLnL0Kip4FVvAhco1RXyMnSPEz8gzWxE7kWTwUp5HnsCLeR57HW/El8gJWa58iL+JO7UfkOh4l9yMv4UnyEtvQGGECgwF66MNBooF1bGCL1ELB/TYU+ZBRlvsKQ44Se6jQ4a7hef+fh72Crv25kp+8lNWGmeKoOI5jJLb1aGIGvb6TjfWNLdkqdFvJw4l1amjlXtXRZqRN7lSRylZZyhBqpVFWmTEXgWfUrpi/hZOQXdOd4rKuXOtEWT3k5IArPRzTUU5tHKjecZkTpnVbNOnt6jzN8240GD4xtikvZW56043rPMg/dS+dlOceXoR+WPbJ55Dsekq1lJpnypsMUsYOdCW30o103Ytu/lvh+5RWFLfBjm9/N8hJntPhvx92rnoE/kyHdGasGy754kw36vsVf/lFeBi+0COu+cfgQr42G3CRpeLoZ53gmfe3X6rcKt5oVxnptHR9JS8ehVUd5wvvahN2uqxOOpMXapibI5k7Zwbt4xBSaTfoKBufhAnO/uqNcfK8OTs0OQ6l7JIqFjDhYj5WcjevCnI/1DDiI8j4ndWb/5YzDZWh79yomWXeXj7Nnw70/2TIeFPTrlSh89k1ObOSRVZWZfgF0r/zJQB4nG2JUQuCQBCEd07TTg36fb2IyBaLd3vWaUh/vmSJnvpgmG8YcmS8X3Shf3R7QA4OBUocUKHGER5NNbOOEvwc1txnuWkTRb/aPjimJ5vXabI+3VfOiyS15UWvyezM2xiGOPyuMohOH8O8JiO4Af+FsAGNAEuwCFBYsQEBjlmxRgYrWCGwEFlLsBRSWCGwgFkdsAYrXFhZsBQrAAA=) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAYcAA0AAAAACjQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABMAAAABwAAAAca8vGTk9TLzIAAAFMAAAARAAAAFZG1VHVY21hcAAAAZAAAAA+AAABQgAP9AdjdnQgAAAB0AAAAAQAAAAEACICiGdhc3AAAAHUAAAACAAAAAj//wADZ2x5ZgAAAdwAAADRAAABEKyikaNoZWFkAAACsAAAAC0AAAA2AtXoA2hoZWEAAALgAAAAHAAAACQHngNFaG10eAAAAvwAAAAQAAAAEAwAACJsb2NhAAADDAAAAAoAAAAKALIAVG1heHAAAAMYAAAAHwAAACABEAB2bmFtZQAAAzgAAALBAAAFu3I9x/Nwb3N0AAAF/AAAAB0AAAAvaoFvbwAAAAEAAAAAzBdyYwAAAADP2IQvAAAAAM/bz7t4nGNgZGFgnMDAysDB1Ml0hoGBoR9CM75mMGLkYGBgYmBlZsAKAtJcUxgcPsR8iGF2+O/AEMPsznAYKMwIkgMA5REMOXicY2BgYGaAYBkGRgYQsAHyGMF8FgYFIM0ChED+h5j//yEk/3KoSgZGNgYYk4GRCUgwMaACRoZhDwCs7QgGAAAAIgKIAAAAAf//AAJ4nHWMMQrCQBBF/0zWrCCIKUQsTDCL2EXMohYGSSmorScInsRGL2DOYJe0Ntp7BK+gJ1BxF1stZvjz/v8DRghQzEc4kIgKwiAppcA9LtzKLSkdNhKFY3HF4lK69ExKslx7Xa+vPRVS43G98vG1DnkDMIBUgFN0MDXflU8tbaZOUkXUH0+U27RoRpOIyCKjbMCVejwypzJJG4jIwb43rfl6wbwanocrJm9XFYfskuVC5K/TPyczNU7b84CXcbxks1Un6H6tLH9vf2LRnn8Ax7A5WQAAAHicY2BkYGAA4teL1+yI57f5ysDNwgAC529f0kOmWRiYVgEpDgYmEA8AUzEKsQAAAHicY2BkYGB2+O/AEMPCAAJAkpEBFbAAADgKAe0EAAAiAAAAAAQAAAAEAAAAAAAAKgAqACoAiAAAeJxjYGRgYGBhsGFgYgABEMkFhAwM/xn0QAIAD6YBhwB4nI1Ty07cMBS9QwKlQapQW3VXySvEqDCZGbGaHULiIQ1FKgjWMxknMfLEke2A+IJu+wntrt/QbVf9gG75jK577Lg8K1qQPCfnnnt8fX1NRC/pmjrk/zprC+8D7tBy9DHgBXoWfQ44Av8t4Bj4Z8CLtBL9CniJluPXASf0Lm4CXqFX8Q84dOLnMB17N4c7tBo1AS/Qi+hTwBH4rwHHwN8DXqQ30XXAS7QaLwSc0Gn8NuAVWou/gFmnjLrEaEh9GmDdDGgL3B4JsrRPDU2hTOiMSuJUIdKQQayiAth69r6akSSFqIJuA19TrzCIaY8sIoxyrNIrL//pw7A2iMygkX5vDj+G+kuoLdX4GlGK/8Lnlz6/h9MpmoO9rafrz7ILXEHHaAx95s9lsI7AHNMBWEZHULnfAXwG9/ZqdzLI08iuwRloXE8kfhXYAvE23+23DU3t626rbs8/8adv+9DWknsHp3E17oCf+Z48rvEQNZ78paYM38qfk3v/u3l3u3GXN2Dmvmvpf1Srwk3pB/VSsp512bA/GG5i2WJ7wu430yQ5K3nFGiOqgtmSB5pJVSizwaacmUZzZhXLlZTq8qGGFY2YcSkqbth6aW1tRmlaCFs2016m5qn36SbJrqosG4uMV4aP2PHBmB3tjtmgN2izkGQyLWprekbIntJFing32a5rKWCN/SdSoga45EJykyQ7asZvHQ8PTm6cslIpwyeyjbVltNikc2HTR7YKh9LBl9DADC0U/jLcBZDKrMhUBfQBvXRzLtFtjU9eNHKin0x5InTqb8lNpfKv1s1xHzTXRqgKzek/mb7nB8RZTCDhGEX3kK/8Q75AmUM/eLkfA+0Hi908Kx4eNsMgudg5GLdRD7a84npi+YxNr5i5KIbW5izXas7cHXIMAau1OueZhfj+cOcP3P8MNIWLyYOBuxL6DRylJ4cAAAB4nGNgYoAALjDJyIAOWMCiTIxMLDmZedkABtIBygAAAA==) format('woff');
+}
+
+
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><style>/*github*/
+.codehilite {background-color:#fff;color:#333333;}
+.codehilite .hll {background-color:#ffffcc;}
+.codehilite .c{color:#999988;font-style:italic}
+.codehilite .err{color:#a61717;background-color:#e3d2d2}
+.codehilite .k{font-weight:bold}
+.codehilite .o{font-weight:bold}
+.codehilite .cm{color:#999988;font-style:italic}
+.codehilite .cp{color:#999999;font-weight:bold}
+.codehilite .c1{color:#999988;font-style:italic}
+.codehilite .cs{color:#999999;font-weight:bold;font-style:italic}
+.codehilite .gd{color:#000000;background-color:#ffdddd}
+.codehilite .ge{font-style:italic}
+.codehilite .gr{color:#aa0000}
+.codehilite .gh{color:#999999}
+.codehilite .gi{color:#000000;background-color:#ddffdd}
+.codehilite .go{color:#888888}
+.codehilite .gp{color:#555555}
+.codehilite .gs{font-weight:bold}
+.codehilite .gu{color:#800080;font-weight:bold}
+.codehilite .gt{color:#aa0000}
+.codehilite .kc{font-weight:bold}
+.codehilite .kd{font-weight:bold}
+.codehilite .kn{font-weight:bold}
+.codehilite .kp{font-weight:bold}
+.codehilite .kr{font-weight:bold}
+.codehilite .kt{color:#445588;font-weight:bold}
+.codehilite .m{color:#009999}
+.codehilite .s{color:#dd1144}
+.codehilite .n{color:#333333}
+.codehilite .na{color:teal}
+.codehilite .nb{color:#0086b3}
+.codehilite .nc{color:#445588;font-weight:bold}
+.codehilite .no{color:teal}
+.codehilite .ni{color:purple}
+.codehilite .ne{color:#990000;font-weight:bold}
+.codehilite .nf{color:#990000;font-weight:bold}
+.codehilite .nn{color:#555555}
+.codehilite .nt{color:navy}
+.codehilite .nv{color:teal}
+.codehilite .ow{font-weight:bold}
+.codehilite .w{color:#bbbbbb}
+.codehilite .mf{color:#009999}
+.codehilite .mh{color:#009999}
+.codehilite .mi{color:#009999}
+.codehilite .mo{color:#009999}
+.codehilite .sb{color:#dd1144}
+.codehilite .sc{color:#dd1144}
+.codehilite .sd{color:#dd1144}
+.codehilite .s2{color:#dd1144}
+.codehilite .se{color:#dd1144}
+.codehilite .sh{color:#dd1144}
+.codehilite .si{color:#dd1144}
+.codehilite .sx{color:#dd1144}
+.codehilite .sr{color:#009926}
+.codehilite .s1{color:#dd1144}
+.codehilite .ss{color:#990073}
+.codehilite .bp{color:#999999}
+.codehilite .vc{color:teal}
+.codehilite .vg{color:teal}
+.codehilite .vi{color:teal}
+.codehilite .il{color:#009999}
+.codehilite .gc{color:#999;background-color:#EAF2F5}
+</style><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+MathJax.Hub.Config({
+  config: ["MMLorHTML.js"],
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX"],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: false
+  },
+  TeX: {
+    extensions: ["AMSmath.js", "AMSsymbols.js"],
+    TagSide: "right",
+    TagIndent: ".8em",
+    MultLineWidth: "85%",
+    equationNumbers: {
+      autoNumber: "AMS",
+    },
+    unicode: {
+      fonts: "STIXGeneral,'Arial Unicode MS'"
+    }
+  },
+  showProcessingMessages: false
+});
+</script>
+<script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.4/sequence-diagram-min.js"></script>
+<script type="text/javascript">// flowchart, v1.3.4
+// Copyright (c)2014 Adriano Raiano (adrai).
+// Distributed under MIT license
+// http://adrai.github.io/flowchart.js
+!function(){function a(b,c){if(!b||"function"==typeof b)return c;var d={};for(var e in c)d[e]=c[e];for(e in b)b[e]&&(d[e]="object"==typeof d[e]?a(d[e],b[e]):b[e]);return d}function b(a,b){if("function"==typeof Object.create)a.super_=b,a.prototype=Object.create(b.prototype,{constructor:{value:a,enumerable:!1,writable:!0,configurable:!0}});else{a.super_=b;var c=function(){};c.prototype=b.prototype,a.prototype=new c,a.prototype.constructor=a}}function c(a,b,c){var d,e,f="M{0},{1}";for(d=2,e=2*c.length+2;e>d;d+=2)f+=" L{"+d+"},{"+(d+1)+"}";var g=[b.x,b.y];for(d=0,e=c.length;e>d;d++)g.push(c[d].x),g.push(c[d].y);var h=a.paper.path(f,g);h.attr("stroke",a.options["element-color"]),h.attr("stroke-width",a.options["line-width"]);var i=a.options.font,j=a.options["font-family"],k=a.options["font-weight"];return i&&h.attr({font:i}),j&&h.attr({"font-family":j}),k&&h.attr({"font-weight":k}),h}function d(a,b,c,d){var e,f;"[object Array]"!==Object.prototype.toString.call(c)&&(c=[c]);var g="M{0},{1}";for(e=2,f=2*c.length+2;f>e;e+=2)g+=" L{"+e+"},{"+(e+1)+"}";var h=[b.x,b.y];for(e=0,f=c.length;f>e;e++)h.push(c[e].x),h.push(c[e].y);var i=a.paper.path(g,h);i.attr({stroke:a.options["line-color"],"stroke-width":a.options["line-width"],"arrow-end":a.options["arrow-end"]});var j=a.options.font,k=a.options["font-family"],l=a.options["font-weight"];if(j&&i.attr({font:j}),k&&i.attr({"font-family":k}),l&&i.attr({"font-weight":l}),d){var m=!1,n=a.paper.text(0,0,d),o=!1,p=c[0];b.y===p.y&&(o=!0);var q=0,r=0;m?(q=b.x>p.x?b.x-(b.x-p.x)/2:p.x-(p.x-b.x)/2,r=b.y>p.y?b.y-(b.y-p.y)/2:p.y-(p.y-b.y)/2,o?(q-=n.getBBox().width/2,r-=a.options["text-margin"]):(q+=a.options["text-margin"],r-=n.getBBox().height/2)):(q=b.x,r=b.y,o?(q+=a.options["text-margin"]/2,r-=a.options["text-margin"]):(q+=a.options["text-margin"]/2,r+=a.options["text-margin"])),n.attr({"text-anchor":"start","font-size":a.options["font-size"],fill:a.options["font-color"],x:q,y:r}),j&&n.attr({font:j}),k&&n.attr({"font-family":k}),l&&n.attr({"font-weight":l})}return i}function e(a,b,c,d,e,f,g,h){var i,j,k,l,m,n={x:null,y:null,onLine1:!1,onLine2:!1};return i=(h-f)*(c-a)-(g-e)*(d-b),0===i?n:(j=b-f,k=a-e,l=(g-e)*j-(h-f)*k,m=(c-a)*j-(d-b)*k,j=l/i,k=m/i,n.x=a+j*(c-a),n.y=b+j*(d-b),j>0&&1>j&&(n.onLine1=!0),k>0&&1>k&&(n.onLine2=!0),n)}function f(a,b){b=b||{},this.paper=new Raphael(a),this.options=r.defaults(b,q),this.symbols=[],this.lines=[],this.start=null}function g(a,b,c){this.chart=a,this.group=this.chart.paper.set(),this.symbol=c,this.connectedTo=[],this.symbolType=b.symbolType,this.flowstate=b.flowstate||"future",this.next_direction=b.next&&b.direction_next?b.direction_next:void 0,this.text=this.chart.paper.text(0,0,b.text),b.key&&(this.text.node.id=b.key+"t"),this.text.node.setAttribute("class",this.getAttr("class")+"t"),this.text.attr({"text-anchor":"start",x:this.getAttr("text-margin"),fill:this.getAttr("font-color"),"font-size":this.getAttr("font-size")});var d=this.getAttr("font"),e=this.getAttr("font-family"),f=this.getAttr("font-weight");d&&this.text.attr({font:d}),e&&this.text.attr({"font-family":e}),f&&this.text.attr({"font-weight":f}),b.link&&this.text.attr("href",b.link),b.target&&this.text.attr("target",b.target);var g=this.getAttr("maxWidth");if(g){for(var h=b.text.split(" "),i="",j=0,k=h.length;k>j;j++){var l=h[j];this.text.attr("text",i+" "+l),i+=this.text.getBBox().width>g?"\n"+l:" "+l}this.text.attr("text",i.substring(1))}if(this.group.push(this.text),c){var m=this.getAttr("text-margin");c.attr({fill:this.getAttr("fill"),stroke:this.getAttr("element-color"),"stroke-width":this.getAttr("line-width"),width:this.text.getBBox().width+2*m,height:this.text.getBBox().height+2*m}),c.node.setAttribute("class",this.getAttr("class")),b.link&&c.attr("href",b.link),b.target&&c.attr("target",b.target),b.key&&(c.node.id=b.key),this.group.push(c),c.insertBefore(this.text),this.text.attr({y:c.getBBox().height/2}),this.initialize()}}function h(a,b){var c=a.paper.rect(0,0,0,0,20);b=b||{},b.text=b.text||"Start",g.call(this,a,b,c)}function i(a,b){var c=a.paper.rect(0,0,0,0,20);b=b||{},b.text=b.text||"End",g.call(this,a,b,c)}function j(a,b){var c=a.paper.rect(0,0,0,0);b=b||{},g.call(this,a,b,c)}function k(a,b){var c=a.paper.rect(0,0,0,0);b=b||{},g.call(this,a,b,c),c.attr({width:this.text.getBBox().width+4*this.getAttr("text-margin")}),this.text.attr({x:2*this.getAttr("text-margin")});var d=a.paper.rect(0,0,0,0);d.attr({x:this.getAttr("text-margin"),stroke:this.getAttr("element-color"),"stroke-width":this.getAttr("line-width"),width:this.text.getBBox().width+2*this.getAttr("text-margin"),height:this.text.getBBox().height+2*this.getAttr("text-margin"),fill:this.getAttr("fill")}),b.key&&(d.node.id=b.key+"i");var e=this.getAttr("font"),f=this.getAttr("font-family"),h=this.getAttr("font-weight");e&&d.attr({font:e}),f&&d.attr({"font-family":f}),h&&d.attr({"font-weight":h}),b.link&&d.attr("href",b.link),b.target&&d.attr("target",b.target),this.group.push(d),d.insertBefore(this.text),this.initialize()}function l(a,b){b=b||{},g.call(this,a,b),this.textMargin=this.getAttr("text-margin"),this.text.attr({x:3*this.textMargin});var d=this.text.getBBox().width+4*this.textMargin,e=this.text.getBBox().height+2*this.textMargin,f=this.textMargin,h=e/2,i={x:f,y:h},j=[{x:f-this.textMargin,y:e},{x:f-this.textMargin+d,y:e},{x:f-this.textMargin+d+2*this.textMargin,y:0},{x:f-this.textMargin+2*this.textMargin,y:0},{x:f,y:h}],k=c(a,i,j);k.attr({stroke:this.getAttr("element-color"),"stroke-width":this.getAttr("line-width"),fill:this.getAttr("fill")}),b.link&&k.attr("href",b.link),b.target&&k.attr("target",b.target),b.key&&(k.node.id=b.key),k.node.setAttribute("class",this.getAttr("class")),this.text.attr({y:k.getBBox().height/2}),this.group.push(k),k.insertBefore(this.text),this.initialize()}function m(a,b){b=b||{},g.call(this,a,b),this.textMargin=this.getAttr("text-margin"),this.yes_direction="bottom",this.no_direction="right",b.yes&&b.direction_yes&&b.no&&!b.direction_no?"right"===b.direction_yes?(this.no_direction="bottom",this.yes_direction="right"):(this.no_direction="right",this.yes_direction="bottom"):b.yes&&!b.direction_yes&&b.no&&b.direction_no?"right"===b.direction_no?(this.yes_direction="bottom",this.no_direction="right"):(this.yes_direction="right",this.no_direction="bottom"):(this.yes_direction="bottom",this.no_direction="right"),this.yes_direction=this.yes_direction||"bottom",this.no_direction=this.no_direction||"right",this.text.attr({x:2*this.textMargin});var d=this.text.getBBox().width+3*this.textMargin;d+=d/2;var e=this.text.getBBox().height+2*this.textMargin;e+=e/2,e=Math.max(.5*d,e);var f=d/4,h=e/4;this.text.attr({x:f+this.textMargin/2});var i={x:f,y:h},j=[{x:f-d/4,y:h+e/4},{x:f-d/4+d/2,y:h+e/4+e/2},{x:f-d/4+d,y:h+e/4},{x:f-d/4+d/2,y:h+e/4-e/2},{x:f-d/4,y:h+e/4}],k=c(a,i,j);k.attr({stroke:this.getAttr("element-color"),"stroke-width":this.getAttr("line-width"),fill:this.getAttr("fill")}),b.link&&k.attr("href",b.link),b.target&&k.attr("target",b.target),b.key&&(k.node.id=b.key),k.node.setAttribute("class",this.getAttr("class")),this.text.attr({y:k.getBBox().height/2}),this.group.push(k),k.insertBefore(this.text),this.initialize()}function n(a){function b(a){var b=a.indexOf("(")+1,c=a.indexOf(")");return b>=0&&c>=0?d.symbols[a.substring(0,b-1)]:d.symbols[a]}function c(a){var b="next",c=a.indexOf("(")+1,d=a.indexOf(")");return c>=0&&d>=0&&(b=D.substring(c,d),b.indexOf(",")<0&&"yes"!==b&&"no"!==b&&(b="next, "+b)),b}a=a||"",a=a.trim();for(var d={symbols:{},start:null,drawSVG:function(a,b){function c(a){if(g[a.key])return g[a.key];switch(a.symbolType){case"start":g[a.key]=new h(e,a);break;case"end":g[a.key]=new i(e,a);break;case"operation":g[a.key]=new j(e,a);break;case"inputoutput":g[a.key]=new l(e,a);break;case"subroutine":g[a.key]=new k(e,a);break;case"condition":g[a.key]=new m(e,a);break;default:return new Error("Wrong symbol type!")}return g[a.key]}var d=this;this.diagram&&this.diagram.clean();var e=new f(a,b);this.diagram=e;var g={};!function n(a,b,f){var g=c(a);return d.start===a?e.startWith(g):b&&f&&!b.pathOk&&(b instanceof m?(f.yes===a&&b.yes(g),f.no===a&&b.no(g)):b.then(g)),g.pathOk?g:(g instanceof m?(a.yes&&n(a.yes,g,a),a.no&&n(a.no,g,a)):a.next&&n(a.next,g,a),g)}(this.start),e.render()},clean:function(){this.diagram.clean()}},e=[],g=0,n=1,o=a.length;o>n;n++)if("\n"===a[n]&&"\\"!==a[n-1]){var p=a.substring(g,n);g=n+1,e.push(p.replace(/\\\n/g,"\n"))}g<a.length&&e.push(a.substr(g));for(var q=1,r=e.length;r>q;){var s=e[q];s.indexOf(": ")<0&&s.indexOf("(")<0&&s.indexOf(")")<0&&s.indexOf("->")<0&&s.indexOf("=>")<0?(e[q-1]+="\n"+s,e.splice(q,1),r--):q++}for(;e.length>0;){var t=e.splice(0,1)[0];if(t.indexOf("=>")>=0){var u,v=t.split("=>"),w={key:v[0],symbolType:v[1],text:null,link:null,target:null,flowstate:null};if(w.symbolType.indexOf(": ")>=0&&(u=w.symbolType.split(": "),w.symbolType=u[0],w.text=u[1]),w.text&&w.text.indexOf(":>")>=0?(u=w.text.split(":>"),w.text=u[0],w.link=u[1]):w.symbolType.indexOf(":>")>=0&&(u=w.symbolType.split(":>"),w.symbolType=u[0],w.link=u[1]),w.symbolType.indexOf("\n")>=0&&(w.symbolType=w.symbolType.split("\n")[0]),w.link){var x=w.link.indexOf("[")+1,y=w.link.indexOf("]");x>=0&&y>=0&&(w.target=w.link.substring(x,y),w.link=w.link.substring(0,x-1))}if(w.text&&w.text.indexOf("|")>=0){var z=w.text.split("|");w.text=z[0],w.flowstate=z[1].trim()}d.symbols[w.key]=w}else if(t.indexOf("->")>=0)for(var A=t.split("->"),B=0,C=A.length;C>B;B++){var D=A[B],E=b(D),F=c(D),G=null;if(F.indexOf(",")>=0){var H=F.split(",");F=H[0],G=H[1].trim()}if(d.start||(d.start=E),C>B+1){var I=A[B+1];E[F]=b(I),E["direction_"+F]=G,G=null}}}return d}Array.prototype.indexOf||(Array.prototype.indexOf=function(a){"use strict";if(null===this)throw new TypeError;var b=Object(this),c=b.length>>>0;if(0===c)return-1;var d=0;if(arguments.length>0&&(d=Number(arguments[1]),d!=d?d=0:0!==d&&1/0!=d&&d!=-1/0&&(d=(d>0||-1)*Math.floor(Math.abs(d)))),d>=c)return-1;for(var e=d>=0?d:Math.max(c-Math.abs(d),0);c>e;e++)if(e in b&&b[e]===a)return e;return-1}),Array.prototype.lastIndexOf||(Array.prototype.lastIndexOf=function(a){"use strict";if(null===this)throw new TypeError;var b=Object(this),c=b.length>>>0;if(0===c)return-1;var d=c;arguments.length>1&&(d=Number(arguments[1]),d!=d?d=0:0!==d&&d!=1/0&&d!=-(1/0)&&(d=(d>0||-1)*Math.floor(Math.abs(d))));for(var e=d>=0?Math.min(d,c-1):c-Math.abs(d);e>=0;e--)if(e in b&&b[e]===a)return e;return-1}),String.prototype.trim||(String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"")});var o=this,p={};"undefined"!=typeof module&&module.exports?module.exports=p:o.flowchart=o.flowchart||p;var q={x:0,y:0,"line-width":3,"line-length":50,"text-margin":10,"font-size":14,"font-color":"black","line-color":"black","element-color":"black",fill:"white","yes-text":"yes","no-text":"no","arrow-end":"block","class":"flowchart",symbols:{start:{},end:{},condition:{},inputoutput:{},operation:{},subroutine:{}}},r={defaults:a,inherits:b};f.prototype.handle=function(a){this.symbols.indexOf(a)<=-1&&this.symbols.push(a);var b=this;return a instanceof m?(a.yes=function(c){return a.yes_symbol=c,a.no_symbol&&(a.pathOk=!0),b.handle(c)},a.no=function(c){return a.no_symbol=c,a.yes_symbol&&(a.pathOk=!0),b.handle(c)}):a.then=function(c){return a.next=c,a.pathOk=!0,b.handle(c)},a},f.prototype.startWith=function(a){return this.start=a,this.handle(a)},f.prototype.render=function(){var a,b=0,c=0,d=0,e=0,f=0,g=0;for(d=0,e=this.symbols.length;e>d;d++)a=this.symbols[d],a.width>b&&(b=a.width),a.height>c&&(c=a.height);for(d=0,e=this.symbols.length;e>d;d++)a=this.symbols[d],a.shiftX(this.options.x+(b-a.width)/2+this.options["line-width"]),a.shiftY(this.options.y+(c-a.height)/2+this.options["line-width"]);for(this.start.render(),d=0,e=this.symbols.length;e>d;d++)a=this.symbols[d],a.renderLines();for(f=this.maxXFromLine,d=0,e=this.symbols.length;e>d;d++){a=this.symbols[d];var h=a.getX()+a.width,i=a.getY()+a.height;h>f&&(f=h),i>g&&(g=i)}this.paper.setSize(f+this.options["line-width"],g+this.options["line-width"])},f.prototype.clean=function(){if(this.paper){var a=this.paper.canvas;a.parentNode.removeChild(a)}},g.prototype.getAttr=function(a){if(!this.chart)return void 0;var b,c=this.chart.options?this.chart.options[a]:void 0,d=this.chart.options.symbols?this.chart.options.symbols[this.symbolType][a]:void 0;return this.chart.options.flowstate&&this.chart.options.flowstate[this.flowstate]&&(b=this.chart.options.flowstate[this.flowstate][a]),b||d||c},g.prototype.initialize=function(){this.group.transform("t"+this.getAttr("line-width")+","+this.getAttr("line-width")),this.width=this.group.getBBox().width,this.height=this.group.getBBox().height},g.prototype.getCenter=function(){return{x:this.getX()+this.width/2,y:this.getY()+this.height/2}},g.prototype.getX=function(){return this.group.getBBox().x},g.prototype.getY=function(){return this.group.getBBox().y},g.prototype.shiftX=function(a){this.group.transform("t"+(this.getX()+a)+","+this.getY())},g.prototype.setX=function(a){this.group.transform("t"+a+","+this.getY())},g.prototype.shiftY=function(a){this.group.transform("t"+this.getX()+","+(this.getY()+a))},g.prototype.setY=function(a){this.group.transform("t"+this.getX()+","+a)},g.prototype.getTop=function(){var a=this.getY(),b=this.getX()+this.width/2;return{x:b,y:a}},g.prototype.getBottom=function(){var a=this.getY()+this.height,b=this.getX()+this.width/2;return{x:b,y:a}},g.prototype.getLeft=function(){var a=this.getY()+this.group.getBBox().height/2,b=this.getX();return{x:b,y:a}},g.prototype.getRight=function(){var a=this.getY()+this.group.getBBox().height/2,b=this.getX()+this.group.getBBox().width;return{x:b,y:a}},g.prototype.render=function(){if(this.next){var a=this.getAttr("line-length");if("right"===this.next_direction){var b=this.getRight();if(this.next.getLeft(),!this.next.isPositioned){this.next.setY(b.y-this.next.height/2),this.next.shiftX(this.group.getBBox().x+this.width+a);var c=this;!function e(){for(var b,d=!1,f=0,g=c.chart.symbols.length;g>f;f++){b=c.chart.symbols[f];var h=Math.abs(b.getCenter().x-c.next.getCenter().x);if(b.getCenter().y>c.next.getCenter().y&&h<=c.next.width/2){d=!0;break}}d&&(c.next.setX(b.getX()+b.width+a),e())}(),this.next.isPositioned=!0,this.next.render()}}else{var d=this.getBottom();this.next.getTop(),this.next.isPositioned||(this.next.shiftY(this.getY()+this.height+a),this.next.setX(d.x-this.next.width/2),this.next.isPositioned=!0,this.next.render())}}},g.prototype.renderLines=function(){this.next&&(this.next_direction?this.drawLineTo(this.next,"",this.next_direction):this.drawLineTo(this.next))},g.prototype.drawLineTo=function(a,b,c){this.connectedTo.indexOf(a)<0&&this.connectedTo.push(a);var f,g=this.getCenter().x,h=this.getCenter().y,i=(this.getTop(),this.getRight()),j=this.getBottom(),k=this.getLeft(),l=a.getCenter().x,m=a.getCenter().y,n=a.getTop(),o=a.getRight(),p=(a.getBottom(),a.getLeft()),q=g===l,r=h===m,s=m>h,t=h>m,u=g>l,v=l>g,w=0,x=this.getAttr("line-length"),y=this.getAttr("line-width");if(c&&"bottom"!==c||!q||!s)if(c&&"right"!==c||!r||!v)if(c&&"left"!==c||!r||!u)if(c&&"right"!==c||!q||!t)if(c&&"right"!==c||!q||!s)if(c&&"bottom"!==c||!u)if(c&&"bottom"!==c||!v)if(c&&"right"===c&&u)f=d(this.chart,i,[{x:i.x+x/2,y:i.y},{x:i.x+x/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.rightStart=!0,a.topEnd=!0,w=i.x+x/2;else if(c&&"right"===c&&v)f=d(this.chart,i,[{x:n.x,y:i.y},{x:n.x,y:n.y}],b),this.rightStart=!0,a.topEnd=!0,w=i.x+x/2;else if(c&&"bottom"===c&&q&&t)f=d(this.chart,j,[{x:j.x,y:j.y+x/2},{x:i.x+x/2,y:j.y+x/2},{x:i.x+x/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.bottomStart=!0,a.topEnd=!0,w=j.x+x/2;else if("left"===c&&q&&t){var z=k.x-x/2;p.x<k.x&&(z=p.x-x/2),f=d(this.chart,k,[{x:z,y:k.y},{x:z,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.leftStart=!0,a.topEnd=!0,w=k.x}else"left"===c&&(f=d(this.chart,k,[{x:n.x+(k.x-n.x)/2,y:k.y},{x:n.x+(k.x-n.x)/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.leftStart=!0,a.topEnd=!0,w=k.x);else f=d(this.chart,j,[{x:j.x,y:j.y+x/2},{x:j.x+(j.x-n.x)/2,y:j.y+x/2},{x:j.x+(j.x-n.x)/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.bottomStart=!0,a.topEnd=!0,w=j.x+(j.x-n.x)/2;else f=this.leftEnd&&t?d(this.chart,j,[{x:j.x,y:j.y+x/2},{x:j.x+(j.x-n.x)/2,y:j.y+x/2},{x:j.x+(j.x-n.x)/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b):d(this.chart,j,[{x:j.x,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.bottomStart=!0,a.topEnd=!0,w=j.x+(j.x-n.x)/2;else f=d(this.chart,i,[{x:i.x+x/2,y:i.y},{x:i.x+x/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.rightStart=!0,a.topEnd=!0,w=i.x+x/2;else f=d(this.chart,i,[{x:i.x+x/2,y:i.y},{x:i.x+x/2,y:n.y-x/2},{x:n.x,y:n.y-x/2},{x:n.x,y:n.y}],b),this.rightStart=!0,a.topEnd=!0,w=i.x+x/2;else f=d(this.chart,k,o,b),this.leftStart=!0,a.rightEnd=!0,w=o.x;else f=d(this.chart,i,p,b),this.rightStart=!0,a.leftEnd=!0,w=p.x;else f=d(this.chart,j,n,b),this.bottomStart=!0,a.topEnd=!0,w=j.x;if(f){for(var A=0,B=this.chart.lines.length;B>A;A++)for(var C,D=this.chart.lines[A],E=D.attr("path"),F=f.attr("path"),G=0,H=E.length-1;H>G;G++){var I=[];I.push(["M",E[G][1],E[G][2]]),I.push(["L",E[G+1][1],E[G+1][2]]);for(var J=I[0][1],K=I[0][2],L=I[1][1],M=I[1][2],N=0,O=F.length-1;O>N;N++){var P=[];P.push(["M",F[N][1],F[N][2]]),P.push(["L",F[N+1][1],F[N+1][2]]);var Q=P[0][1],R=P[0][2],S=P[1][1],T=P[1][2],U=e(J,K,L,M,Q,R,S,T);if(U.onLine1&&U.onLine2){var V;R===T?Q>S?(V=["L",U.x+2*y,R],F.splice(N+1,0,V),V=["C",U.x+2*y,R,U.x,R-4*y,U.x-2*y,R],F.splice(N+2,0,V),f.attr("path",F)):(V=["L",U.x-2*y,R],F.splice(N+1,0,V),V=["C",U.x-2*y,R,U.x,R-4*y,U.x+2*y,R],F.splice(N+2,0,V),f.attr("path",F)):R>T?(V=["L",Q,U.y+2*y],F.splice(N+1,0,V),V=["C",Q,U.y+2*y,Q+4*y,U.y,Q,U.y-2*y],F.splice(N+2,0,V),f.attr("path",F)):(V=["L",Q,U.y-2*y],F.splice(N+1,0,V),V=["C",Q,U.y-2*y,Q+4*y,U.y,Q,U.y+2*y],F.splice(N+2,0,V),f.attr("path",F)),N+=2,C+=2}}}this.chart.lines.push(f)}(!this.chart.maxXFromLine||this.chart.maxXFromLine&&w>this.chart.maxXFromLine)&&(this.chart.maxXFromLine=w)},r.inherits(h,g),r.inherits(i,g),r.inherits(j,g),r.inherits(k,g),r.inherits(l,g),l.prototype.getLeft=function(){var a=this.getY()+this.group.getBBox().height/2,b=this.getX()+this.textMargin;return{x:b,y:a}},l.prototype.getRight=function(){var a=this.getY()+this.group.getBBox().height/2,b=this.getX()+this.group.getBBox().width-this.textMargin;return{x:b,y:a}},r.inherits(m,g),m.prototype.render=function(){this.yes_direction&&(this[this.yes_direction+"_symbol"]=this.yes_symbol),this.no_direction&&(this[this.no_direction+"_symbol"]=this.no_symbol);var a=this.getAttr("line-length");if(this.bottom_symbol){var b=this.getBottom();this.bottom_symbol.getTop(),this.bottom_symbol.isPositioned||(this.bottom_symbol.shiftY(this.getY()+this.height+a),this.bottom_symbol.setX(b.x-this.bottom_symbol.width/2),this.bottom_symbol.isPositioned=!0,this.bottom_symbol.render())}if(this.right_symbol){var c=this.getRight();if(this.right_symbol.getLeft(),!this.right_symbol.isPositioned){this.right_symbol.setY(c.y-this.right_symbol.height/2),this.right_symbol.shiftX(this.group.getBBox().x+this.width+a);var d=this;!function e(){for(var b,c=!1,f=0,g=d.chart.symbols.length;g>f;f++){b=d.chart.symbols[f];var h=Math.abs(b.getCenter().x-d.right_symbol.getCenter().x);if(b.getCenter().y>d.right_symbol.getCenter().y&&h<=d.right_symbol.width/2){c=!0;break}}c&&(d.right_symbol.setX(b.getX()+b.width+a),e())}(),this.right_symbol.isPositioned=!0,this.right_symbol.render()}}},m.prototype.renderLines=function(){this.yes_symbol&&this.drawLineTo(this.yes_symbol,this.getAttr("yes-text"),this.yes_direction),this.no_symbol&&this.drawLineTo(this.no_symbol,this.getAttr("no-text"),this.no_direction)},p.parse=n}();
+</script>
+<script type="text/javascript">
+(function (win, doc) {
+  function onReady(fn) {
+    if (doc.addEventListener) {
+      doc.addEventListener('DOMContentLoaded', fn);
+    } else {
+      doc.attachEvent('onreadystatechange', function() {
+        if (doc.readyState === 'interactive')
+          fn();
+      });
+    }
+  }
+
+  win.convertUML = function(className, converter, settings) {
+    var charts = doc.querySelectorAll("pre." + className),
+        arr = [],
+        i, j, maxItem, diagaram, text, curNode;
+
+    // Is there a settings object?
+    if (settings === void 0) {
+        settings = {};
+    }
+
+    // Make sure we are dealing with an array
+    for(i = 0, maxItem = charts.length; i < maxItem; i++) arr.push(charts[i])
+
+    // Find the UML source element and get the text
+    for (i = 0, maxItem = arr.length; i < maxItem; i++) {
+        childEl = arr[i].firstChild;
+        parentEl = childEl.parentNode;
+        text = "";
+        for (j = 0; j < childEl.childNodes.length; j++) {
+            curNode = childEl.childNodes[j];
+            whitespace = /^\s*$/;
+            if (curNode.nodeName === "#text" && !(whitespace.test(curNode.nodeValue))) {
+                text = curNode.nodeValue;
+                break;
+            }
+        }
+
+        // Do UML conversion and replace source
+        el = doc.createElement('div');
+        el.className = className;
+        parentEl.parentNode.insertBefore(el, parentEl);
+        parentEl.parentNode.removeChild(parentEl);
+        diagram = converter.parse(text);
+        diagram.drawSVG(el, settings);
+    }
+  }
+
+  onReady(function(){convertUML('uml-flowchart', flowchart);});
+  onReady(function(){convertUML('uml-sequence-diagram', Diagram, {theme: 'simple'});});
+})(window, document)
+</script>
+<title>readme</title></head><body><div class="to"></div><article class="markdown-body"><div class="toc">
+<ul>
+<li><a href="#station-meteo">Station Météo</a></li>
+<li><a href="#1-introduction">1. Introduction</a></li>
+<li><a href="#2arduino">2.Arduino</a></li>
+<li><a href="#3web">3.Web</a><ul>
+<li><a href="#31-les-environments">3.1 les environments</a><ul>
+<li><a href="#311-base-donnee">3.1.1 Base donnée</a></li>
+<li><a href="#312-php-7">3.1.2 PHP 7</a></li>
+</ul>
+</li>
+<li><a href="#32-composants-principals-de-systeme-web">3.2 Composants principals de système WEB</a><ul>
+<li><a href="#321-putdataphp">3.2.1 putdata.php</a></li>
+<li><a href="#322-laffichage-sous-forme-du-texte">3.2.2 l&rsquo;affichage sous forme du texte</a><ul>
+<li><a href="#data_directionphp">data_direction.php</a></li>
+<li><a href="#data_temperaturephp">data_temperature.php</a></li>
+<li><a href="#data_tempsphp">data_temps.php</a></li>
+<li><a href="#data_vitessephp">data_vitesse.php</a></li>
+</ul>
+</li>
+<li><a href="#323-dataphp">3.2.3 data.php</a></li>
+<li><a href="#324-indexphp">3.2.4 index.php</a></li>
+<li><a href="#325-stylephp">3.2.5 style.php</a></li>
+</ul>
+</li>
+<li><a href="#33-les-fonctions-supplementaires">3.3 Les fonctions supplémentaires</a></li>
+</ul>
+</li>
+<li><a href="#annexe">Annexe</a><ul>
+<li><a href="#station-meteo-csmnhvvsfr">station-meteo-csm.nhvvs.fr</a><ul>
+<li><a href="#connexion">Connexion</a><ul>
+<li><a href="#gmail">Gmail</a></li>
+<li><a href="#http">HTTP</a></li>
+<li><a href="#ftp">FTP</a></li>
+</ul>
+</li>
+<li><a href="#base-de-donnees">base de données</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="station-meteo"><a name="user-content-station-meteo" href="#station-meteo" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Station Météo</h1>
+<p><p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\p1.png" /></p></p>
+<p>Projet TX de l&rsquo;année 2016 en automne<br />
+Cycle d&rsquo;ingénieur de l&rsquo;UTBM </p>
+<p><code>Département Génie Mécanique et Conception</code></p>
+<p><code>Filière Conception des Systèmes Mécatroniques</code></p>
+<h1 id="1-introduction"><a name="user-content-1-introduction" href="#1-introduction" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>1. Introduction</h1>
+<p><p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_155318.png" /></p></p>
+<p>Nous réalisons dans le cadre de ce projet une station météo à base Arduino pour le club de voile du bassin de Champagney. Cette station météo doit mesurer différents paramètres au bord du lac et les rendre disponibles via internet aux membres du club, et ce afin que ces derniers puissent juger des conditions de navigations avant de se rendre sur place.<br />
+<a href="http://www.station-meteo-csm.nhvvs.fr">http://www.station-meteo-csm.nhvvs.fr</a></p>
+<ul>
+<li>Connexion physique<br />
+<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\p2.png" /></p></li>
+</ul>
+<h1 id="2arduino"><a name="user-content-2arduino" href="#2arduino" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2.Arduino</h1>
+<div class="codehilite"><pre><span class="c1">//librairies nécessaires</span>
+<span class="cp">#include &lt;Process.h&gt;</span>
+
+<span class="c1">//librairies pour le développement</span>
+<span class="cp">#include &lt;Console.h&gt;</span>
+
+<span class="c1">//définition de define (paramétrage des entrés/sorties)</span>
+<span class="cp">#define DO_BUZ 7 </span><span class="c1">//pour implantation d&#39;un buzzer (dev)</span>
+<span class="cp">#define DI_ANEMOMETRE_INT 2</span>
+<span class="cp">#define AI_GIROUETTE 0</span>
+<span class="cp">#define AI_TEMPERATURE 1</span>
+<span class="cp">#define DUREE_LECTURE_CAPTEUR 30</span>
+
+<span class="cp">#define HEURE_DEBUT 8</span>
+<span class="cp">#define HEURE_FIN 20</span>
+
+<span class="c1">//variables générales</span>
+<span class="kt">int</span> <span class="n">direction_analog_in</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">786</span><span class="p">,</span><span class="mi">405</span><span class="p">,</span><span class="mi">460</span><span class="p">,</span><span class="mi">84</span><span class="p">,</span><span class="mi">92</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">184</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="mi">286</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">630</span><span class="p">,</span><span class="mi">599</span><span class="p">,</span><span class="mi">945</span><span class="p">,</span><span class="mi">827</span><span class="p">,</span><span class="mi">978</span><span class="p">,</span><span class="mi">702</span><span class="p">};</span>
+<span class="kt">char</span> <span class="n">path_photo_dragino</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;/mnt/sda1/meteo.png&quot;</span><span class="p">;</span> <span class="c1">//photo_meteo_2</span>
+<span class="kt">char</span> <span class="n">path_login_photo_web</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;ftp://stationm:X*X*X*X*X*X@station-meteo-csm.nhvvs.fr/httpdocs/&quot;</span><span class="p">;</span>
+<span class="kt">char</span> <span class="n">path_donnes_web_csv2</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;http://station-meteo-csm.nhvvs.fr/putdata.php&quot;</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span> <span class="c1">//contient annee-mois-jour-heure-minute-seconde</span>
+<span class="k">volatile</span> <span class="kt">int</span> <span class="n">compteur_vent</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="c1">//contient température, vitesse du vent et direction</span>
+<span class="kt">int</span> <span class="n">numero_boucle</span><span class="p">;</span> <span class="c1">//numero d&#39;iteration de la boucle principale</span>
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">tempo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">derniere_mesure</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="c1">//déclarations fonctions</span>
+<span class="kt">void</span> <span class="nf">prendrePhoto</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">envoiPhoto</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">envoiCSV</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">majTime</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">incrementationCompteurVent</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">lectureCapteurs</span><span class="p">(</span><span class="kt">int</span> <span class="n">duree</span><span class="p">);</span>
+<span class="kt">int</span> <span class="nf">trouverDirectionProche</span><span class="p">(</span><span class="kt">int</span> <span class="n">analogiqueGirouette</span><span class="p">);</span>
+<span class="n">String</span> <span class="nf">ecrireNombre</span><span class="p">(</span><span class="kt">int</span> <span class="n">in</span><span class="p">);</span>
+<span class="n">String</span> <span class="nf">ecrireTimeComplet</span><span class="p">();</span>
+<span class="n">String</span> <span class="nf">ecrireTimeDonneesCSV</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">logC</span><span class="p">(</span><span class="n">String</span> <span class="n">txt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nb</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cycleMesure</span><span class="p">();</span>
+
+
+<span class="c1">// SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP SETUP</span>
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">Bridge</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="c1">//while(!Console);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Fin Bridge et Console setup&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Debut setup&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="n">numero_boucle</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">tempo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">//pinModes</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+  <span class="n">pinMode</span><span class="p">(</span><span class="n">DI_ANEMOMETRE_INT</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
+  <span class="n">attachInterrupt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">incrementationCompteurVent</span><span class="p">,</span> <span class="n">FALLING</span><span class="p">);</span>
+
+  <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">500</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Fin du setup&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP LOOP</span>
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Loop Debut numero&quot;</span><span class="p">,</span><span class="n">numero_boucle</span><span class="p">);</span>
+  <span class="n">majTime</span><span class="p">();</span> <span class="c1">//mise à jour de l heure et la date.</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">constrain</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">HEURE_DEBUT</span><span class="p">,</span><span class="n">HEURE_FIN</span><span class="p">)</span> <span class="o">==</span> <span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="c1">//si l&#39;on est dans la période d&#39;activation</span>
+  <span class="p">{</span>
+    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Prise de mesures&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">cycleMesure</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="n">HEURE_DEBUT</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">//à moins d une heure </span>
+  <span class="p">{</span>
+    <span class="c1">//on attend un nombre de minutes jusqu&#39;à l&#39;heure pile</span>
+    <span class="n">tempo</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="p">(</span><span class="mi">60</span><span class="o">-</span><span class="n">date_heure</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">tempo</span> <span class="o">=</span> <span class="n">tempo</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Pause partielle :&quot;</span><span class="p">);</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="c1">//on attend une heure</span>
+    <span class="n">tempo</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60000</span><span class="p">;</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Pause heure :&quot;</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">tempo</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Loop Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">cycleMesure</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">lectureCapteurs</span><span class="p">(</span><span class="n">DUREE_LECTURE_CAPTEUR</span><span class="p">);</span>
+  <span class="n">envoiCSV</span><span class="p">();</span>
+  <span class="n">prendrePhoto</span><span class="p">();</span>
+  <span class="n">envoiPhoto</span><span class="p">();</span>
+
+  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">ecrireTimeDonneesCSV</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="c1">//fonctions dragino</span>
+<span class="kt">void</span> <span class="nf">prendrePhoto</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;prendrePhoto Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">photo</span><span class="p">;</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;fswebcam&quot;</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_photo_dragino</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;-S 20&quot;</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;-r 1280x720&quot;</span><span class="p">);</span>
+  <span class="n">photo</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">photo</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;prendrePhoto Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">envoiPhoto</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiPhoto Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">envoi</span><span class="p">;</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;curl&quot;</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;-T&quot;</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_photo_dragino</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">path_login_photo_web</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">envoi</span><span class="p">.</span><span class="n">available</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">envoi</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiPhoto Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">envoiCSV</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiLiDonneesCSV Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">envoi</span><span class="p">;</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;curl&quot;</span><span class="p">);</span>
+  <span class="n">String</span> <span class="n">adresse</span> <span class="o">=</span> <span class="n">path_donnes_web_csv2</span><span class="p">;</span>
+  <span class="n">adresse</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">adresse</span> <span class="o">+</span> <span class="s">&quot;?ligne=&quot;</span><span class="p">);</span>
+  <span class="c1">//Console.println(adresse);</span>
+  <span class="n">adresse</span> <span class="o">+=</span> <span class="n">ecrireTimeDonneesCSV</span><span class="p">();</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">adresse</span><span class="p">);</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="n">adresse</span><span class="p">);</span>
+  <span class="n">adresse</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+  <span class="n">envoi</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;envoiLiDonneesCSV Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">majTime</span><span class="p">()</span> <span class="c1">//mise à jours des infos contenues dans </span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;majTime Process Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Process</span> <span class="n">pTime</span><span class="p">;</span>
+  <span class="n">pTime</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">);</span>
+  <span class="n">pTime</span><span class="p">.</span><span class="n">addParameter</span><span class="p">(</span><span class="s">&quot;+%T-%D&quot;</span><span class="p">);</span>
+  <span class="n">pTime</span><span class="p">.</span><span class="n">run</span><span class="p">();</span>
+  <span class="k">while</span><span class="p">(</span><span class="n">pTime</span><span class="p">.</span><span class="n">available</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">String</span> <span class="n">getText</span> <span class="o">=</span> <span class="n">pTime</span><span class="p">.</span><span class="n">readString</span><span class="p">();</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//heure</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//minute</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//seconde</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">11</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//mois</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">14</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//jour</span>
+    <span class="n">date_heure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">getText</span><span class="p">.</span><span class="n">substring</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">).</span><span class="n">toInt</span><span class="p">();</span> <span class="c1">//annee</span>
+  <span class="p">}</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;majTime Process Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//fonctions capteurs</span>
+<span class="kt">void</span> <span class="nf">incrementationCompteurVent</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">compteur_vent</span> <span class="o">=</span> <span class="n">compteur_vent</span> <span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">lectureCapteurs</span><span class="p">(</span><span class="kt">int</span> <span class="n">duree</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;lectureCapteurs Debut&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Nombre de lecture des capteurs&quot;</span><span class="p">,</span><span class="n">duree</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">boucles</span> <span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">debut_mesure_vent</span><span class="p">;</span>
+  <span class="kt">long</span> <span class="n">somme_temperature</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">somme_girouette</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="c1">//début de la duree de prise de mesures</span>
+  <span class="n">debut_mesure_vent</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
+  <span class="n">compteur_vent</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">boucles</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">boucles</span><span class="o">&lt;</span><span class="n">duree</span><span class="p">;</span><span class="n">boucles</span><span class="o">++</span><span class="p">)</span> <span class="c1">//si on a encore le temps de prende une mesure</span>
+  <span class="p">{</span>
+    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Prise de mesure numero&quot;</span><span class="p">,</span><span class="n">boucles</span><span class="p">);</span>
+    <span class="c1">//on prend la valeur de température</span>
+    <span class="kt">int</span> <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">lecture</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">AI_TEMPERATURE</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">moy_temp</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="o">/</span><span class="n">boucles</span><span class="p">;</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">boucles</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="n">moy_temp</span><span class="o">=</span><span class="n">derniere_mesure</span><span class="p">;}</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">lecture</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">moy_temp</span><span class="o">+</span><span class="mi">10</span><span class="p">))</span>
+    <span class="p">{</span>
+      <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Sur-mesure&quot;</span><span class="p">,(</span><span class="n">lecture</span> <span class="o">-</span> <span class="n">moy_temp</span><span class="p">));</span>
+      <span class="n">lecture</span> <span class="o">=</span> <span class="n">moy_temp</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">lecture</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">moy_temp</span><span class="o">-</span><span class="mi">10</span><span class="p">))</span>
+    <span class="p">{</span>
+      <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Sous-mesure&quot;</span><span class="p">,(</span><span class="n">lecture</span> <span class="o">-</span> <span class="n">moy_temp</span><span class="p">));</span>
+      <span class="n">lecture</span> <span class="o">=</span> <span class="n">moy_temp</span><span class="o">-</span><span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Capteur : lecture ai_temperature&quot;</span><span class="p">,</span><span class="n">lecture</span><span class="p">);</span>
+    <span class="c1">//logC(&quot;Capteur : calcul ai_temperature&quot;, (lecture*(5000/1024.0)));</span>
+    <span class="n">somme_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span> <span class="o">+</span> <span class="n">lecture</span><span class="p">;</span>
+    <span class="c1">//on prend la valeur de girouette</span>
+    <span class="n">lecture</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">AI_GIROUETTE</span><span class="p">);</span>
+    <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Capteur : lecture ai_girouette&quot;</span><span class="p">,</span><span class="n">lecture</span><span class="p">);</span>
+    <span class="n">somme_girouette</span> <span class="o">=</span> <span class="n">somme_girouette</span> <span class="o">+</span> <span class="n">lecture</span><span class="p">;</span>
+
+    <span class="n">tone</span><span class="p">(</span><span class="n">DO_BUZ</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">950</span><span class="p">);</span> <span class="c1">//atente de moins d une seconde pour ne pas prendre trop de mesures</span>
+  <span class="p">}</span>
+  <span class="c1">//fin de la duree de prise de mesures</span>
+  <span class="c1">//vitesse du vent</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">debut_mesure_vent</span><span class="p">);</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">compteur_vent</span> <span class="o">*</span> <span class="mf">2.4</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">/</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Vent, nombre de tics&quot;</span><span class="p">,</span> <span class="n">compteur_vent</span><span class="p">);</span>
+  <span class="kt">long</span> <span class="n">difference</span> <span class="o">=</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">debut_mesure_vent</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Vent, duree en ms (approx)&quot;</span><span class="p">,</span> <span class="n">difference</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Vent, vitesse en km/h&quot;</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="c1">//température</span>
+  <span class="n">somme_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span> <span class="o">/</span> <span class="n">duree</span><span class="p">;</span>
+  <span class="n">derniere_mesure</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">temp_temperature</span> <span class="o">=</span> <span class="n">somme_temperature</span><span class="o">*</span><span class="p">(</span><span class="mi">5000</span><span class="o">/</span><span class="mf">1024.0</span><span class="p">);</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">temp_temperature</span> <span class="o">-</span> <span class="mi">500</span><span class="p">)</span><span class="o">/</span><span class="mf">10.0</span><span class="p">;</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Temperature lue (moyenne)&quot;</span><span class="p">,</span><span class="n">somme_temperature</span><span class="p">);</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Temperature (etalonnee)&quot;</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="c1">//direction</span>
+  <span class="n">donnees</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">trouverDirectionProche</span><span class="p">(</span><span class="n">somme_girouette</span> <span class="o">/</span> <span class="n">duree</span><span class="p">)</span><span class="o">*</span><span class="mf">22.5</span><span class="p">;</span>
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;Direction (degres)&quot;</span><span class="p">,</span> <span class="n">donnees</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+
+  <span class="n">logC</span><span class="p">(</span><span class="s">&quot;lectureCapteurs Fin&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">trouverDirectionProche</span><span class="p">(</span><span class="kt">int</span> <span class="n">analogiqueGirouette</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">p</span><span class="p">,</span> <span class="n">rtr</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">difference_min</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">p</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">;</span><span class="n">p</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//on compare la valeur lue avec celle du tableau et si est est plus petite que</span>
+    <span class="c1">//celle enregistrée alors c est la nouvelle direction</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">abs</span><span class="p">(</span><span class="n">analogiqueGirouette</span> <span class="o">-</span> <span class="n">direction_analog_in</span><span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">&lt;</span><span class="n">difference_min</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">difference_min</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">analogiqueGirouette</span> <span class="o">-</span> <span class="n">direction_analog_in</span><span class="p">[</span><span class="n">p</span><span class="p">]);</span>
+      <span class="n">rtr</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//fonction annexes</span>
+<span class="n">String</span> <span class="nf">ecrireNombre</span><span class="p">(</span><span class="kt">int</span> <span class="n">in</span><span class="p">)</span> <span class="c1">//écrit un nombre de deux chiffres ou plus</span>
+<span class="p">{</span>
+  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">in</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">rtr</span> <span class="o">=</span> <span class="s">&quot;0&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="n">in</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="nf">ecrireTimeComplet</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="n">ecrireNombre</span><span class="p">(</span><span class="n">date_heure</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">String</span> <span class="nf">ecrireTimeDonneesCSV</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">String</span> <span class="n">rtr</span> <span class="o">=</span> <span class="n">ecrireTimeComplet</span><span class="p">();</span>
+  <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">rtr</span> <span class="o">=</span> <span class="n">rtr</span><span class="o">+</span><span class="s">&quot;,&quot;</span><span class="o">+</span><span class="n">donnees</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">//rtr = rtr + &quot;;&quot;;</span>
+  <span class="k">return</span> <span class="n">rtr</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">logC</span><span class="p">(</span><span class="n">String</span> <span class="n">txt</span><span class="p">,</span> <span class="kt">int</span> <span class="n">nb</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="o">/</span><span class="mf">1000.0</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; &gt;=&gt; &quot;</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">txt</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot; :: &quot;</span><span class="p">);</span>
+  <span class="n">Console</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">nb</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h1 id="3web"><a name="user-content-3web" href="#3web" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.Web</h1>
+<p>On suppose que l&rsquo;espace de website est tout neuve. Rien n&rsquo;est paramètré. Les étapes suivantes nous permettent pour les configurer pas à pas.</p>
+<h2 id="31-les-environments"><a name="user-content-31-les-environments" href="#31-les-environments" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.1 les environments</h2>
+<p>Le Website est une page Web de sort <code>dynamique</code>, c&rsquo;est à dire quand il y a des requêtes de navigateur, le web page consulte la base donné pour puis composer la vue de page web. s&rsquo;il n&rsquo;a pas de requête, il n&rsquo;y a pas de page web. Cette notion est opposée à celle de <code>Page web statique</code> (html)</p>
+<p>Faut qu&rsquo;il donc existe les environments nécessaires pour fonctionner la programme.</p>
+<p>Le système de website est basé sur PHP7.</p>
+<h3 id="311-base-donnee"><a name="user-content-311-base-donnee" href="#311-base-donnee" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.1.1 Base donnée</h3>
+<p>On prend MYSQL(Le système de Base donnée populaire) comme exemple<br />
+système:<code>UBUNTU</code>(linux)</p>
+<ul>
+<li>Installations</li>
+</ul>
+<p><div class="codehilite"><pre><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span>  <span class="n">mysql</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">5.6</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mariadb</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="mf">10.0</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span>
+</pre></div>
+<br />
+il faut entrer le mot de passe pendant l&rsquo;installations</p>
+<ul>
+<li>connexion de MYSQL</li>
+</ul>
+<p><div class="codehilite"><pre>mysql -u root -p
+</pre></div>
+<br />
+-u : user<br />
+-p : mot de passe<br />
+-h : hôte</p>
+<p><div class="codehilite"><pre>CREATE DATABASE stationm_donnees character <span class="nb">set </span>utf8<span class="p">;</span>
+CREATE USER <span class="s1">&#39;stati_stationm&#39;</span>@<span class="s1">&#39;localhost&#39;</span> IDENTIFIED BY <span class="s1">&#39;YOUR_SECURE_PASSWORD_HERE&#39;</span><span class="p">;</span>
+GRANT ALL ON emoncms.* TO <span class="s1">&#39;stati_stationm&#39;</span>@<span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+flush privileges<span class="p">;</span>
+</pre></div>
+<br />
+Redémarrer MYSQL</p>
+<div class="codehilite"><pre>sudo /etc/init.d/mysql restart
+/etc/init.d/mysql status
+</pre></div>
+
+
+<ul>
+<li>Dans notre cas, la base donnée doit être paramètrée avec panel de gestion<br />
+<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145410.png" /></p><br />
+Les champs qu&rsquo;il faut entrer pour ajouter une nouvelle base donnée.<br />
+<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145604.png" /></p></li>
+</ul>
+<h3 id="312-php-7"><a name="user-content-312-php-7" href="#312-php-7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.1.2 PHP 7</h3>
+<p>Installations toute simple</p>
+<div class="codehilite"><pre>sudo apt-get install php7.0 
+</pre></div>
+
+
+<ul>
+<li>Sur hébergeur <code>nhvvs.fr</code>, Il faut aussi utiliser le panel de gestion<br />
+<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150654.png" /></p><br />
+<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_150714.png" /></p></li>
+</ul>
+<h2 id="32-composants-principals-de-systeme-web"><a name="user-content-32-composants-principals-de-systeme-web" href="#32-composants-principals-de-systeme-web" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2 Composants principals de système WEB</h2>
+<p><p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_154901.png" /></p></p>
+<p>Il y a 12 php programme. Parmi lesquel il y en a 8 qui réalise la fonction principale.<br />
+Après la réception des infos envoyée de l&rsquo;Arduino. <code>putdata.php</code> nous aide pour enregistrer des info dans la base donnée.<br />
+Une fois c&rsquo;est fait, il y donc possible d&rsquo;afficher des infos quand il y a des requêtes de navigateur. la mise-en-page web se fait par :<br />
+<code>data_direction.php</code><br />
+<code>data_temperature.php</code><br />
+<code>data_temps.php</code><br />
+<code>data_vitesse.php</code><br />
+<code>data.php</code>: JSON<br />
+<code>index.php</code><br />
+<code>style.php</code></p>
+<div class="admonition hint">
+<p class="admonition-title">Si la Base Donnée est changé&hellip;</p>
+<p>Si la Base Donnée est changé, il est obligatoire de modifier la ligne comme ci-après dans tous les <code>.php</code></p>
+<p>de <br />
+<div class="codehilite"><pre><span class="x">$bdd = new PDO(&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;, &#39;stati_stationm&#39;, &#39;X*X*X*X*X*X&#39;);  //connecter Mysql via php</span>
+</pre></div>
+<br />
+à<br />
+<div class="codehilite"><pre><span class="x">$bdd = new PDO(&#39;mysql:nouveau_nom_hôte;dbname=nouveau_nom_BD;charset=utf8&#39;, &#39;nom_ADM&#39;, &#39;mot_de_passe&#39;);</span>
+</pre></div>
+</p>
+</div>
+<h3 id="321-putdataphp"><a name="user-content-321-putdataphp" href="#321-putdataphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2.1 putdata.php</h3>
+<p><code>Enregistrer des infos</code></p>
+<p>Essayer:<br />
+<a href="http://station-meteo-csm.nhvvs.fr/putdata.php?ligne=170119045911,-12.89,0.00,270.00"><code>http://station-meteo-csm.nhvvs.fr/putdata.php?ligne=170119045911,-12.89,0.00,270.00</code></a></p>
+<p>Les infos sont envoyées sous la forme: <code>170119045911,-12.89,0.00,270.00</code> <br />
+D&rsquo;où:<br />
+<code>170119045911</code> : le temps<br />
+<code>-12.89</code> : la température<br />
+<code>0.00</code> : la vitesse du vent<br />
+<code>270.00</code> : la direction du vent</p>
+<div class="codehilite"><pre><span class="x">$morceaux = explode(&quot;,&quot;, $_GET[&#39;ligne&#39;]); </span>
+<span class="x">//récupérer le chiffre entré dans un tableau selon le symble &lt;&lt;,&gt;&gt;</span>
+<span class="x">$time = $morceaux[0]; </span>
+<span class="x">//mettre le premier morceau, le temps</span>
+<span class="x">$tem = $morceaux[1]; </span>
+<span class="x">//mettre le deuxième morceau, la température</span>
+<span class="x">$vit = $morceaux[2];  </span>
+<span class="x">//mettre le troisième morceau, la vitesse du vent</span>
+<span class="x">$dire = $morceaux[3];  </span>
+<span class="x">//mettre le quarantième morceau, la direction du vent</span>
+</pre></div>
+
+
+<p>Et aussi, pour simplifier le temps <code>170119045911</code> sous la forme lisible:<br />
+<code>17</code> : année<br />
+<code>01</code> : mois<br />
+<code>19</code> : jour<br />
+<code>04</code> : heure<br />
+<code>59</code> : minute<br />
+<code>11</code> : seconde</p>
+<div class="codehilite"><pre><span class="x">$annee = substr($time, 0,2);  </span>
+<span class="x">//mettre le morceau de 0 à 1 de la variable time dans une autre variable annee</span>
+<span class="x">$mois = substr($time, 2,2);  </span>
+<span class="x">//mettre le morceau de 2 à 3 de la variable time dans une autre variable mois</span>
+<span class="x">$jour = substr($time, 4,2);  </span>
+<span class="x">//mettre le morceau de 4 à 5 de la variable time dans une autre variable jour</span>
+<span class="x">$heure = substr($time, 6,2);  </span>
+<span class="x">//mettre le morceau de 6 à 7 de la variable time dans une autre variable heure</span>
+<span class="x">$minute = substr($time, 8,2);  </span>
+<span class="x">//mettre le morceau de 8 à 9 de la variable time dans une autre variable minute</span>
+<span class="x">$seconde = substr($time, 10,2);  </span>
+<span class="x">//mettre le morceau de 10 à 11 de la variable time dans une autre variable seconde</span>
+<span class="x">$timec=&#39;20&#39;.$annee.&#39;-&#39;.$mois.&#39;-&#39;.$jour.&#39; &#39;.$heure.&#39;:&#39;.$minute.&#39;:&#39;.$seconde;</span>
+<span class="x">//réformer le temps</span>
+<span class="x">echo $timec.&#39;&lt;br/&gt;&#39;; </span>
+<span class="x">//afficher le temps</span>
+</pre></div>
+
+
+<p>Ensuite on les enregistre dans la base donnée</p>
+<div class="codehilite"><pre><span class="x">$sql = &#39;INSERT INTO `mesures`(`id`, `vitesse`, `direction`, `temperature`, `created_at`, `updated_at`) VALUES (NULL, &#39;.$vit.&#39;,&#39;.$dire.&#39;,&#39;.$tem.&#39;,\&#39;&#39;.$timec.&#39;\&#39;,NOW() )&#39;;</span>
+<span class="x">//préparer la commande SQL</span>
+<span class="x">echo $sql.&#39;&lt;br/&gt;&#39;; </span>
+<span class="x">//afficher ce qu&#39;on a enregistré</span>
+<span class="x">$req = $bdd-&gt;prepare($sql);</span>
+<span class="x">$req-&gt;execute();</span>
+<span class="x">//enregistrer dans la base de donnée</span>
+</pre></div>
+
+
+<p>la programme ensemble: </p>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+
+<span class="nv">$morceaux</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;ligne&#39;</span><span class="p">]);</span> 
+<span class="c1">//récupérer le chiffre entré dans un tableau selon le symble &lt;&lt;,&gt;&gt;</span>
+<span class="nv">$time</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> 
+<span class="c1">//mettre le premier morceau, le temps</span>
+<span class="nv">$tem</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> 
+<span class="c1">//mettre le deuxième morceau, la température</span>
+<span class="nv">$vit</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>  
+<span class="c1">//mettre le troisième morceau, la vitesse du vent</span>
+<span class="nv">$dire</span> <span class="o">=</span> <span class="nv">$morceaux</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>  
+<span class="c1">//mettre le quarantième morceau, la direction du vent</span>
+<span class="nv">$annee</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 0 à 1 de la variable time dans une autre variable annee</span>
+<span class="nv">$mois</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 2 à 3 de la variable time dans une autre variable mois</span>
+<span class="nv">$jour</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 4 à 5 de la variable time dans une autre variable jour</span>
+<span class="nv">$heure</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 6 à 7 de la variable time dans une autre variable heure</span>
+<span class="nv">$minute</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 8 à 9 de la variable time dans une autre variable minute</span>
+<span class="nv">$seconde</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$time</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>  
+<span class="c1">//mettre le morceau de 10 à 11 de la variable time dans une autre variable seconde</span>
+<span class="nv">$timec</span><span class="o">=</span><span class="s1">&#39;20&#39;</span><span class="o">.</span><span class="nv">$annee</span><span class="o">.</span><span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="nv">$mois</span><span class="o">.</span><span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="nv">$jour</span><span class="o">.</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="nv">$heure</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nv">$minute</span><span class="o">.</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="nv">$seconde</span><span class="p">;</span>
+<span class="c1">//réformer l&#39;affichage du temps</span>
+<span class="k">echo</span> <span class="nv">$timec</span><span class="o">.</span><span class="s1">&#39;&lt;br/&gt;&#39;</span><span class="p">;</span> <span class="c1">//afficher le temps</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s1">&#39;INSERT INTO `mesures`(`id`, `vitesse`, `direction`, `temperature`, `created_at`, `updated_at`) VALUES (NULL, &#39;</span><span class="o">.</span><span class="nv">$vit</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$dire</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$tem</span><span class="o">.</span><span class="s1">&#39;,\&#39;&#39;</span><span class="o">.</span><span class="nv">$timec</span><span class="o">.</span><span class="s1">&#39;\&#39;,NOW() )&#39;</span><span class="p">;</span>
+<span class="c1">//préparer la commande SQL</span>
+<span class="k">echo</span> <span class="nv">$sql</span><span class="o">.</span><span class="s1">&#39;&lt;br/&gt;&#39;</span><span class="p">;</span> 
+<span class="c1">//afficher ce qu&#39;on a enregistré</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="c1">//enregistrer dans la base de donnée</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h3 id="322-laffichage-sous-forme-du-texte"><a name="user-content-322-laffichage-sous-forme-du-texte" href="#322-laffichage-sous-forme-du-texte" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2.2 l&rsquo;affichage sous forme du texte</h3>
+<p><p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_213727.png" /></p></p>
+<p>Trois <code>.php</code> sont créés pour réaliser cette fonction:<br />
+<code>data_direction.php</code> : sortir la direction dans la base donnée <br />
+<code>data_temperature.php</code> : sortir la température dans la base donnée <br />
+<code>data_temps.php</code> : sortir le temps dans la base donnée <br />
+<code>data_vitesse.php</code> : sortir la vitesse dans la base donnée </p>
+<p>Les <code>.php</code> sont insérées avec le Tag de HTML <code>&lt;iframe&gt;</code> et <code>&lt;/iframe&gt;</code> dans <code>index.php</code> pour afficher les information sous forme du texte.</p>
+<h4 id="data_directionphp"><a name="user-content-data_directionphp" href="#data_directionphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_direction.php</h4>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1&quot;</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+
+<span class="c1">//affricher la donné avec des paramétres de HTML afin d&#39;être encadré dans &lt;iframe&gt;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;La direction du vent: &lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;direction&#39;</span><span class="p">]</span><span class="o">.</span><span class="s2">&quot;&lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;  &amp;#176&lt;/font&gt;&quot;</span><span class="p">;</span>
+
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<div class="admonition hint">
+<p>les restes se font de même principe </p>
+</div>
+<h4 id="data_temperaturephp"><a name="user-content-data_temperaturephp" href="#data_temperaturephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_temperature.php</h4>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT temperature FROM `mesures` ORDER BY `created_at` DESC LIMIT 1&quot;</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="c1">//enregistrer dans une variable row</span>
+
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;La température: &lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="s2">&quot;&lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;  &amp;#8451&lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="c1">//affricher la donné avec des paramétres de HTML</span>
+
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h4 id="data_tempsphp"><a name="user-content-data_tempsphp" href="#data_tempsphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_temps.php</h4>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT created_at FROM `mesures` ORDER BY `created_at` DESC LIMIT 1&quot;</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+
+<span class="c1">//traitement de la date</span>
+<span class="nv">$tim</span> <span class="o">=</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">];</span>
+<span class="c1">//echo substr($tim, 11,2).&#39;*&#39;.substr($tim, 14,2).&#39;*&#39;.substr($tim, 17,2).&#39;*&#39;.substr($tim,5,2).&#39;*&#39;.substr($tim, 8,2).&#39;*&#39;.substr($tim, 0,4);</span>
+<span class="nv">$dat</span> <span class="o">=</span> <span class="nb">mktime</span><span class="p">(</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="nb">substr</span><span class="p">(</span><span class="nv">$tim</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span>
+
+<span class="nv">$hr</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s2">&quot;H:i&quot;</span><span class="p">,</span><span class="nv">$dat</span><span class="p">);</span>
+<span class="nv">$jr</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s2">&quot;d/m/Y&quot;</span><span class="p">,</span><span class="nv">$dat</span><span class="p">);</span>
+
+<span class="c1">//enregistrer dans une variable row</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;Le temps &lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt; à &quot;</span><span class="o">.</span><span class="nv">$hr</span><span class="o">.</span><span class="s2">&quot; le &quot;</span><span class="o">.</span><span class="nv">$jr</span><span class="o">.</span><span class="s2">&quot;&lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="c1">//affricher la donné avec des paramétres de HTML</span>
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h4 id="data_vitessephp"><a name="user-content-data_vitessephp" href="#data_vitessephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>data_vitesse.php</h4>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT vitesse FROM `mesures` ORDER BY `created_at` DESC LIMIT 1&quot;</span><span class="p">;</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="c1">//enregistrer dans une variable row</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">8rem</span><span class="se">\&quot;</span><span class="s2"> &gt;La vitesse du vent: &lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="c1">//vitesse en m/s puis convertie</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="nb">number_format</span><span class="p">(</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;vitesse&#39;</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="s2">&quot; km/h ou &lt;/font&gt;&quot;</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s2">&quot;&lt;font size=</span><span class="se">\&quot;</span><span class="s2">10rem</span><span class="se">\&quot;</span><span class="s2"> &gt;&quot;</span><span class="o">.</span><span class="nb">number_format</span><span class="p">((</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;vitesse&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">0.539957</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="s2">&quot; nds &lt;/font&gt;&quot;</span><span class="p">;</span>
+
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h3 id="323-dataphp"><a name="user-content-323-dataphp" href="#323-dataphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2.3 data.php</h3>
+<p>Cette programme a but de réformer des datas sous la forme de JSON, afin de utiliser la module <code>highcharts.js</code> pour générer les graphes comme ci-après par exemple<br />
+<p align="center"><img alt="" src="C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_214824.png" /></p></p>
+<div class="admonition hint">
+<p class="admonition-title">JSON</p>
+<p><code>JSON</code> (JavaScript Object Notation – Notation Objet issue de JavaScript) est un format léger d&rsquo;échange de données. Il est facile à lire ou à écrire pour des humains. Il est aisément analysable ou générable par des machines. Il est basé sur un sous-ensemble du langage de programmation JavaScript (JavaScript Programming Language, Standard ECMA-262 3rd Edition - December 1999). JSON est un format texte complètement indépendant de tout langage, mais les conventions qu&rsquo;il utilise seront familières à tout programmeur habitué aux langages descendant du C, comme par exemple : C lui-même, C++, C#, Java, JavaScript, Perl, Python et bien d&rsquo;autres. Ces propriétés font de JSON un langage d&rsquo;échange de données idéal.</p>
+</div>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+
+
+<span class="nv">$sql</span> <span class="o">=</span><span class="s2">&quot;SELECT id FROM mesures ORDER BY `id` DESC LIMIT 1;&quot;</span><span class="p">;</span>
+<span class="c1">//echo $sql.&#39;&lt;br/&gt;&#39;;</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="c1">//sélectionner la dernière ligne dans la base de donné meteo</span>
+<span class="nv">$n</span><span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="c1">//enregistrer dans une variable n</span>
+<span class="nv">$c</span><span class="o">=</span><span class="nv">$n</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span>
+<span class="nv">$a</span><span class="o">=</span><span class="nv">$c</span><span class="o">-</span><span class="mi">152</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$a</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$b</span><span class="o">=</span><span class="nv">$c</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT created_at FROM mesures ORDER BY `created_at` ASC LIMIT  </span><span class="si">{</span><span class="nv">$a</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nv">$b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="c1">//echo $sql.&#39;&lt;br/&gt;&#39;;</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="c1">//sélectionner la dernière chiffre du temps dans la base de donné meteo</span>
+<span class="nv">$rows</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Created_at&#39;</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="nv">$r</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nv">$rows</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$r</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">];</span>
+    <span class="c1">//echo $r[&#39;created_at&#39;].&#39;&lt;br/&gt;&#39;;</span>
+<span class="p">}</span>
+<span class="c1">//réformer dans un groupe de donné</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT vitesse FROM mesures ORDER BY `created_at` ASC LIMIT  </span><span class="si">{</span><span class="nv">$a</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nv">$b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="c1">//echo $sql.&#39;&lt;br/&gt;&#39;;</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="c1">//sélectionner la dernière chiffre de la vitesse dans la base de donné meteo</span>
+<span class="nv">$rows1</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="nv">$rows1</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Vitesse (km/h)&#39;</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="nv">$rr</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nv">$rows1</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$rr</span><span class="p">[</span><span class="s1">&#39;vitesse&#39;</span><span class="p">];</span>
+    <span class="c1">//echo $rr[&#39;vitesse&#39;].&#39;&lt;br/&gt;&#39;;</span>
+<span class="p">}</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT direction FROM mesures ORDER BY `created_at` ASC LIMIT  </span><span class="si">{</span><span class="nv">$a</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nv">$b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="c1">//echo $sql.&#39;&lt;br/&gt;&#39;;</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="c1">//sélectionner la dernière chiffre de la direction dans la base de donné meteo</span>
+<span class="nv">$rows2</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="nv">$rows2</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Direction (Degree)&#39;</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="nv">$rrr</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nv">$rows2</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$rrr</span><span class="p">[</span><span class="s1">&#39;direction&#39;</span><span class="p">];</span>
+<span class="p">}</span>     
+<span class="c1">//réformer dans un groupe de donné</span>
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT temperature FROM mesures ORDER BY `created_at` ASC LIMIT  </span><span class="si">{</span><span class="nv">$a</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nv">$b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="c1">//echo $sql.&#39;&lt;br/&gt;&#39;;</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="nv">$rows3</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="nv">$rows3</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Temperature (Celsius degree)&#39;</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="nv">$rrrr</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nv">$rows3</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="nv">$rrrr</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">];</span>
+<span class="p">}</span>
+
+
+    <span class="nv">$result</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+    <span class="c1">//réformer dans un groupe de donné</span>
+<span class="nb">array_push</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span><span class="nv">$rows</span><span class="p">);</span>
+<span class="nb">array_push</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span><span class="nv">$rows1</span><span class="p">);</span>
+<span class="nb">array_push</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span><span class="nv">$rows2</span><span class="p">);</span>
+<span class="nb">array_push</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span><span class="nv">$rows3</span><span class="p">);</span>
+<span class="c1">//réformer tous ensemble dans un tableau</span>
+<span class="k">echo</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$result</span><span class="p">,</span><span class="nx">JSON_NUMERIC_CHECK</span><span class="p">);</span>
+<span class="c1">//réformer le tableau sous la forme de Json</span>
+
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h3 id="324-indexphp"><a name="user-content-324-indexphp" href="#324-indexphp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2.4 index.php</h3>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nb">session_start</span><span class="p">();</span>
+
+<span class="c1">//on récupérer les deux mdp</span>
+<span class="nv">$monfichier</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">&#39;amt.psw&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">);</span>
+<span class="nv">$amt</span> <span class="o">=</span> <span class="nb">fgets</span><span class="p">(</span><span class="nv">$monfichier</span><span class="p">);</span>
+<span class="nb">fclose</span><span class="p">(</span><span class="nv">$monfichier</span><span class="p">);</span>
+<span class="nv">$monfichier</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">&#39;inv.psw&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">);</span>
+<span class="nv">$inv</span> <span class="o">=</span> <span class="nb">fgets</span><span class="p">(</span><span class="nv">$monfichier</span><span class="p">);</span>
+<span class="nb">fclose</span><span class="p">(</span><span class="nv">$monfichier</span><span class="p">);</span>
+
+<span class="nv">$amt_m</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="nv">$amt</span><span class="p">);</span>
+<span class="nv">$amt</span> <span class="o">=</span> <span class="nv">$amt_m</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nv">$inv_m</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="nv">$inv</span><span class="p">);</span>
+<span class="nv">$inv</span> <span class="o">=</span> <span class="nv">$inv_m</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">]))</span>
+<span class="p">{</span>
+    <span class="c1">// echo $_POST[&#39;mdp&#39;].&#39;&lt;br/&gt;&#39;;</span>
+    <span class="c1">// echo $amt.&#39;&lt;br/&gt;&#39;;</span>
+    <span class="c1">// echo $inv.&#39;&lt;br/&gt;&#39;;</span>
+    <span class="c1">// echo strncmp($_POST[&#39;mdp&#39;],$amt,4);</span>
+    <span class="c1">// echo strncmp($_POST[&#39;mdp&#39;],$inv,4);</span>
+    <span class="c1">// on traite le POST</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">strncmp</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">],</span><span class="nv">$amt</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;oui&quot;</span><span class="p">;</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;oui&quot;</span><span class="p">;</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$amt</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">strncmp</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">],</span><span class="nv">$inv</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;oui&quot;</span><span class="p">;</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;non&quot;</span><span class="p">;</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$inv</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nb">strncmp</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">],</span><span class="nv">$amt</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nb">strncmp</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;mdp&#39;</span><span class="p">],</span><span class="nv">$inv</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">//si le mot de passe enregistré ne correspond à aucun des deux enregistrées</span>
+    <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;non&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;connect&#39;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;oui&quot;</span><span class="p">)</span>
+   <span class="p">{</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">&lt;!DOCTYPE HTML&gt;</span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">    &lt;head&gt;</span>
+<span class="x">        &lt;!--initialisation de HTML--&gt;</span>
+<span class="x">        &lt;meta http-equiv=&quot;refresh&quot; content=&quot;100&quot;&gt;</span>
+<span class="x">        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=GB2312&quot; /&gt;</span>
+<span class="x">        &lt;meta name=&quot;description&quot; content=&quot;meteo&quot; /&gt; </span>
+<span class="x">        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=GB2312&quot; /&gt;</span>
+<span class="x">        &lt;title&gt;Station - Meteo&lt;/title&gt;</span>
+<span class="x">        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style.php&quot; /&gt;</span>
+<span class="x">        &lt;script src=&#39;http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js&#39;&gt;&lt;/script&gt;</span>
+<span class="x">        &lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js&quot;&gt;&lt;/script&gt;</span>
+
+<span class="x">        &lt;!--définir la taille de mot--&gt;</span>
+<span class="x">        &lt;script type=&quot;text/javascript&quot;&gt;</span>
+<span class="x">        var cssEl = document.createElement(&#39;style&#39;);</span>
+<span class="x">        document.documentElement.firstElementChild.appendChild(cssEl);</span>
+<span class="x">        function setPxPerRem(){</span>
+<span class="x">            var dpr = 1;</span>
+<span class="x">            var pxPerRem = document.documentElement.clientWidth * dpr / 10;</span>
+<span class="x">            cssEl.innerHTML = &#39;html{font-size:&#39; + pxPerRem + &#39;px!important;}&#39;;</span>
+<span class="x">        }</span>
+<span class="x">        setPxPerRem(); </span>
+<span class="x">        &lt;/script&gt; </span>
+
+<span class="x">        &lt;!-- configurer les deux graphs pour afficher la vitesse du vent et la Température dans une période --&gt;</span>
+<span class="x">        &lt;script src=&quot;http://code.highcharts.com/highcharts.js&quot;&gt;&lt;/script&gt;</span>
+<span class="x">        &lt;script src=&quot;http://code.highcharts.com/modules/exporting.js&quot;&gt;&lt;/script&gt;</span>
+<span class="x">        &lt;script type=&quot;text/javascript&quot;&gt;</span>
+<span class="x">        $(document).ready(function() {</span>
+<span class="x">            var optionsa = {</span>
+<span class="x">                chart: {</span>
+<span class="x">                    renderTo: &#39;grapha&#39;,</span>
+<span class="x">                    type: &#39;spline&#39;,</span>
+<span class="x">                    marginRight: 130,</span>
+<span class="x">                    marginBottom: 25</span>
+<span class="x">                },</span>
+<span class="x">                title: {</span>
+<span class="x">                    text: &#39;&#39;,</span>
+<span class="x">                    x: -20 </span>
+<span class="x">                },</span>
+<span class="x">                subtitle: {</span>
+<span class="x">                    text: &#39;&#39;,</span>
+<span class="x">                    x: -20</span>
+<span class="x">                },</span>
+<span class="x">                xAxis: {</span>
+<span class="x">                    categories: [],</span>
+<span class="x">              labels: {</span>
+<span class="x">                step: 10</span>
+<span class="x">               }</span>
+<span class="x">                },</span>
+<span class="x">                yAxis: {</span>
+<span class="x">                    title: {</span>
+<span class="x">                        text: &#39;km/h&#39;</span>
+<span class="x">                    },</span>
+<span class="x">                    plotLines: [{</span>
+<span class="x">                        value: 0,</span>
+<span class="x">                        width: 1,</span>
+<span class="x">                        color: &#39;#808080&#39;</span>
+<span class="x">                    }]</span>
+<span class="x">                },</span>
+<span class="x">                tooltip: {</span>
+<span class="x">                    formatter: function() {</span>
+<span class="x">                            return &#39;&lt;b&gt;&#39;+this.x +&#39;&lt;/b&gt;&lt;br/&gt;&#39; + this.series.name +</span>
+<span class="x">                            &#39;: &#39;+ this.y;</span>
+<span class="x">                    }</span>
+<span class="x">                },</span>
+<span class="x">                legend: {</span>
+<span class="x">            backgroundColor: &#39;#FFFFFF&#39;,</span>
+<span class="x">            layout: &#39;vertical&#39;,</span>
+<span class="x">            floating: true,</span>
+<span class="x">            align: &#39;right&#39;,</span>
+<span class="x">            verticalAlign: &#39;top&#39;,</span>
+<span class="x">            x: 0,</span>
+<span class="x">            y: 3,</span>
+<span class="x">            shadow: true</span>
+<span class="x">                },</span>
+<span class="x">                series: []</span>
+<span class="x">            }</span>
+<span class="x">            var optionsb = {</span>
+<span class="x">                 chart: {</span>
+<span class="x">                    renderTo: &#39;graphb&#39;,</span>
+<span class="x">                    type: &#39;spline&#39;,</span>
+<span class="x">                    marginRight: 200,</span>
+<span class="x">                    marginBottom: 0</span>
+<span class="x">                },</span>
+<span class="x">                title: {</span>
+<span class="x">                    text: &#39;&#39;,</span>
+<span class="x">                    x: -20 //center</span>
+<span class="x">                },</span>
+<span class="x">                subtitle: {</span>
+<span class="x">                    text: &#39;&#39;,</span>
+<span class="x">                    x: -20</span>
+<span class="x">                },</span>
+<span class="x">                xAxis: {</span>
+<span class="x">                    categories: [],</span>
+<span class="x">              labels: {</span>
+<span class="x">                step: 10</span>
+<span class="x">               }</span>
+<span class="x">                },</span>
+<span class="x">                yAxis: {</span>
+<span class="x">                    title: {</span>
+<span class="x">                        text: &#39;Degr? Celsius&#39;</span>
+<span class="x">                    },</span>
+<span class="x">                    plotLines: [{</span>
+<span class="x">                        value: 0,</span>
+<span class="x">                        width: 2,</span>
+<span class="x">                        color: &#39;#223333&#39;</span>
+<span class="x">                    }]</span>
+<span class="x">                },</span>
+<span class="x">                tooltip: {</span>
+<span class="x">                    formatter: function() {</span>
+<span class="x">                            return &#39;&lt;b&gt;&#39;+this.x +&#39;&lt;/b&gt;&lt;br/&gt;&#39; + this.series.name +</span>
+<span class="x">                            &#39;: &#39;+ this.y;</span>
+<span class="x">                    }</span>
+<span class="x">                },</span>
+<span class="x">                legend: {</span>
+<span class="x">            backgroundColor: &#39;#FFFFFF&#39;,</span>
+<span class="x">            layout: &#39;vertical&#39;,</span>
+<span class="x">            floating: true,</span>
+<span class="x">            align: &#39;right&#39;,</span>
+<span class="x">            verticalAlign: &#39;top&#39;,</span>
+<span class="x">            x: 0,</span>
+<span class="x">            y: 3,</span>
+<span class="x">            shadow: true</span>
+<span class="x">                },</span>
+<span class="x">                series: []</span>
+<span class="x">            }</span>
+
+<span class="x">            //obtenir les datas sous la forme de JSON</span>
+<span class="x">            $.getJSON(&quot;data.php&quot;, function(json) {</span>
+<span class="x">                optionsa.xAxis.categories = json[0][&#39;data&#39;];</span>
+<span class="x">                optionsb.xAxis.categories = json[0][&#39;data&#39;];</span>
+<span class="x">                //la vitesse du vent</span>
+<span class="x">                optionsa.series[0] = json[1];</span>
+<span class="x">                //la température</span>
+<span class="x">                optionsb.series[0] = json[3];</span>
+<span class="x">                chart1 = new Highcharts.Chart(optionsa);</span>
+<span class="x">                chart2 = new Highcharts.Chart(optionsb);</span>
+<span class="x">            });</span>
+
+
+<span class="x">  });</span>
+<span class="x">        &lt;/script&gt;</span>
+<span class="x">    &lt;/head&gt;</span>
+<span class="x">    &lt;body&gt;</span>
+<span class="x">        &lt;!-- afficher la titre du projet --&gt;</span>
+<span class="x">        &lt;div style=&quot;text-align:center;background-color:#0000;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;&quot;&gt;M&amp;eacute;t&amp;eacute;o&lt;/div&gt;</span>
+<span class="x">        &lt;br/&gt;</span>
+<span class="x">        &lt;!--afficher le temps--&gt;</span>
+<span class="x">        &lt;div style=&quot;text-align:center;background-color:#bfbfbf;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;&quot;&gt;</span>
+<span class="x">        &lt;iframe src=&quot;data_temps.php&quot; style=&quot;position:relative;top:0.3rem;font-weight:bold;&quot; frameborder=&quot;no&quot; height=&quot;100rem&quot; width=&quot;1000rem&quot; &gt;&lt;/iframe&gt;&lt;/div&gt;</span>
+
+<span class="x">        &lt;!--afficher la température--&gt;</span>
+<span class="x">        &lt;div style=&quot;text-align:center;background-color:#B0B0BF;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;&quot;&gt;</span>
+<span class="x">        &lt;iframe src=&quot;data_temperature.php&quot; style=&quot;position:relative;top:0.3rem;font-weight:bold;&quot; frameborder=&quot;no&quot; height=&quot;100rem&quot; width=&quot;1000rem&quot; &gt;&lt;/iframe&gt;&lt;/div&gt;</span>
+
+<span class="x">        &lt;!--afficher la direction du vent--&gt;</span>
+<span class="x">        &lt;div style=&quot;text-align:center;background-color:#C8F7C5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;&quot;&gt;</span>
+<span class="x">        &lt;iframe src=&quot;data_direction.php&quot; style=&quot;position:relative;top:0.3rem;font-weight:bold;&quot; frameborder=&quot;no&quot; height=&quot;100rem&quot; width=&quot;1000rem&quot; &gt;&lt;/iframe&gt;&lt;/div&gt;</span>
+
+<span class="x">        &lt;!--afficher la vitesse du vent--&gt;</span>
+<span class="x">        &lt;div style=&quot;text-align:center;background-color:#86E2D5;width:auto;height:1.5rem;overflow:hidden;margin:0 auto;&quot;&gt;</span>
+<span class="x">        &lt;iframe src=&quot;data_vitesse.php&quot; style=&quot;position:relative;top:0.3rem;font-weight:bold;&quot; frameborder=&quot;no&quot; height=&quot;100rem&quot; width=&quot;1000rem&quot; &gt;&lt;/iframe&gt;&lt;/div&gt;</span>
+<span class="x">        &lt;br /&gt;</span>
+
+<span class="x">        &lt;!--afficher la boussole pour indiquer la direction du vent--&gt;</span>
+<span class="x">        &lt;div class=&quot;compass&quot;&gt;</span>
+<span class="x">        &lt;div class=&quot;direction&quot;&gt;&lt;p&gt;Direction du Vent&lt;span&gt; &lt;/span&gt;&lt;/p&gt;&lt;/div&gt;</span>
+<span class="x">        &lt;div class=&quot;arrow ne&quot;&gt;&lt;/div&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+
+<span class="x">        &lt;!-- afficher le dernier photo capturé par le caméra--&gt;</span>
+<span class="x">        &lt;div style=&quot;text-align:center;background-color:#0000;width:auto;height:7rem;overflow:hidden;margin:0 auto;&quot;&gt;</span>
+<span class="x">        &lt;a href=&quot;javascript:location.reload();&quot;&gt;&lt;img src=&quot;meteo.png&quot; alt=&quot;Cam&amp;eacute;ra&quot; style=&quot;position:relative;top:1rem;&quot; height=&quot;600rem&quot; width=&quot;auto&quot;&gt;&lt;/img&gt;&lt;/a&gt;</span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x">        &lt;br /&gt;</span>
+
+<span class="x">        &lt;!--afficher deux tableaux pour indiquer la variation de température et la vitesse du vent--&gt;</span>
+<span class="x">        &lt;!-- afficher la tire du graphe de la vitesse du vent--&gt;</span>
+<span class="x">        &lt;div style=&quot;font-size: 0.5rem; text-align:center;background-color:#0000;width:auto;margin:0 auto;&quot;&gt; Vitesse du vent&lt;/div&gt;</span>
+<span class="x">        &lt;div id=&quot;grapha&quot; style=&quot;min-width: 10.0rem; height: 6.0rem; margin: 0 auto&quot;&gt;&lt;/div&gt;</span>
+<span class="x">        &lt;br /&gt;</span>
+<span class="x">        &lt;!-- afficher la tire du graphe de la température--&gt;</span>
+<span class="x">        &lt;div style=&quot;font-size: 0.5rem; text-align:center;background-color:#0000;width:auto;margin:0 auto;&quot;&gt;Temp&amp;eacute;rature&lt;/div&gt;</span>
+<span class="x">        &lt;div id=&quot;graphb&quot; style=&quot;min-width: 10.0rem; height: 6.0rem; margin: 0 auto&quot;&gt;&lt;/div&gt;</span>
+<span class="x">    &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+
+<span class="x">&lt;p style=&quot;font-size: 0.2rem&quot;&gt;&lt;a href=&quot;./deconnection.php&quot; target=&quot;_blank&quot;&gt;Sortie&lt;/a&gt;&lt;/p&gt;</span>
+<span class="cp">&lt;?php</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">&#39;admin&#39;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;oui&quot;</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;p style=&quot;font-size: 0.2rem&quot;&gt;&lt;a href=&quot;./modifier_mdp.php&quot; target=&quot;_blank&quot;&gt;Modifier les mots de passe&lt;/a&gt;&lt;/p&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span>
+    <span class="p">}</span>
+    <span class="cp">?&gt;</span><span class="x"></span>
+<span class="cp">&lt;?php</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="c1">//si l&#39;on n&#39;est pas connecte</span>
+<span class="p">{</span>
+    <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;html&gt;</span>
+<span class="x">  &lt;head&gt;</span>
+<span class="x">    &lt;title&gt;Station meteo autonome&lt;/title&gt;</span>
+<span class="x">  &lt;/head&gt;</span>
+<span class="x">  &lt;body&gt;</span>
+<span class="x">    &lt;p&gt;Bonjour, connectez-vous en entrant le mot de passe requis !&lt;/p&gt;</span>
+<span class="x">        &lt;form action=&quot;&quot; method=&quot;post&quot;&gt;</span>
+<span class="x">            &lt;input type=&quot;password&quot; name=&quot;mdp&quot; size=&quot;50&quot; autofocus&gt;</span>
+<span class="x">            &lt;input type=&quot;submit&quot; value=&quot;Entrer&quot;&gt;</span>
+<span class="x">        &lt;/form&gt;</span>
+<span class="x">  &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+
+<span class="x">    </span><span class="cp">&lt;?php</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h3 id="325-stylephp"><a name="user-content-325-stylephp" href="#325-stylephp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.2.5 style.php</h3>
+<div class="admonition hint">
+<p class="admonition-title">CSS</p>
+<p>Les feuilles de style en cascade, généralement appelées CSS de l&rsquo;anglais Cascading Style Sheets, forment un langage informatique qui décrit la présentation des documents HTML et XML. Les standards définissant CSS sont publiés par le World Wide Web Consortium (W3C).</p>
+</div>
+<p>Généralement, la description de la présentation HTML est mise sous la forme <code>.css</code>. Mais ici le fichier de description est de générer la boussole de façon dynamique, ça veut dire la flèche change selon différent valeur reçue. Donc de façon intelligente, le fichier de description est créé sous la forme <code>.php</code> afin de mettre à jour des valeurs ininterrompu de la direction du vent. </p>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">&quot;Content-type: text/css; charset: UTF-8&quot;</span><span class="p">);</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>  <span class="c1">//connecter Mysql via php</span>
+
+<span class="nv">$sql</span> <span class="o">=</span> <span class="s2">&quot;SELECT direction FROM `mesures` ORDER BY `created_at` DESC LIMIT 1&quot;</span><span class="p">;</span>
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="c1">//consulter la dernière valeur de la direction et puis enregistrer dans la variable row</span>
+<span class="nv">$row</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+<span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">.img { </span>
+<span class="x">    display: block; </span>
+<span class="x">    width: 33%; </span>
+<span class="x">    height: auto; </span>
+<span class="x">    margin: 0 auto; </span>
+<span class="x">}    </span>
+<span class="x">/*la forme d&#39;affichage l&#39;image*/</span>
+<span class="x"># grapha</span>
+<span class="x">{</span>
+<span class="x">height:5.0rem;</span>
+<span class="x">margin: auto;  </span>
+<span class="x">position: relative;  </span>
+<span class="x">top: 0; left: 0;</span>
+<span class="x">}</span>
+<span class="x">/*la forme d&#39;affichage le graphe 1*/</span>
+<span class="x"># graphb</span>
+<span class="x">{</span>
+<span class="x">height:5.0rem;</span>
+<span class="x">margin: auto;  </span>
+<span class="x">position: relative;  </span>
+<span class="x">top: 0; left: 0;</span>
+<span class="x">}</span>
+<span class="x">/*la forme d&#39;affichage le graphe 2*/</span>
+<span class="x">@import url(http://fonts.googleapis.com/css?family=Dosis:200,400,500,600);</span>
+<span class="x">.compass {</span>
+<span class="x">  display: block;</span>
+<span class="x">  width: 5rem;</span>
+<span class="x">  height: 5rem;</span>
+<span class="x">  border-radius: 100%;</span>
+<span class="x">  box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.85);</span>
+<span class="x">  position: relative;</span>
+<span class="x">  font-family: &#39;Dosis&#39;;</span>
+<span class="x">  color: #555;</span>
+<span class="x">  text-shadow: 1px 1px 1px white;</span>
+<span class="x">}</span>
+
+<span class="x">.compass:before {</span>
+<span class="x">  font-weight: bold;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  text-align: center;</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  content: &quot;N&quot;;</span>
+<span class="x">  font-size: 0.5rem;</span>
+<span class="x">  top: 0.05rem;</span>
+<span class="x">}</span>
+<span class="x">.compass .direction {</span>
+<span class="x">  height: 100%;</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  display: block;</span>
+<span class="x">  background: #f2f6f5;</span>
+<span class="x">  background: -moz-linear-gradient(top, #f2f6f5 0%, #cbd5d6 100%);</span>
+<span class="x">  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f6f5), color-stop(100%, #cbd5d6));</span>
+<span class="x">  background: -webkit-linear-gradient(top, #f2f6f5 0%, #cbd5d6 100%);</span>
+<span class="x">  background: -o-linear-gradient(top, #f2f6f5 0%, #cbd5d6 100%);</span>
+<span class="x">  border-radius: 100%;</span>
+<span class="x">}</span>
+<span class="x">.compass .direction p {</span>
+<span class="x">  text-align: center;</span>
+<span class="x">  margin: 0;</span>
+<span class="x">  padding: 0;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  top: 50%;</span>
+<span class="x">  left: 0;</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  height: 100%;</span>
+<span class="x">  line-height: 80px;</span>
+<span class="x">  display: block;</span>
+<span class="x">  margin-top: -45px;</span>
+<span class="x">  font-size: 0.6rem;</span>
+<span class="x">  font-weight: bold;</span>
+<span class="x">}</span>
+<span class="x">.compass .direction p span {</span>
+<span class="x">  display: block;</span>
+<span class="x">  line-height: normal;</span>
+<span class="x">  margin-top: -24px;</span>
+<span class="x">  font-size: 0.4rem;</span>
+<span class="x">  text-transform: uppercase;</span>
+<span class="x">  font-weight: normal;</span>
+<span class="x">}</span>
+<span class="x">.compass .arrow {</span>
+<span class="x">  width: 100%;</span>
+<span class="x">  height: 100%;</span>
+<span class="x">  display: block;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  top: 0;</span>
+<span class="x">}</span>
+<span class="x">.compass .arrow:after {</span>
+<span class="x">  content: &quot;&quot;;</span>
+<span class="x">  width: 0;</span>
+<span class="x">  height: 0;</span>
+<span class="x">  border-left: 5px solid transparent;</span>
+<span class="x">  border-right: 5px solid transparent;</span>
+<span class="x">  border-bottom: 1.5rem solid red;</span>
+<span class="x">  position: absolute;</span>
+<span class="x">  top: -6px;</span>
+<span class="x">  left: 50%;</span>
+<span class="x">  margin-left: -5px;</span>
+<span class="x">  z-index: 99;</span>
+<span class="x">}</span>
+
+
+<span class="x">/*la forme d&#39;affichage le compass pour la représentation de la direction du vent*/</span>
+<span class="x">/*$row[&#39;direction&#39;] est utilisé pour afficher la valeur*/</span>
+<span class="x">.compass .arrow.ne {</span>
+<span class="x">  transform: rotate(</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;direction&#39;</span><span class="p">];</span><span class="cp">?&gt;</span><span class="x">deg);</span>
+<span class="x">}</span>
+</pre></div>
+
+
+<h2 id="33-les-fonctions-supplementaires"><a name="user-content-33-les-fonctions-supplementaires" href="#33-les-fonctions-supplementaires" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3.3 Les fonctions supplémentaires</h2>
+<p>Sortir toutes les informations</p>
+<div class="codehilite"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$bdd</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">PDO</span><span class="p">(</span><span class="s1">&#39;mysql:host=sql-10.proxgroup.fr:3306;dbname=stationm_donnees;charset=utf8&#39;</span><span class="p">,</span> <span class="s1">&#39;stati_stationm&#39;</span><span class="p">,</span> <span class="s1">&#39;X*X*X*X*X*X&#39;</span><span class="p">);</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM `mesures` ORDER BY `created_at` ASC&quot;</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="nv">$dreq</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="nv">$debut</span> <span class="o">=</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">];</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM `mesures` ORDER BY `created_at` DESC&quot;</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="nv">$dreq</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">();</span>
+<span class="nv">$fin</span> <span class="o">=</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">];</span>
+
+<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$bdd</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM `mesures` ORDER BY `id`&quot;</span><span class="p">);</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]))</span>
+<span class="p">{</span>
+    <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    &lt;table border=&quot;1&quot; width=&quot;100%&quot;&gt;</span>
+<span class="x">        &lt;caption&gt;Données enregistrées entre </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$debut</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x"> et </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$fin</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="x">&lt;/caption&gt;</span>
+<span class="x">        &lt;tr&gt;</span>
+<span class="x">            &lt;th&gt;id&lt;/th&gt;</span>
+<span class="x">            &lt;th&gt;vitesse&lt;/th&gt;</span>
+<span class="x">            &lt;th&gt;direction&lt;/th&gt;</span>
+<span class="x">            &lt;th&gt;temperature&lt;/th&gt;</span>
+<span class="x">            &lt;th&gt;created_at&lt;/th&gt;</span>
+<span class="x">            &lt;th&gt;updated_at&lt;/th&gt;</span>
+<span class="x">        &lt;/tr&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span>
+<span class="p">}</span>
+
+<span class="k">while</span><span class="p">(</span><span class="nv">$dreq</span> <span class="o">=</span> <span class="nv">$req</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]))</span>
+    <span class="p">{</span>
+        <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">        &lt;tr&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;vitesse&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;direction&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">            &lt;td&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;updated_at&#39;</span><span class="p">];</span> <span class="cp">?&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">        &lt;/tr&gt;</span>
+<span class="x">        </span><span class="cp">&lt;?php</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="k">echo</span> <span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;vitesse&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;direction&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;created_at&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="nv">$dreq</span><span class="p">[</span><span class="s1">&#39;updated_at&#39;</span><span class="p">]</span><span class="o">.</span><span class="s1">&#39;&lt;br/&gt;&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]))</span>
+<span class="p">{</span>
+    <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    &lt;/table&gt;</span>
+<span class="x">    </span><span class="cp">&lt;?php</span>
+<span class="p">}</span>
+<span class="nv">$req</span><span class="o">-&gt;</span><span class="na">closeCursor</span><span class="p">();</span>
+
+<span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+
+
+<h1 id="annexe"><a name="user-content-annexe" href="#annexe" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Annexe</h1>
+<h2 id="station-meteo-csmnhvvsfr"><a name="user-content-station-meteo-csmnhvvsfr" href="#station-meteo-csmnhvvsfr" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>station-meteo-csm.nhvvs.fr</h2>
+<h3 id="connexion"><a name="user-content-connexion" href="#connexion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Connexion</h3>
+<h4 id="gmail"><a name="user-content-gmail" href="#gmail" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Gmail</h4>
+<p><a href="mailto:stationmeteo.csm@gmail.com">stationmeteo.csm@gmail.com</a></p>
+<h4 id="http"><a name="user-content-http" href="#http" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>HTTP</h4>
+<p>Connexion à votre panel de gestion :<br />
+Lien : <code>https://pg-01.proxgroup.fr:8443</code><br />
+Identifiant  : <code>stationm</code><br />
+Mot de passe : X<em>X</em>X<em>X</em>X*X</p>
+<div class="admonition hint">
+<p>/!\ Vos fichiers et dossiers sont à placer dans le dossier &ldquo;httpdocs&rdquo; que vous trouverez lors de votre connexion FTP au serveur. </p>
+</div>
+<h4 id="ftp"><a name="user-content-ftp" href="#ftp" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>FTP</h4>
+<p>Hôte FTP : <code>ftp.pg-01.proxgroup.fr</code><br />
+Nom d&rsquo;utilisateur : <code>stationm</code><br />
+Mot de passe : X<em>X</em>X<em>X</em>X*X</p>
+<h3 id="base-de-donnees"><a name="user-content-base-de-donnees" href="#base-de-donnees" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>base de données</h3>
+<p>Hôte: <code>sql-10.proxgroup.fr:3306</code><br />
+Nom de la base de données:<code>stationm_donnees</code><br />
+Nom de l&rsquo;utilisateur:<code>stati_stationm</code><br />
+Mot de passe X<em>X</em>X<em>X</em>X*X</p></article></body></html>
