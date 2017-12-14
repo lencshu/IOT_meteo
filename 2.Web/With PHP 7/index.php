@@ -148,7 +148,7 @@ if(isset($_SESSION['connect']) && $_SESSION['connect']=="oui")
                 },
                 yAxis: {
                     title: {
-                        text: 'Degr? Celsius'
+                        text: 'Degree Celsius'
                     },
                     plotLines: [{
                         value: 0,

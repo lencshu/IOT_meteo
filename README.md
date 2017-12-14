@@ -333,6 +333,9 @@ void logC(String txt, int nb)
 # 3.Web
 On suppose que l'espace de website est tout neuve. Rien n'est paramètré. Les étapes suivantes nous permettent pour les configurer pas à pas.
 
+!!! danger "Remarque:"
+    Si on n'utilise pas PROXGROUP
+
 ## 3.1 les environments
 Le Website est une page Web de sort `dynamique`, c'est à dire quand il y a des requêtes de navigateur, le web page consulte la base donné pour puis composer la vue de page web. s'il n'a pas de requête, il n'y a pas de page web. Cette notion est opposée à celle de `Page web statique` (html)
 
@@ -379,7 +382,9 @@ sudo /etc/init.d/mysql restart
 /etc/init.d/mysql status
 ~~~
 
-
+!!! danger "Remarque:"
+    Dans notre cas
+    
 - Dans notre cas, la base donnée doit être paramètrée avec panel de gestion
 <p align="center">![](C:\Users\lencs\Desktop\Meteo\Git_stationeo\MultiMedia\cap_20171212_145410.png)</p>
 Les champs qu'il faut entrer pour ajouter une nouvelle base donnée.
@@ -1211,9 +1216,9 @@ $req->closeCursor();
 stationmeteo.csm@gmail.com
 
 
-#### HTTP
+#### Panel de gestion
 Connexion à votre panel de gestion :
-Lien : `https://pg-01.proxgroup.fr:8443`
+Lien : [https://pg-01.proxgroup.fr:8443](https://pg-01.proxgroup.fr:8443)
 Identifiant  : `stationm`
 Mot de passe : X*X*X*X*X*X
 
