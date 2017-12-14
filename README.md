@@ -1213,14 +1213,14 @@ $req->closeCursor();
 ### Connexion
 
 ####Gmail
-stationmeteo.csm@gmail.com
+stationmeteo.csm@[gmail.com](gmail.com)
 
 
 #### Panel de gestion
 Connexion à votre panel de gestion :
 Lien : [https://pg-01.proxgroup.fr:8443](https://pg-01.proxgroup.fr:8443)
 Identifiant  : `stationm`
-Mot de passe : X*X*X*X*X*X
+Mot de passe : `X*X*X*X*X*X`
 
 !!! hint ""
 	/!\ Vos fichiers et dossiers sont à placer dans le dossier "httpdocs" que vous trouverez lors de votre connexion FTP au serveur. 
@@ -1228,10 +1228,10 @@ Mot de passe : X*X*X*X*X*X
 #### FTP
 Hôte FTP : `ftp.pg-01.proxgroup.fr`
 Nom d'utilisateur : `stationm`
-Mot de passe : X*X*X*X*X*X
+Mot de passe : `X*X*X*X*X*X`
 
 ### base de données
 Hôte: `sql-10.proxgroup.fr:3306`
 Nom de la base de données:`stationm_donnees`
 Nom de l'utilisateur:`stati_stationm`
-Mot de passe X*X*X*X*X*X
+Mot de passe `X*X*X*X*X*X`
